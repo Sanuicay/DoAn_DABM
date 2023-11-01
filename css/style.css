@@ -8,6 +8,20 @@ body {
     align-items: center;
 }
 
+.box {
+    width: 100%;
+    height: 200px;
+    background-image: url(../img/banner_background.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box a {
+    margin-right: 10px;
+    color: white;
+    text-decoration: none;
+}
+
 
 
 
