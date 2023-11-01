@@ -6,12 +6,13 @@
     width: 100%;
 }
 .footer-logo {
-    height: 35px;
+    height: 21px;
     margin-left: 0px;
 }
 .footer h3 {
     margin-top:0px;
     margin-bottom:13px;
+    color: #9F9F9F;
     font-weight:bold;
     font-size:16px;
 }
@@ -25,9 +26,8 @@
 }
 
 .footer ul a {
-    color:inherit;
+    color:black;
     text-decoration:none;
-    opacity:0.6;
 }
 
 .footer ul a:hover {
@@ -43,13 +43,13 @@
     box-shadow: none;
 }
 .email_signup_button {
-    padding: 10px 20px; 
+    padding: 10px 10px; 
     background-color: #ffffff;
     color: white; 
     border: none; 
     border-radius: 5px; 
     cursor: pointer; 
-    font-size: 15px; 
+    font-size: 12px;
     margin-right: 0px;
 }
 .email_signup_button:hover {
