@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	  <title>My website</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
@@ -30,19 +30,54 @@
     </div>
 
     <!-- content goes here -->
-    <div class="container">
-      <div class="row">
-          <div class="col-md-6 col-lg-4 item">
-              <h3><img class="footer-logo" src="img/logo_DABM_2.png" alt="Logo"></h3>
-              <ul>
-                  <br>
-                  <li>268 Lý Thường Kiệt, phường 14, quận</li>
-                  <li>10, TP Hồ Chí Minh, Việt Nam</li>
-              </ul>
-          </div>
-      </div>
+    <div class="box">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 4</a>
+  </div>
+
+  <div class="content">
+    <div class="side-box">
+        <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+        <br>
+        <a href="#">Link 1</a>
+        <br>
+        <a href="#">Link 2</a>
+        <br>
+        <a href="#">Link 4</a>
+        <br>
     </div>
-    
+    <div class="container">
+    <form action="">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 item">
+          <h2>Hồ Sơ Của Tôi</h2>
+          <label for="name">Họ và Tên:</label><br>
+          <input type="text" id="name" name="name"><br>
+          <label for="email">Email:</label><br>
+          <input type="text" id="email" name="email"><br>
+          <label for="phone">Số Điện Thoại:</label><br>
+          <input type="text" id="phone" name="phone"><br>
+        </div>
+        <div class="col-md-6 col-lg-6 item">
+          <h2>Thông Tin Tài Khoản</h2>
+          <label for="username">Tên Đăng Nhập:</label><br>
+          <input type="text" id="username" name="username"><br>
+          <label for="id">ID:</label><br>
+          <input type="text" id="id" name="id"><br>
+          <h2>Thay đổi mật khẩu</h2>
+          <label for="old_pass">Mật Khẩu Cũ:</label><br>
+          <input type="password" id="old_pass" name="old_pass"><br>
+          <label for="new_pass">Mật Khẩu Mới:</label><br>
+          <input type="password" id="new_pass" name="new_pass"><br>
+          <label for="confirm_new_pass">Xác nhận Mật Khẩu Mới:</label><br>
+          <input type="password" id="confirm_new_pass" name="confirm_new_pass"><br>
+          <input type="submit" value="Submit">
+        </div>
+      </div>
+    </form> 
+    </div>
+  </div>
     <!-- content goes here -->
 
     <div class="footer">
