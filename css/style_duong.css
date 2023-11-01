@@ -34,6 +34,9 @@ body {
     border: none; 
     border-radius: 5px; 
     cursor: pointer;
+    display: flex; /* makes the side box a flex container */
+    flex-direction: column; /* aligns the items vertically */
+    align-items: center; /* centers the items horizontally */
 }
 .side-box a{
     color: black;
@@ -44,7 +47,6 @@ body {
     width: 150px; 
     height: 150px;
     margin-top : 50px;
-    margin-left: 25px;
 }
 
 .side-box-avatar a{
@@ -52,11 +54,19 @@ body {
     padding: 0;
 }
 
+.side-box-avatar-name {
+    font-family: 'Times New Roman', Times, serif
+    font-size: 30px;
+    font-weight: bold;
+    self-align: center;
+    color: #B88E2F;
+}
+
 .content-box {
     width: 100%;
     height: auto;
     background-color: #F9F1E7;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-top: 10px;
     border: none; 
     border-radius: 5px; 
