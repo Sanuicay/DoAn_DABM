@@ -55,7 +55,7 @@ body {
     padding: 0;
 }
 
-.container {
+.body-container {
     display: flex;
     justify-content: center;
     align-items: stretch; 
@@ -134,3 +134,4 @@ input[type="submit"]:hover {
 .form-group label, .form-group input {
     width: 45%;
 }
+
