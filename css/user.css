@@ -140,15 +140,16 @@ input[type="info"] {
 
 input[type="submit"] {
     padding: 10px 20px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
+    background-color: #F9F1E7;
+    color: black;
+    border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    /* a little bit darker than F9F1E7 */
+    background-color: #E8DAD6;
 }
 
 .form-group {
