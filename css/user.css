@@ -19,11 +19,24 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 .box a {
-    margin-right: 10px;
+    margin-right: 30px;
     color: black;
     text-decoration: none;
+    
+}
+.box-nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+h1 {
+    color: black;
+    font-size: 40px;
+    font-family: 'EB Garamond';
 }
 
 .side-box {
@@ -64,9 +77,8 @@ body {
     margin-left: 50px;
 }
 .profile, .account-info {
-    background-color: #fff;
+    background-color: #F9F1E7;
     border-radius: 10px;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
     padding: 50px;
     margin: 30px;
 }
