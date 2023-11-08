@@ -40,12 +40,48 @@
         <img src="img/pic1.png" alt="Large Image" class="large-image">
         <main>
             <h1>Tiếng Việt 1 (Tập 1)</h1>
-            <p>Năm xuất bản: 2013</p>
+            <p>Tác giả: Nhiều tác giả</p>
             <p>Nhà xuất bản: NXB Giáo dục Việt Nam</p>
-            <p>Mã sách: MS 376</p>
-            <p>Price: 41,000 VND</p>
+            <p>Năm xuất bản: 2020</p>
+            <p>Năm phát hành: 2020</p>
+            <p>Mã sách: TV1003</p>
+            <p>Thể loại: sách giáo khoa - giáo trình</p>
+            <p>Số trang: 189</p><br>
+            <p class="price">41,000 VND</p><br>
+            <div class="quantity-group">
+                <button onclick="decrement()">-</button>
+                <input id="quantity" type="text" value="1">
+                <button onclick="increment()">+</button>
+                <span class="stock">Kho: 125</span>
+            </div><br>
+            <script>
+                function increment() {
+                    var input = document.getElementById('quantity');
+                    input.value = parseInt(input.value) + 1;
+                }
+        
+                function decrement() {
+                    var input = document.getElementById('quantity');
+                    if (input.value > 1) {
+                        input.value = parseInt(input.value) - 1;
+                    }
+                }
+            </script>
+            <a href="#"><button>Thêm vào giỏ hàng</button></a>
+            <a href="#"><button>Mua ngay</button></a>
         </main>
     </div>
+    <div class="product-description">
+        <h2>Mô tả sản phẩm:</h2>
+        <a>Thông tin sản phẩm:</a>
+        <a>- Tác giả: Nhiều tác giả</a>
+        <a>- Số trang: 176</a>
+        <a>- Năm xuất bản: 2022</a>
+        <a>- Khổ sách: 19 x 26.5 cm</a>
+        <a>- Hình thức: Bìa mềm</a>
+        <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
+        <a>- Đổi mới</a>
+    </div> 
     <!-- content goes here -->
 
     <div class="footer">
