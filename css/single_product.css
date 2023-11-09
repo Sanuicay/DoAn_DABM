@@ -92,10 +92,13 @@ button {
 }
 
 .product-description {
-    width: 300px;
-    padding: 20px;
-    margin: 0 auto;
-    color: black;
+    background-color: #F9F1E7;
+    margin-left: 50px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+    display: flex; /* makes the side box a flex container */
+    flex-direction: column; /* aligns the items vertically */
 }
 .product-description h2 {
     margin-bottom: 20px;
