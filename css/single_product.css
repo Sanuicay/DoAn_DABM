@@ -103,6 +103,9 @@ button {
 .product-description h2 {
     margin-bottom: 20px;
 }
+.product-description h1 {
+    margin-bottom: 10px;
+}
 .product-description a {
     margin-bottom: 10px;
 }
