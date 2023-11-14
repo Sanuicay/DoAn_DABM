@@ -13,16 +13,27 @@ body {
 
 .box {
     width: 100%;
-    height: 250px;
-    background-image: url(../img/banner_background.png);
+    height: 300px;
+    background-image: url("../img/banner_background.png"), linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.5));
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 .box a {
-    margin-right: 10px;
-    color: white;
+    font-family: 'EB Garamond';
+    font-size: 15px;
+    color: #000000;
     text-decoration: none;
+}
+
+.box-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 35px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 0px;
 }
 
 .side-box {
@@ -31,6 +42,7 @@ body {
     background-color: #FFECD5;
     margin-left: 10px;
     margin-top: 10px;
+    margin-bottom: 10px;
     border: none; 
     border-radius: 5px; 
     cursor: pointer;
@@ -60,6 +72,25 @@ body {
     font-weight: bold;
     self-align: center;
     color: #B88E2F;
+}
+
+.side-box-button {
+    width : 200px;
+}
+
+.side-box-button a{
+    margin: 0;
+    padding: 0;
+}
+
+.side-box-last-button {
+    width : 200px;
+    margin-bottom: 300px;
+}
+
+.side-box-last-button a{
+    margin: 0;
+    padding: 0;
 }
 
 .content-box {
