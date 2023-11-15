@@ -1,0 +1,80 @@
+.dangky {
+    width: 1000px;
+    height: 500px;
+    border-radius: 73px;
+    background: #FFECD5;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chudangky {
+    margin-top:2%;
+    color: #B88E2F;
+    text-align: center;
+    font-family: EB Garamond;
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 387.445px;
+    height: 20.659px;
+    flex-shrink: 0;
+}
+.thongtin {
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.components {
+    margin-top: 2%;
+}
+.checkbox input {
+    
+    width: fit-content
+}
+
+.checkbox {
+    display:flex;
+    flex-direction: row;
+}
+.checkbox p{
+    width: 419px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #000;
+    font-family: EB Garamond;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.checkbox a {
+    width: 419px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #3662FF;
+    font-family: EB Garamond;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.nutdangky {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.nutdangky button {
+    background: #D5EDFF;
+    width: 200px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50px;
+}
+

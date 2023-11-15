@@ -1,0 +1,204 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.danhmucsp {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.danhmuccon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+.item {
+    display: flex;
+    flex-direction: column;
+
+    flex-basis: calc(100% / 4);
+}
+.image_dm {
+    width: 120%; /* Set the desired width */
+    height:50vh; /* Set the desired height */
+    flex-shrink: 0;
+    margin-bottom: 10%;
+}
+
+.text_dm {
+    color: var(--font-color, #333);
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    align-items: center;
+}
+
+.best_seller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.item_best {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top:5%;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+    justify-content: space-between;
+
+}
+
+.image_best {
+    width: 100%; /* Set the desired width */
+    height: 50vh; /* Set the desired height */
+    flex-shrink: 0;
+    margin-bottom: 5%;
+}
+
+.ten_best {
+    color: var(--color-gray-1, #3A3A3A);
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 28.8px */
+}
+
+.nhan_best {
+    color: var(--color-gray-3, #898989);
+    font-family: Poppins;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 24px */
+}
+
+.giagoc_best {
+    color: var(--color-gray-4, #B0B0B0);
+    font-family: Poppins;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    text-decoration-line: line-through;
+}
+
+.giaban_best {
+    color: var(--color-gray-1, #3A3A3A);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 30px */
+    margin-right: 10%
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.xemthem {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid var(--Primary, #B88E2F);
+    background: #FFF;
+    width: 245px;
+    height: 48px;
+    flex-shrink: 0;
+    text-align: center;
+    color: var(--Primary, #B88E2F);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 24px */
+    margin-bottom: 4%;
+}
+
+
+.items {
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity and color as desired */
+    z-index: 1;
+  }
+  
+  .add_to_cart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    background-color: #f1c40f; /* Adjust the background color as desired */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+.add_to_cart:hover {
+    background-color: #e2b30d; /* Adjust the hover background color as desired */
+  }
+  
+.selected_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .three_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust the margin as desired */
+  }
+  
+  .button_share,
+  .button_compare,
+  .button_like {
+    display: flex;
+    align-items: center;
+    margin: 0 5px; /* Adjust the margin as desired */
+    color: #fff;
+  }
+  
+  .button_share svg,
+  .button_compare svg,
+  .button_like svg {
+    margin-right: 5px; /* Adjust the margin as desired */
+  }
+  
+  .button_share p,
+  .button_compare p,
+  .button_like p {
+    margin: 0;
+  }

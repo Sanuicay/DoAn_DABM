@@ -1,0 +1,146 @@
+.tknc_main {
+    width: auto;
+    height: auto;
+    flex-shrink: 0;
+    background: #F9F1E7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    zoom:0.7;
+}
+
+.tensach {
+    color: #000;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.input_chung {
+    width: 1194px;
+    height: 76px;
+    flex-shrink: 0;
+    fill: #FBFBFB;
+    stroke-width: 1px;
+    stroke: #939090;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Canh giữa theo chiều ngang */
+  }
+  
+.label {
+    margin-bottom: 5px; /* Khoảng cách giữa label và input */
+  }
+
+
+.tg-tl {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+input {
+    border-radius: 50px;
+    color: #000000;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-indent: 30px;
+}
+
+.input_tg-tl {
+    fill: #FBFBFB;
+    stroke-width: 1px;
+    stroke: #939090;
+    width: 495px;
+    height: 76px;
+    flex-shrink: 0;
+}
+
+.input_gia {
+    fill: #FBFBFB;
+    stroke-width: 1px;
+    stroke: #939090;
+    width: 558px;
+    height: 76px;
+    flex-shrink: 0;
+}
+
+.mucgia_con {
+    display: flex;
+    justify-content: space-between;
+}
+.loaibia_con {
+    display: flex;
+    justify-content: space-between;
+    color: #000;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.checkbox 
+{
+    border: 1px solid #000;
+    background: #FFF;
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+}
+
+.timkiem {
+    
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+input::placeholder {
+    color: #9D9797;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-indent: 30px;
+
+}
+
+.timkiem button {
+    padding: 3%;
+    color: #2C57F0;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 50px;
+}
+
+.dropdown {
+    fill: #FBFBFB;
+    stroke-width: 1px;
+    stroke: #686565;
+    width: 495px;
+    height: 76px;
+    flex-shrink: 0;
+    border-radius: 50px;
+    color: #000000;
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-indent: 30px;
+}
