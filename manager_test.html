@@ -53,42 +53,40 @@
         </div>
         <div class="content-box">
             <!-- real content goes here -->
-            <h2>Search for Author</h2>
+            <h2>Search for Employee</h2>
             <form id="searchForm" method="post">
                 <input type="text" id="search" name="search">
                 <br>
                 <input type="submit" value="Submit">
             </form>
             
-            <h2>Author Data</h2>
-            <div id="authorTable"></div>
-            
+            <div id="EmployeeTable"></div>
             <script>
-            // Function to fetch author data
-            function fetchAuthorData(search = '') {
+            // Function to fetch employee data
+            function fetchEmployeeData(search = '') {
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'database_scripts/get_author_data.php', true);
+                xhr.open("POST", 'database_scripts/get_employee_data.php', true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                        document.getElementById('authorTable').innerHTML = this.responseText;
+                        document.getElementById('EmployeeTable').innerHTML = this.responseText;
                     }
                 }
                 xhr.send("search=" + search);
             }
             
-            // Fetch all author data when the page loads
-            fetchAuthorData();
+            // Fetch all employee data when the page loads
+            fetchEmployeeData();
             
-            // Fetch author data based on search when the form is submitted
+            // Fetch employee data based on search when the form is submitted
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 var search = document.getElementById('search').value;
                 if (search === '') {
-                    // If the search term is blank, fetch all author data
-                    fetchAuthorData();
+                    // If the search term is blank, fetch all employee data
+                    fetchEmployeeData();
                 } else {
-                    fetchAuthorData(search);
+                    fetchEmployeeData(search);
                 }
             });
             </script>
