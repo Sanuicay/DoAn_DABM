@@ -14,16 +14,15 @@ body {
 .body-container {
     display: flex;
     justify-content: center;
-    align-items: stretch; 
     height: 100%; 
     margin-left: 50px;
 }
 
-.address {
-    background-color: #F9F1E7;
-    border-radius: 10px;
-    padding: 50px;
-    margin: 30px;
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 h2 {
@@ -31,12 +30,37 @@ h2 {
     margin-bottom: 20px;
 }
 
+.button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.address {
+    color: black;
+    text-align: center;
+}
+.update, .delete {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
 p {
     color: #666;
     line-height: 1.6;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
 }
