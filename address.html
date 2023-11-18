@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/user.css">
+    <link rel="stylesheet" href="css/address.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
@@ -34,10 +34,10 @@
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thông tin cá nhân</p>
+        <p class="box-text">Địa chỉ của tôi</p>
         <div>
             <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
+            <a href="address.html">> Địa chỉ của tôi</a>
         </div>
     </div>
 
@@ -53,85 +53,9 @@
             <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
         </div>
         <div class="body-container">
-            <div class="profile">
-                <h2>Hồ Sơ Của Tôi</h2>
-                <form>
-                    <div class="name">
-                        <div>
-                            <label for="ho">Họ:</label>
-                            <input type="text" id="ho" name="ho">
-                        </div>
-                        <div>
-                            <label for="ten">Tên:</label>
-                            <input type="text" id="ten" name="ten">
-                        </div>
-                    </div>
-                    <br>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email"><br>
-                    <label for="phone">Số Điện Thoại:</label>
-                    <input type="tel" id="phone" name="phone"><br>
-                    <label for="info">Thông tin thêm:</label>
-                    <input type="info" id="info" name="info"><br>
-                </form>
+            <div class="address">
+                <h2>Địa chỉ của tôi</h2>
             </div>
-            <div class="account-info">
-                <h2>Thông Tin Tài Khoản</h2><br>
-                <form>
-                    <div class="form-group">
-                        <label for="username">Tên Đăng Nhập:</label>
-                        <b>username</b>
-                    </div>
-                    <div class="form-group">
-                        <label for="ID">ID:</label>
-                        <b>ID</b>
-                    </div>
-                </form>
-                <hr style="height:1px;border-width:0;color:gray;background-color:gray"><br>
-                <form>
-                    <div class="form-group">
-                        <label for="old-password">Mật Khẩu Cũ:</label><br>
-                        <input type="password" id="old-password" name="old-password"><br>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="new-password">Mật Khẩu Mới:</label><br>
-                        <input type="password" id="new-password" name="new-password"><br>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="confirm-password">Xác nhận Mật Khẩu Mới:</label><br>
-                        <input type="password" id="confirm-password" name="confirm-password"><br>
-                    </div>                  
-                    <input type="submit" value="Thay Đổi">
-                </form>
-            </div>
-
-            <script>
-                // Check if there's a saved value when the page loads
-                document.getElementById('ho').value = localStorage.getItem('ho') || '';
-                document.getElementById('ten').value = localStorage.getItem('ten') || '';
-                document.getElementById('email').value = localStorage.getItem('email') || '';
-                document.getElementById('phone').value = localStorage.getItem('phone') || '';
-                document.getElementById('info').value = localStorage.getItem('info') || '';
-                
-                // Save the value whenever it changes
-                document.getElementById('ho').addEventListener('input', function() {
-                    localStorage.setItem('ho', this.value);
-                });
-                document.getElementById('ten').addEventListener('input', function() {
-                    localStorage.setItem('ten', this.value);
-                });
-                document.getElementById('email').addEventListener('input', function() {
-                    localStorage.setItem('email', this.value);
-                });
-                document.getElementById('phone').addEventListener('input', function() {
-                    localStorage.setItem('phone', this.value);
-                });
-                document.getElementById('info').addEventListener('input', function() {
-                    localStorage.setItem('info', this.value);
-                });
-            </script>
         </div>
     </div>
     <!-- content goes here -->
