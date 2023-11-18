@@ -1,3 +1,9 @@
+<?php 
+session_start();
+include("connection.php");
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +17,6 @@
     <link rel="stylesheet" href="css/cover-box.css">
 </head>
 <body>
-    <!-- header -->
     <div class="header">
         <div class="header-left-section">
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
@@ -40,7 +45,6 @@
         </div>
     </div>
 
-    <!-- content -->
     <div class="content">
         <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
@@ -52,50 +56,35 @@
             <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button2"></a>
         </div>
         <div class="content-box">
-            <!-- real content goes here -->
-            <h2>Search for Author</h2>
-            <form id="searchForm" method="post">
-                <input type="text" id="search" name="search">
-                <br>
-                <input type="submit" value="Submit">
-            </form>
-            
-            <h2>Author Data</h2>
-            <div id="authorTable"></div>
-            
-            <script>
-            // Function to fetch author data
-            function fetchAuthorData(search = '') {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'database_scripts/get_author_data.php', true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                        document.getElementById('authorTable').innerHTML = this.responseText;
-                    }
-                }
-                xhr.send("search=" + search);
-            }
-            
-            // Fetch all author data when the page loads
-            fetchAuthorData();
-            
-            // Fetch author data based on search when the form is submitted
-            document.getElementById('searchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                var search = document.getElementById('search').value;
-                if (search === '') {
-                    // If the search term is blank, fetch all author data
-                    fetchAuthorData();
+        <h2>Nhập author_ID</h2>
+        <form method="post">
+            <input type="number" name="author_ID" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <?php 
+            if($_SERVER['REQUEST_METHOD'] == "POST") {
+                $author_ID = $_POST['author_ID'];
+                if ($author_ID > 0) {
+                    //get author_name from author_ID
+                    $query = "select author_name from author where author_ID = '$author_ID' limit 1";
+                    $result = mysqli_query($con, $query);
+                    $author_data = mysqli_fetch_assoc($result);
+                    $author_name = $author_data['author_name'];
+                    echo "<h2>Author name:</h2>";
+                    echo "<input type='text' value='".$author_name."' readonly>";
                 } else {
-                    fetchAuthorData(search);
+                    echo "Invalid number";
                 }
-            });
-            </script>
+            }
+        ?>
+            
+        <br>
         </div>
     </div>
 
-    <!-- footer -->
+
+
     <div class="footer">
         <footer>
             <div class="container">
@@ -160,3 +149,5 @@
 </body>
 
 </html>
+
+
