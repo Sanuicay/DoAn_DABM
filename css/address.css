@@ -62,3 +62,7 @@ p {
 .address .button a button{
     margin: 5px;
 }
+
+#addressForm {
+    display: none;
+}

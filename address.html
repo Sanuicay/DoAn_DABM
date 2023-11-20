@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
+    <script src="javascript/address_script.js"></script>
 </head>
 <body>
     <!-- header -->
@@ -54,14 +55,21 @@
         </div>
         <div class="banner">
             <div class="title">Địa chỉ của tôi</div>
-            <button class="add-address">Thêm địa chỉ</button>
-            <div class="address">
-                <div class="details">KTX Khu B ĐHQG, Đông Hòa, Dĩ An, Bình Dương</div>
-                <div class="button">
-                    <a href="#"><button>Cập Nhật</button></a>
-                    <a href="#"><button>Xóa</button></a>
+            <button class="add-address" onclick="showForm()">Thêm địa chỉ</button>
+            <form id="addressForm" onsubmit="event.preventDefault(); addAddress()">
+                <label for="newAddress">New Address:</label><br>
+                <input type="text" id="newAddress" name="newAddress"><br>
+                <input type="submit" value="Submit">
+            </form>
+            <div id="addresses">
+                <div class="address">
+                    <div class="details">KTX Khu B ĐHQG, Đông Hòa, Dĩ An, Bình Dương</div>
+                    <div class="button">
+                        <a href="#"><button>Cập Nhật</button></a>
+                        <a href="#"><button>Xóa</button></a>
+                    </div>
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
     <!-- content goes here -->
