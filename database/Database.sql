@@ -251,6 +251,9 @@ FROM user, employee
 WHERE user.ID = employee.ID;
 
 
+-- add data to book
+INSERT INTO `book` (`book_ID`, `book_name`, `publication_year`, `release_date`, `page_count`, `purchase_price`, `sale_price`, `remaining_quantity`, `display_status`, `publisher_ID`) VALUES ('10010101', 'Book 1', '2010', '2010-01-01', '100', '10000', '20000', '100', 'Available', '10010101');
+
 
 
 
