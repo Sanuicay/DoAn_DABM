@@ -1,0 +1,158 @@
+
+.center {
+    text-align: center;
+}
+.order-info-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+    padding: 10px;
+    flex-wrap: wrap; 
+}
+
+.order-info {
+    flex: 1;
+    margin-right: 10px;
+}
+.total {
+    flex: 1;
+    text-align: center;
+    font-size:x-large;
+    color:#B88E2F
+}
+
+.label {
+    font-weight: bold;
+}
+.customer-info {  
+    width: 60%;
+    margin: 10px;
+    padding: 10px;
+
+}
+
+.customer-info input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color:#F9F1E7 ;
+    border: 1px solid #B88E2F; 
+}
+.custom-textarea {
+    width: 100%; /* Đặt chiều rộng mong muốn */
+    height: 30px; /* Đặt chiều cao mong muốn */
+    background-color: #F9F1E7;
+    border: 1px solid #B88E2F; 
+}
+.customerForm {
+    text-align: center;
+}
+
+.customerList {
+    margin-top: 20px;
+    text-align: center;
+}
+.format-button {
+    background-color: #F9F1E7;
+    color: #B88E2F;
+    border: 1px solid #B88E2F; 
+    border-radius: 4px;
+    cursor: pointer;
+}
+#productTable {
+    width: 80%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: white;
+    margin: 0 auto; /* Center the table horizontally */
+
+}
+
+#productTable th, #productTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#productTable th {
+    background-color: #ffffff;
+    color: black;
+}
+#productTable td {
+    background-color: #F9F1E7;
+    color: black;
+}
+#productTable img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+#addProductBtn {
+    background-color: #F9F1E7;
+    color: #B88E2F;
+    border: 1px solid #B88E2F;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#productForm {
+    display: none;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px auto; /* Center the table horizontally */
+}
+
+#productForm label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#productForm input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+#submitProductBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#delProductBtn {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#confirmOrderBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#cancelOrderBtn {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.bounding {
+    margin-top: 30px;
+    margin-left: 35%;
+    margin-bottom: 5%;
+}

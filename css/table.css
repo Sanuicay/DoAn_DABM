@@ -1,0 +1,44 @@
+/* Table container styles */
+.table-container {
+    max-height: 100%; /* Set your desired maximum height */
+    max-width: 98%;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Table header styles */
+  thead {
+    background-color: #FFECD5;
+  }
+  
+  thead th {
+    color: #B88E2F;
+    border: 2px dashed #B88E2F;
+    border-top: 2px solid #B88E2F;
+    border-bottom: 2px solid #B88E2F;
+    padding: 10px;
+  }
+  
+  /* Table content styles */
+  tbody {
+    background-color: #FFECD5;
+  }
+  
+  tbody td {
+    color: black;
+    border: 2px dashed #B88E2F;
+    border-bottom: 2px solid #B88E2F;
+    padding: 10px;
+  }
+  
+  /* Optional: Hover effect */
+  tbody tr:hover {
+    background-color: #FFF; /* Change to your desired hover background color */
+  }
+  
