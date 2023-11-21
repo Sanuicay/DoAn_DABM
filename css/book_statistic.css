@@ -1,0 +1,39 @@
+.logo_DABM {
+    width: 10%;
+    height: auto;
+}
+
+.select-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.date-input,
+.type-input {
+    flex: 1;
+    margin-right: 60px;
+
+}
+
+#from_time,
+#to_time,
+#type_book {
+    border: 1px solid #ccc; 
+    padding: 5px; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+/*.filter_image {
+    position: absolute;
+    right: 5px; 
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px; 
+    cursor: pointer;
+} */
+
+
+
