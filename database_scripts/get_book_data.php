@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
                 <td>".$row['page_count']."</td>
                 <td>".$row['sale_price']."</td>
                 <td>".$row['remaining_quantity']."</td>
-                <td><a href=\"database_scripts/delete_book_data_from_ID.php?id={$row['book_ID']}\">Delete</a></td>
+                <td><a href=\"database_scripts/delete_book_data_from_ID.php?id={$row['book_ID']}\">Xóa</a></td>
             </tr>";
         $i++;
     }
