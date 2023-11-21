@@ -129,8 +129,8 @@ if (mysqli_connect_errno()) {
                         <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
-                        <input type="submit" name="submit" value="XÁC NHẬN">
-                        <a href="#"><div class="button cancel">HỦY</div></a>
+                        <input type="submit" name="confirm" value="XÁC NHẬN">
+                        <input type="submit" name="cancel" value="HỦY">
                     </div>
                 </form>
             </div>
