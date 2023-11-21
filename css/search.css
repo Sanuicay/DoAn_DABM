@@ -3,8 +3,9 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    width: 32%;
+    width: 25%;
     border-radius: 100px;
+    margin-bottom: 10px;
 }
 
 .search-icon {
@@ -20,8 +21,9 @@
 }
 
 .search-container #searchForm input[type="text"] {
-    width: 200px;
+    width: 150px;
     padding: 10px;
+    background-color: #FFECD5;
     border: none;
 }
 
@@ -38,16 +40,17 @@
 .search-container #searchForm input[type="submit"]:hover {
     background-color: #a17a2a;
 }
-
-input[type="button"] {
-    margin-left: 800px;
+.button-container {
+    position: absolute;
+    right: 0;
+}
+.button-container input[type="button"] {
     background-color: #FFECD5;
     color: #B88E2F;
     padding: 8px 12px; /* Adjust padding as needed */
     border: 1px solid #B88E2F;
     border-radius: 100px;
     cursor: pointer;
-    margin-right: 10px; /* Adjust margin as needed */
 }
 
 .side-box-image {
