@@ -1,0 +1,76 @@
+.banner {
+    position: relative;
+    width: 100%;
+    height: 717px;
+    top: 100px;
+    left: 0;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.book-type {
+    position: absolute;
+    width: 1051px;
+    height: 685px;
+    top: 0;
+    left: 113px;
+}
+
+.title {
+    margin-top: 50px;
+    font-family: "Poppins", Helvetica;
+    font-weight: 600;
+    color: var(--font-color);
+    font-size: 24px;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: normal;
+}
+
+.book-title {
+    margin-top: 20px;
+    font-family: "Poppins", Helvetica;
+    font-weight: 600;
+    color: var(--font-color);
+    font-size: 24px;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: normal;
+    margin-bottom: 50px;
+}
+
+.description {
+    margin-top: 5px;
+    font-family: "Poppins", Helvetica;
+    font-weight: 300;
+    color: var(--font-color);
+    font-size: 18px;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: normal;
+}
+
+.image-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around; /* Adjust as needed: space-around, space-between, center, etc. */
+    align-items: center;
+}
+
+.image {
+    width: 350px; /* Set the width of each image as needed */
+    height: 450px; /* Maintain the aspect ratio */
+}
+
+#hiddenElement {
+    position: relative;
+    height: 125px;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+    z-index: 100;
+     /* Add transition property for opacity */
+}
+
+.hidden {
+    display: none;
+}
