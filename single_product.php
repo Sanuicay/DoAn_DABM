@@ -104,7 +104,7 @@ $result = mysqli_query($con,$query);
     </div>
     <div class="product-description">
         <h2>Mô tả sản phẩm:</h2>
-        <h1>Thông tin sản phẩm:</h1>
+        <p>Thông tin sản phẩm:</p>
         <a>- Tác giả: Nhiều tác giả</a>
         <a>- Số trang: 176</a>
         <a>- Năm xuất bản: 2022</a>
@@ -112,12 +112,14 @@ $result = mysqli_query($con,$query);
         <a>- Hình thức: Bìa mềm</a>
         <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
         <a>- Đổi mới</a>
-        <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-        <a>+ Định hướng các hoạt động dạy học</a>
-        <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-        <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-        <a>+ Hỗ trợ tự học, vận dụng các kiến thức, kĩ năng đã học vào thực tiễn</a>
-        <a>Lưu ý khi mua hàng</a>
+        <div class="product-description-new">
+            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
+            <a>+ Định hướng các hoạt động dạy học</a>
+            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
+            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
+            <a>+ Hỗ trợ tự học, vận dụng các kiến thức, kĩ năng đã học vào thực tiễn</a>
+        </div>
+        <p>Lưu ý khi mua hàng:</p>
         <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
         <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
     </div> 
