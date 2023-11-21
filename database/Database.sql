@@ -233,10 +233,10 @@ CONSTRAINT `FK_18` FOREIGN KEY `FK_2` (`author_ID`) REFERENCES `author` (`author
 
 -- add data to employee
 INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20010101', '2010-01-01', 'Full-time');
-INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20030303', '2010-03-03', 'Full-time');
-INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20040404', '2010-04-04', 'Full-time');
-INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20050505', '2010-05-05', 'Full-time');
-INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20060606', '2010-06-06', 'Full-time');
+INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20020202', '2010-03-03', 'Full-time');
+INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20030303', '2010-04-04', 'Full-time');
+INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20040404', '2010-05-05', 'Full-time');
+INSERT INTO `employee` (`ID`, `start_date`, `employee_status`) VALUES ('20050505', '2010-06-06', 'Full-time');
 
 -- add data to user
 INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `username`, `password`, `user_info`) VALUES ('20010101', 'Nguyen Van', 'A', '0901010101', 'test1@gmail.com', 'test1', 'test1', 'Nguyen Van A is a test user');
