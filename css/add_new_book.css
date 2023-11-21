@@ -125,9 +125,9 @@ input[type="text"] {
 }
 
 .button-container input[name="cancel"] {
-    background-color: #f44336; /* Red */
+    background-color: #F8C2B1;
 }
 
 .button-container input[name="cancel"]:hover {
-    background-color: #F5A79E;
+    background-color: #F5A99A;
 }
