@@ -1,3 +1,37 @@
+<?php
+
+$is_invalid = false;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    
+    $mysqli = require __DIR__ . "/database.php";
+    
+    $sql = sprintf("SELECT * FROM user
+                    WHERE username = '%s'",
+                   $mysqli->real_escape_string($_POST["username"]));
+    
+    $result = $mysqli->query($sql);
+    
+    $user = $result->fetch_assoc();
+    
+    if ($user) {
+        
+        if ($_POST["password"] == $user["password"]) {
+            
+            session_start();
+            
+            session_regenerate_id();
+            
+            $_SESSION["user_id"] = $user["ID"];
+            
+            header("Location: login_success.php");
+        }
+    }
+    
+    $is_invalid = true;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +67,10 @@
 
     <div class="login-box">
         <h2>Đăng nhập</h2>
-        <form action="login.php" method="post">
+        <?php if ($is_invalid): ?>
+            <em>Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng nhập lại.</em>
+        <?php endif; ?>
+        <form method="post">
             <input type="text" name="username" placeholder="Tên đăng nhập" required>
             <input type="password" name="password" id="password" placeholder="Mật khẩu" required>
             <div class="container">

@@ -1,3 +1,21 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION["user_id"])) {
+    
+    $mysqli = require __DIR__ . "/database.php";
+    
+    $sql = "SELECT * FROM user
+            WHERE ID = {$_SESSION["user_id"]}";
+            
+    $result = $mysqli->query($sql);
+    
+    $user = $result->fetch_assoc();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -29,17 +47,14 @@
           <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
           <button id="toggleBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
           <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
+          
+            <?php if (isset($user)): ?>
+            <p>Xin chào <?= htmlspecialchars($user["last_name"]) ?></p>
+            <p><a href="logout.php">Log out</a></p>
+            <?php else: ?>
+                <?php header("Location: homepage_nologin.html"); ?>
+            <?php endif; ?>
       </div>
-
-      <button class="header-login-button" onclick="redirectToLoginPage()">
-        Đăng nhập
-      </button>
-      <script>
-        function redirectToLoginPage() {
-          // Add code to redirect to the login page
-          window.location.href = 'login.php'; // Replace 'login.html' with the actual URL of your login page
-        }
-      </script>
     </div>
 
 
@@ -142,3 +157,15 @@
     </div> 
   </body>
 </html>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
