@@ -253,7 +253,7 @@ WHERE user.ID = employee.ID;
 
 -- add data to book
 INSERT INTO `book` VALUES ('1', 'Tiếng Việt 1 (Tập 1)', '2020', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001');
-INSERT INTO `book` VALUES ('1', 'Tiếng Việt 1 (Tập 2)', '2020', '2020-01-01', 190, 30000, 41000, 100, 'Available', '001');
+INSERT INTO `book` VALUES ('2', 'Tiếng Việt 1 (Tập 2)', '2020', '2020-01-01', 190, 30000, 41000, 100, 'Available', '001');
 
 -- add data to publisher
 INSERT INTO `publisher` VALUES ('001', 'NXB Giáo dục Việt Nam');
