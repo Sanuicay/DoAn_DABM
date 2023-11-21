@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --font-eb-garamond: "EB Garamond";
+  --font-museomoderno: MuseoModerno;
+  --font-poppins: Poppins;
+
+  /* font sizes */
+  --font-size-5xl: 24px;
+  --font-size-15xl: 34px;
+  --font-size-lg: 18px;
+  --font-size-base: 16px;
+  --font-size-xl: 20px;
+  --font-size-29xl: 48px;
+
+  /* Colors */
+  --color-linen: #f9f1e7;
+  --color-darkgoldenrod: #b88e2f;
+  --color-peru: #c98e5b;
+  --color-lightgoldenrodyellow: #e0ffd5;
+  --color-black: #000;
+  --color-gray: rgba(0, 0, 0, 0.5);
+  --color-white: #fff;
+  --color-darkgray: #9f9f9f;
+  --color-gainsboro: #d9d9d9;
+
+  /* Gaps */
+  --gap-4xs: 9px;
+  --gap-base: 16px;
+  --gap-mini: 15px;
+
+  /* Paddings */
+  --padding-3xs: 10px;
+
+  /* Border radiuses */
+  --br-31xl: 50px;
+}
