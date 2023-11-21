@@ -77,7 +77,6 @@ if (mysqli_connect_errno()) {
         <div>
             <a href="#">Cá nhân</a>
             <a href="#">> Quản lý sách</a>
-            <a href="#">> Xem sách</a>
             <a href="#">> Nhập hàng mới</a>
         </div>
     </div>
