@@ -57,40 +57,18 @@
         </div>
         <div class="content-box">
             <!-- real content goes here -->
-            <h2>Search for book</h2>
-            <form id="searchForm" method="post">
-                <input type="text" id="search" name="search">
-                <br>
-                <input type="submit" value="Submit">
+            <div class="search-container">
+                <div class="search-icon">
+                    <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
+                </div>
+                <form id="searchForm" method="post">
+                    <input type="text" id="search" name="search">
+                    <input type="submit" value="Submit">
+                </form>
                 <a href="add_new_book.php"><input type="button" value="Add new book"></a>
-            </form>
-            
+            </div> 
             <div id="bookTable"></div>
-            <script>
-            function handleFilterClick() {
-                var filterBox = document.getElementById("filter-box");
-                var mouseX = event.clientX;
-                var mouseY = event.clientY;
-
-                filterBox.style.left = mouseX + "px";
-                filterBox.style.top = mouseY + "px";
-
-                filterBox.style.display = (filterBox.style.display === "block") ? "none" : "block";
-            }
-            
-            document.addEventListener("click", function(event) {
-                var filterIcon = document.querySelector(".filter-icon");
-                if (event.target === filterIcon) {
-                    toggleFilterBox(event);
-                } else {
-                    document.getElementById("filter-box").style.display = "none";
-                }
-            })
-            function handleAddBook() {
-                    window.location.href = 'add_new_book.html';
-                    alert("Nhập sách mới!");
-            }
-
+            <script>           
             function redirectToDetailsPage(ID) {
                 window.location.href = 'update_book.php?id=' + ID;
             }

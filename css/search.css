@@ -3,35 +3,53 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    width: 25%;
+    width: 32%;
     border-radius: 100px;
 }
 
-.search-icons {
-    display: flex;
-    margin-right: 10px; /* Adjust the margin as needed */
-}
-
-.search-icon,
-.filter-icon {
+.search-icon {
     font-size: 20px;
     padding: 5px;
     cursor: pointer;
 }
 
-.search-input {
-    flex-grow: 1;
-    margin: 0 10px;
-    padding: 8px;
-    border: 1px solid #FFECD5;
-    border-radius: 4px;
-    background-color: #FFECD5; /* Set the background color */
-    outline: none;
+.search-container #searchForm {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.filter-icon:hover {
-    color: #B88E2F;
+.search-container #searchForm input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    border: none;
 }
+
+.search-container #searchForm input[type="submit"] {
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #B88E2F;
+    color: white;
+    cursor: pointer;
+}
+
+.search-container #searchForm input[type="submit"]:hover {
+    background-color: #a17a2a;
+}
+
+input[type="button"] {
+    margin-left: 800px;
+    background-color: #FFECD5;
+    color: #B88E2F;
+    padding: 8px 12px; /* Adjust padding as needed */
+    border: 1px solid #B88E2F;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-right: 10px; /* Adjust margin as needed */
+}
+
 .side-box-image {
     max-width: 20px; /* Set your desired maximum width */
     max-height: 20px; /* Set your desired maximum height */
