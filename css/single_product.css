@@ -93,19 +93,25 @@ button {
 
 .product-description {
     background-color: #F9F1E7;
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 50px;
     margin-bottom: 10px;
     margin-right: 50px;
     display: flex; /* makes the side box a flex container */
     flex-direction: column; /* aligns the items vertically */
 }
+.product-description .product-description-new {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+}
 .product-description h2 {
     margin-bottom: 20px;
 }
-.product-description h1 {
+.product-description a {
     margin-bottom: 10px;
 }
-.product-description a {
+.product-description p {
+    font-weight: bold;
     margin-bottom: 10px;
 }
