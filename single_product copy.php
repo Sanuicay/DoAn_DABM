@@ -70,16 +70,13 @@ $id = $_GET['id'];
         </div>
         <img src="img/pic1.png" alt="Large Image" class="large-image">
         <main>
-        <!-- SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
-        FROM book, author, publisher, genre, written_by, belongs_to
-        WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
             <?php
-            $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
-                      FROM book, author, publisher, genre, written_by, belongs_to
-                      WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = $id;";
+            $query = "SELECT book.book_name, written_by.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status 
+                      FROM book, written_by, publisher, belongs_to, genre 
+                      WHERE book.book_ID = written_by.book_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = $id"; 
             $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
+                while($row = $result->fetch_assoc() && $row["display_status"] == "Available") {
                   echo "<h1>" . $row["book_name"]. "</h1>";
                   echo "<p>Tác giả: " . $row["author_name"]. "</p>";
                   echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";

@@ -83,8 +83,6 @@ include("connection.php");
         </div>
     </div>
 
-
-
     <div class="footer">
         <footer>
             <div class="container">
