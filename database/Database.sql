@@ -257,3 +257,16 @@ INSERT INTO `book` VALUES ('1', 'Tiếng Việt 1 (Tập 2)', '2020', '2020-01-0
 
 -- add data to publisher
 INSERT INTO `publisher` VALUES ('001', 'NXB Giáo dục Việt Nam');
+
+
+-- add data to genre
+INSERT INTO `genre` VALUES ('01', 'sách giáo khoa - giáo trình');
+
+-- add data to author
+INSERT INTO `author` VALUES ('01', 'Nhiều tác giả');
+
+-- add data to written_by
+INSERT INTO `written_by` VALUES ('1', '01');
+
+-- add data to belongs_to
+INSERT INTO `belongs_to` VALUES ('1', '01');
