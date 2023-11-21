@@ -53,125 +53,78 @@
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
-            <img class = "logo" src="img/logo_DABM.png", alt="Logo">
-            <br>
-            <div class = "main-container">
-                <div class="search-container">
-                    <div class="search-icons">
-                        <div class="search-icon">
-                            <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        </div>
-                        <input type="text" class="search-input" placeholder="Tìm kiếm sách">
-                        <div class="filter-icon" onclick="handleFilterClick()">
-                            <img class="side-box-image" src="img/icon_filter.png" alt="Icon"/>
-                        </div>
-                    </div>
-                </div> 
-                <div class ="button-container">
-                    <button class="create-order-button" onclick="handleAddBook()">Nhập sách mới</button>
-                </div>                 
-            </div>       
-            <div id="filter-box" class="filter-box">
-                <ul>
-                    <li>Số lượng còn lại tăng dần</li>
-                    <li>Số lượng còn lại giảm dần</li>
-                    <li>Giá tiền tăng dần</li>
-                    <li>Giá tiền giảm dần</li>
-                </ul>
-            </div>
-            <script>
-                function handleFilterClick() {
-                    // Add your filter action here
-                    var filterBox = document.getElementById("filter-box");
-                    var mouseX = event.clientX;
-                    var mouseY = event.clientY;
-
-                    filterBox.style.left = mouseX + "px";
-                    filterBox.style.top = mouseY + "px";
-
-                    filterBox.style.display = (filterBox.style.display === "block") ? "none" : "block";
-                }
-                
-                document.addEventListener("click", function(event) {
-                    var filterIcon = document.querySelector(".filter-icon");
-                    if (event.target === filterIcon) {
-                        toggleFilterBox(event);
-                    } else {
-                        document.getElementById("filter-box").style.display = "none";
-                    }
-                })
-                function handleAddBook() {
-                        window.location.href = 'add_new_book_.html';
-                        alert("Nhập sách mới!");
-                }
-            </script>
+            <!-- real content goes here -->
+            <h2>Search for book</h2>
+            <form id="searchForm" method="post">
+                <input type="text" id="search" name="search">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
             
-            <!-- Result display area (optional) -->
-            <div id="searchResults"></div>
-
-            <h2>Danh sách sách</h2>
-            <div class="table-container">                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Tên sách</th>
-                            <th>Tác giả</th>
-                            <th>NXB</th>
-                            <th>Thể loại</th>
-                            <th>Số trang</th>
-                            <th>Giá tiền</th>
-                            <th>Số lượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr onclick="redirectToDetailsPage('D001')">
-                            <td>1</td>
-                            <td>NTC0101</td>
-                            <td>Nàng tiên cá</td>
-                            <td>Disney</td>
-                            <td>Kim Đồng</td>
-                            <td>Truyện cổ tích</td>
-                            <td>150</td>
-                            <td>44000</td>
-                            <td>100</td>
-                        </tr>
-                        <tr onclick="redirectToDetailsPage('D002')">
-                            <td>2</td>
-                            <td>NTC01012</td>
-                            <td>Đi tìm Nemo</td>
-                            <td>Disney</td>
-                            <td>Kim Đồng</td>
-                            <td>Truyện cổ tích</td>
-                            <td>200</td>
-                            <td>65000</td>
-                            <td>150</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+            <div id="bookTable"></div>
             <script>
-                function redirectToDetailsPage(bookId) {
-                    // Thực hiện chuyển hướng đến trang chi tiết với bookId là tham số
-                    //turn bookId into a string
-                    var bookIdString = bookId.toString();
-                    window.location.href = 'single_product.php?id=' + bookIdString;
-                }
-                function redirectToCreateOrder() {
-                    // Thực hiện chuyển hướng đến trang tạo mới đơn hàng
-                    window.location.href = 'create-order.html';
-                }
+            function handleFilterClick() {
+                var filterBox = document.getElementById("filter-box");
+                var mouseX = event.clientX;
+                var mouseY = event.clientY;
 
+                filterBox.style.left = mouseX + "px";
+                filterBox.style.top = mouseY + "px";
+
+                filterBox.style.display = (filterBox.style.display === "block") ? "none" : "block";
+            }
+            
+            document.addEventListener("click", function(event) {
+                var filterIcon = document.querySelector(".filter-icon");
+                if (event.target === filterIcon) {
+                    toggleFilterBox(event);
+                } else {
+                    document.getElementById("filter-box").style.display = "none";
+                }
+            })
+            function handleAddBook() {
+                    window.location.href = 'add_new_book.html';
+                    alert("Nhập sách mới!");
+            }
+
+            function redirectToDetailsPage(ID) {
+                window.location.href = 'update_book.php?id=' + ID;
+            }
+            // Function to fetch book data
+            function fetchbookData(search = '') {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", 'database_scripts/get_book_data.php', true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        document.getElementById('bookTable').innerHTML = this.responseText;
+                    }
+                }
+                xhr.send("search=" + search);
+            }
+            
+            // Fetch all book data when the page loads
+            fetchbookData();
+            
+            // Fetch book data based on search when the form is submitted
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var search = document.getElementById('search').value;
+                if (search === '') {
+                    // If the search term is blank, fetch all book data
+                    fetchbookData();
+                } else {
+                    fetchbookData(search);
+                }
+            });
             </script>
-            <br>
-        <br>
+
         </div>
     </div>
+
 
     <!-- footer -->
     <div class="footer">

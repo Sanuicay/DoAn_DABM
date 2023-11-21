@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost:3306","root","","doantest");
+$mysqli = new mysqli("localhost:3307","root","","doan");
 
 // Check connection
 if ($mysqli -> connect_errno) {
