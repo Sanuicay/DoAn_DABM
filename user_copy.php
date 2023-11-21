@@ -59,17 +59,20 @@ $row = mysqli_fetch_assoc($result);
     </div>
 
     <div class="content">
-        <div class="side-box">
+    <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
+            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p> -->
             <?php
-                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>" . $row["sur_name"] . " " . $row["last_name"] . "</p>";
-                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: " . $id . "</p>";
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
             ?>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Khách hàng</p>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="list_of_book2.html"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="body-container">
             <div class="profile">

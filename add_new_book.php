@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-  if(isset($_POST['submit'])){
+  if(isset($_POST['confirm'])){
     $tensach = $_POST['tensach'];
     $nhaxuatbanID = $_POST['nhaxuatbanID'];
     $masach = $_POST['masach'];
@@ -32,6 +32,7 @@ if (mysqli_connect_errno()) {
     else{
         echo "Thêm sách thất bại";
     }
+    header("Location: list_of_book2.html");
  }
 
 ?>

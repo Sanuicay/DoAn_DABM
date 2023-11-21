@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$dbname = "DABM_database";
+$host = "localhost:3307";
+$dbname = "doan";
 $username = "root";
-$password = "Danh@mysql@23";
+$password = "";
 
 $mysqli = new mysqli(hostname: $host,
                      username: $username,
