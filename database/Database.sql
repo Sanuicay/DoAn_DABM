@@ -58,6 +58,7 @@ CREATE TABLE `book`
  `page_count`         int NOT NULL ,
  `purchase_price`     mediumint NOT NULL ,
  `sale_price`         mediumint NOT NULL ,
+ `img_path`           varchar(MAX) NULL,
  `remaining_quantity` int NOT NULL ,
  `display_status`     varbinary(45) NOT NULL ,
  `publisher_ID`       varchar(45) NOT NULL ,

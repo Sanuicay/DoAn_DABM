@@ -17,16 +17,8 @@ document.getElementById('toggleBtn').addEventListener('click', function() {
 });
 
 let availableKeywords = [
-    '300 bài code thiếu nhi',
-    'Bí kíp tán gái đại cương',
-    'Đất rừng phương nam',
-    'Học tốt Giải tích 2',
-    'Cách đi ngủ cũng có tiền',
-    'Hạt giống tâm hồn',
-    'Harry Bọt Bèo và Hòn đá phù mỏ',
-    'Mắt biếc',
-    'Kính Vạn Hoa',
-    'Nghệ thuật Origami',
+    'Tiếng Việt 1 (Tập 1)',
+    'Tiếng Việt 1 (Tập 2)',
 ];
 
 const resultsBox = document.querySelector(".result-box");
@@ -57,6 +49,7 @@ function display(result){
 }
 
 function selectInput(list) {
+    window.location.href = "features_product_nologin.php";
     inputBox.value = list.innerHTML;
     resultsBox.innerHTML = '';
 }

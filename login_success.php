@@ -35,11 +35,11 @@ if (isset($_SESSION["user_id"])) {
     <!-- header  -->
     <div class="header">
       <div class="header-left-section">
-          <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+          <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
       </div>
       <div class="header-nav-links">
-          <a href="homepage_nologin.html">Trang chủ</a>
-          <a href="#">Cửa hàng</a>
+          <a href="login_success.php">Trang chủ</a>
+          <a href="features_product_login.php">Cửa hàng</a>
           <a href="#">Giới thiệu</a>
           <a href="#">Liên hệ</a>
       </div>
