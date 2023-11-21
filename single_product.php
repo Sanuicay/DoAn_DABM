@@ -8,11 +8,14 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-// Get the ID from the GET request
+// Get the ID from the GET request, ID can be "1" or "D001"
 $id = $_GET['id'];
+//sanitize the id before using in the query
+$id = mysqli_real_escape_string($con, $id);
+
 $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
           FROM book, author, publisher, genre, written_by, belongs_to
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = $id;";
+          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$id';";
 $result = mysqli_query($con,$query);
 
 ?>
