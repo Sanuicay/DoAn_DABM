@@ -15,7 +15,6 @@ $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.pub
 $result = mysqli_query($con, $query);
 
 if (mysqli_num_rows($result) > 0) {
-    echo "Found ".mysqli_num_rows($result)." results";
     echo "<table>
             <thead>
                 <tr>
@@ -28,6 +27,7 @@ if (mysqli_num_rows($result) > 0) {
                     <th>Số trang</th>
                     <th>Giá tiền</th>
                     <th>Số lượng</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>";
@@ -43,6 +43,7 @@ if (mysqli_num_rows($result) > 0) {
                 <td>".$row['page_count']."</td>
                 <td>".$row['sale_price']."</td>
                 <td>".$row['remaining_quantity']."</td>
+                <td><a href=\"database_scripts/delete_book_data_from_ID.php?id={$row['book_ID']}\">Delete</a></td>
             </tr>";
         $i++;
     }
