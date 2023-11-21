@@ -8,12 +8,17 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-// Get the ID from the GET request
+// Get the ID from the GET request, ID can be "1" or "D001"
 $id = $_GET['id'];
+//sanitize the id before using in the query
+$id = mysqli_real_escape_string($con, $id);
+
+$query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
+          FROM book, author, publisher, genre, written_by, belongs_to
+          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$id';";
+$result = mysqli_query($con,$query);
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -74,10 +79,6 @@ $id = $_GET['id'];
         FROM book, author, publisher, genre, written_by, belongs_to
         WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
             <?php
-            $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
-                      FROM book, author, publisher, genre, written_by, belongs_to
-                      WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = $id;";
-            $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                   echo "<h1>" . $row["book_name"]. "</h1>";
@@ -106,7 +107,7 @@ $id = $_GET['id'];
     </div>
     <div class="product-description">
         <h2>Mô tả sản phẩm:</h2>
-        <h1>Thông tin sản phẩm:</h1>
+        <p>Thông tin sản phẩm:</p>
         <a>- Tác giả: Nhiều tác giả</a>
         <a>- Số trang: 176</a>
         <a>- Năm xuất bản: 2022</a>
@@ -114,12 +115,14 @@ $id = $_GET['id'];
         <a>- Hình thức: Bìa mềm</a>
         <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
         <a>- Đổi mới</a>
-        <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-        <a>+ Định hướng các hoạt động dạy học</a>
-        <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-        <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-        <a>+ Hỗ trợ tự học, vận dụng các kiến thức, kĩ năng đã học vào thực tiễn</a>
-        <a>Lưu ý khi mua hàng</a>
+        <div class="product-description-new">
+            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
+            <a>+ Định hướng các hoạt động dạy học</a>
+            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
+            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
+            <a>+ Hỗ trợ tự học, vận dụng các kiến thức, kĩ năng đã học vào thực tiễn</a>
+        </div>
+        <p>Lưu ý khi mua hàng:</p>
         <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
         <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
     </div> 

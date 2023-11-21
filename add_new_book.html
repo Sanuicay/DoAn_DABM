@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/single_product.css">
+    <link rel="stylesheet" href="css/add_new_book.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
+
 </head>
 <body>
     <!-- header -->
@@ -31,67 +33,76 @@
     </div>
 
     <!-- content goes here -->
-    <div class="content">
-        <div class="image-box">
-            <img src="img/pic1.png" alt="Image 1"><br>
-            <img src="img/pic2.png" alt="Image 2"><br>
-            <img src="img/pic3.png" alt="Image 3"><br>
-            <img src="img/pic4.png" alt="Image 4"><br>
+    <div class="box"> <!--cover-box.css-->
+        <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
+        <p class="box-text">Nhập hàng mới</p>
+        <div>
+            <a href="index.html">Cá nhân</a>
+            <a href="list_of_book.html">> Quản lý sách</a>
+            <a>> Nhập hàng mới</a>
         </div>
-        <img src="img/pic1.png" alt="Large Image" class="large-image">
-        <main>
-            <h1>Tiếng Việt 1 (Tập 1)</h1>
-            <p>Tác giả: Nhiều tác giả</p>
-            <p>Nhà xuất bản: NXB Giáo dục Việt Nam</p>
-            <p>Năm xuất bản: 2020</p>
-            <p>Năm phát hành: 2020</p>
-            <p>Mã sách: TV1003</p>
-            <p>Thể loại: sách giáo khoa - giáo trình</p>
-            <p>Số trang: 189</p><br>
-            <p class="price">41,000 VND</p><br>
-            <div class="quantity-group">
-                <button onclick="decrement()">-</button>
-                <input id="quantity" type="text" value="1">
-                <button onclick="increment()">+</button>
-                <span class="stock">Kho: 125</span>
-            </div><br>
-            <script>
-                function increment() {
-                    var input = document.getElementById('quantity');
-                    input.value = parseInt(input.value) + 1;
-                }
-                function decrement() {
-                    var input = document.getElementById('quantity');
-                    if (input.value > 1) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                }
-            </script>
-            <a href="#"><button>Thêm vào giỏ hàng</button></a>
-            <a href="#"><button>Mua ngay</button></a>
-        </main>
     </div>
-    <div class="product-description">
-        <h2>Mô tả sản phẩm:</h2>
-        <p>Thông tin sản phẩm:</p>
-        <a>- Tác giả: Nhiều tác giả</a>
-        <a>- Số trang: 176</a>
-        <a>- Năm xuất bản: 2022</a>
-        <a>- Khổ sách: 19 x 26.5 cm</a>
-        <a>- Hình thức: Bìa mềm</a>
-        <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
-        <a>- Đổi mới</a>
-        <div class="product-description-new">
-            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-            <a>+ Định hướng các hoạt động dạy học</a>
-            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-            <a>+ Hỗ trợ tự học, vận dụng các kiến thức và kĩ năng đã học vào thực tiễn</a>
+
+    <div class="content">
+        <div class="side-box">
+            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <br>
+            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
-        <p>Lưu ý khi mua hàng:</p>
-        <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
-        <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
-    </div> 
+        <div class="body-container">
+            <div class="profile">
+                <h2>Thông tin sách</h2>
+                <form>
+                    <div class="name">
+                        <div>
+                            <label for="tensach">Tên sách</label><br>
+                            <input type="text" id="tensach" name="tensach"><br>
+                            <label for="nhaxuatban">Nhà xuất bản</label><br>
+                            <input type="text" id="nhaxuatban" name="nhaxuatban"><br>
+                            <label for="masach">Mã sách</label><br>
+                            <input type="text" id="masach" name="masach"><br>
+                            <label for="sotrang">Số trang</label><br>
+                            <input type="text" id="sotrang" name="sotrang"><br>
+                            <label for="ngayphathanh">Ngày phát hành</label><br>
+                            <input type="text" id="ngayphathanh" name="ngayphathanh">
+                        </div>
+                        <div>
+                            <label for="tentacgia">Tên tác giả</label><br>
+                            <input type="text" id="tentacgia" name="tentacgia"><br>
+                            <label for="namxuatban">Năm xuất bản</label><br>
+                            <input type="text" id="namxuatban" name="namxuatban"><br>
+                            <label for="theloai">Thể loại</label><br>
+                            <input type="text" id="theloai" name="theloai"><br>
+                            <label for="soluong">Số lượng</label><br>
+                            <input type="text" id="soluong" name="soluong"><br>
+                            <label for="giatien">Giá tiền</label><br>
+                            <input type="text" id="giatien" name="giatien">
+                        </div>
+                    </div>
+                    <div class="description">
+                        <label for="info">Mô tả thêm</label><br>
+                        <input type="text" id="info" name="info">
+                    </div>
+                    <div class="button-container">
+                        <input type="submit" name="confirm" value="XÁC NHẬN">
+                        <input type="submit" name="cancel" value="HỦY">
+                    </div>
+                </form>
+            </div>
+            <div class="image">
+                <div class="image-container">
+                    +
+                </div>
+                <div class="upload-text">Thêm ảnh minh họa</div>
+            </div>
+        </div>
+    </div>
     <!-- content goes here -->
 
     <div class="footer">

@@ -1,3 +1,41 @@
+<?php
+// Connect to your database
+$con = mysqli_connect("localhost:3307","root","","doan");
+
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  exit();
+}
+
+  if(isset($_POST['submit'])){
+    $tensach = $_POST['tensach'];
+    $nhaxuatbanID = $_POST['nhaxuatbanID'];
+    $masach = $_POST['masach'];
+    $sotrang = $_POST['sotrang'];
+    $ngayphathanh = $_POST['ngayphathanh'];
+    $tentacgiaID = $_POST['tentacgiaID'];
+    $namxuatban = $_POST['namxuatban'];
+    $theloaiID = $_POST['theloaiID'];
+    $soluong = $_POST['soluong'];
+    $giatien = $_POST['giatien'];
+
+    $query = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`) VALUES ('$masach', '$tensach', '$nhaxuatbanID', '$namxuatban', '$ngayphathanh', '$sotrang', '$giatien', '$soluong')";
+    $query2 = "INSERT INTO `written_by` VALUES ('$masach', '$tentacgiaID')";
+    $query3 = "INSERT INTO `belongs_to` VALUES ('$masach', '$theloaiID')";
+    $result = mysqli_query($con,$query);
+    $result2 = mysqli_query($con,$query2);
+    $result3 = mysqli_query($con,$query3);
+    if($result && $result2 && $result3){
+        echo "Thêm sách thành công";
+    }
+    else{
+        echo "Thêm sách thất bại";
+    }
+ }
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,11 +43,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/user.css">
+    <link rel="stylesheet" href="css/add_new_book.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
+
 </head>
 <body>
     <!-- header -->
@@ -34,10 +73,11 @@
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thông tin cá nhân</p>
+        <p class="box-text">Nhập hàng mới</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
+            <a href="#">Cá nhân</a>
+            <a href="#">> Quản lý sách</a>
+            <a href="#">> Nhập hàng mới</a>
         </div>
     </div>
 
@@ -45,94 +85,62 @@
         <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Văn A</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 20031510</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Khách hàng</p>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
+            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="body-container">
             <div class="profile">
-                <h2>Hồ Sơ Của Tôi</h2>
-                <form>
+                <h2>Thông tin sách</h2>
+                <form method="POST">
                     <div class="name">
                         <div>
-                            <label for="ho">Họ:</label>
-                            <input type="text" id="ho" name="ho">
+                            <label for="tensach">Tên sách</label><br>
+                            <input type="text" id="tensach" name="tensach"><br>
+                            <label for="nhaxuatbanID">Mã nhà xuất bản</label><br>
+                            <input type="text" id="nhaxuatbanID" name="nhaxuatbanID"><br>
+                            <label for="masach">Mã sách</label><br>
+                            <input type="text" id="masach" name="masach"><br>
+                            <label for="sotrang">Số trang</label><br>
+                            <input type="text" id="sotrang" name="sotrang"><br>
+                            <label for="ngayphathanh">Ngày phát hành</label><br>
+                            <input type="text" id="ngayphathanh" name="ngayphathanh">
                         </div>
                         <div>
-                            <label for="ten">Tên:</label>
-                            <input type="text" id="ten" name="ten">
+                            <label for="tentacgia">Mã tác giả</label><br>
+                            <input type="text" id="tentacgiaID" name="tentacgiaID"><br>
+                            <label for="namxuatban">Năm xuất bản</label><br>
+                            <input type="text" id="namxuatban" name="namxuatban"><br>
+                            <label for="theloai">Mã thể loại</label><br>
+                            <input type="text" id="theloaiID" name="theloaiID"><br>
+                            <label for="soluong">Số lượng</label><br>
+                            <input type="text" id="soluong" name="soluong"><br>
+                            <label for="giatien">Giá tiền</label><br>
+                            <input type="text" id="giatien" name="giatien">
                         </div>
                     </div>
-                    <br>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email"><br>
-                    <label for="phone">Số Điện Thoại:</label>
-                    <input type="tel" id="phone" name="phone"><br>
-                    <label for="info">Thông tin thêm:</label>
-                    <input type="info" id="info" name="info"><br>
+                    <div class="description">
+                        <label for="info">Mô tả thêm</label><br>
+                        <input type="text" id="info" name="info">
+                    </div>
+                    <div class="button-container">
+                        <input type="submit" name="confirm" value="XÁC NHẬN">
+                        <input type="submit" name="cancel" value="HỦY">
+                    </div>
                 </form>
             </div>
-            <div class="account-info">
-                <h2>Thông Tin Tài Khoản</h2><br>
-                <form>
-                    <div class="form-group">
-                        <label for="username">Tên Đăng Nhập:</label>
-                        <b>username</b>
-                    </div>
-                    <div class="form-group">
-                        <label for="ID">ID:</label>
-                        <b>ID</b>
-                    </div>
-                </form>
-                <hr style="height:1px;border-width:0;color:gray;background-color:gray"><br>
-                <form>
-                    <div class="form-group">
-                        <label for="old-password">Mật Khẩu Cũ:</label><br>
-                        <input type="password" id="old-password" name="old-password"><br>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="new-password">Mật Khẩu Mới:</label><br>
-                        <input type="password" id="new-password" name="new-password"><br>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="confirm-password">Xác nhận Mật Khẩu Mới:</label><br>
-                        <input type="password" id="confirm-password" name="confirm-password"><br>
-                    </div>                  
-                    <input type="submit" value="Thay Đổi">
-                </form>
+            <div class="image">
+                <div class="image-container">
+                    +
+                </div>
+                <div class="upload-text">Thêm ảnh minh họa</div>
             </div>
-
-            <script>
-                // Check if there's a saved value when the page loads
-                document.getElementById('ho').value = localStorage.getItem('ho') || '';
-                document.getElementById('ten').value = localStorage.getItem('ten') || '';
-                document.getElementById('email').value = localStorage.getItem('email') || '';
-                document.getElementById('phone').value = localStorage.getItem('phone') || '';
-                document.getElementById('info').value = localStorage.getItem('info') || '';
-                
-                // Save the value whenever it changes
-                document.getElementById('ho').addEventListener('input', function() {
-                    localStorage.setItem('ho', this.value);
-                });
-                document.getElementById('ten').addEventListener('input', function() {
-                    localStorage.setItem('ten', this.value);
-                });
-                document.getElementById('email').addEventListener('input', function() {
-                    localStorage.setItem('email', this.value);
-                });
-                document.getElementById('phone').addEventListener('input', function() {
-                    localStorage.setItem('phone', this.value);
-                });
-                document.getElementById('info').addEventListener('input', function() {
-                    localStorage.setItem('info', this.value);
-                });
-            </script>
         </div>
+
     </div>
     <!-- content goes here -->
 

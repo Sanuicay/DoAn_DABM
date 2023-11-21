@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/single_product.css">
+    <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/cover-box.css">
+    <link rel="stylesheet" href="css/table.css">
 </head>
 <body>
     <!-- header -->
@@ -23,77 +24,77 @@
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 4"></a>
         </div>
     </div>
 
-    <!-- content goes here -->
-    <div class="content">
-        <div class="image-box">
-            <img src="img/pic1.png" alt="Image 1"><br>
-            <img src="img/pic2.png" alt="Image 2"><br>
-            <img src="img/pic3.png" alt="Image 3"><br>
-            <img src="img/pic4.png" alt="Image 4"><br>
+    <div class="box">
+        <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
+        <p class="box-text">Quản lý nhân sự</p>
+        <div>
+            <a href="index.html">Cá nhân</a>
+            <a href="#">></a>
+            <a href="#">Quản lý nhân sự</a>
         </div>
-        <img src="img/pic1.png" alt="Large Image" class="large-image">
-        <main>
-            <h1>Tiếng Việt 1 (Tập 1)</h1>
-            <p>Tác giả: Nhiều tác giả</p>
-            <p>Nhà xuất bản: NXB Giáo dục Việt Nam</p>
-            <p>Năm xuất bản: 2020</p>
-            <p>Năm phát hành: 2020</p>
-            <p>Mã sách: TV1003</p>
-            <p>Thể loại: sách giáo khoa - giáo trình</p>
-            <p>Số trang: 189</p><br>
-            <p class="price">41,000 VND</p><br>
-            <div class="quantity-group">
-                <button onclick="decrement()">-</button>
-                <input id="quantity" type="text" value="1">
-                <button onclick="increment()">+</button>
-                <span class="stock">Kho: 125</span>
-            </div><br>
+    </div>
+
+    <!-- content -->
+    <div class="content">
+        <div class="side-box">
+            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <br>
+            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Folcalors</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Manager</p>
+            <a href="#"><img class="side-box-button" src="img/button_employee_management.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button2"></a>
+        </div>
+        <div class="content-box">
+            <!-- real content goes here -->
+            <h2>Search for Employee</h2>
+            <form id="searchForm" method="post">
+                <input type="text" id="search" name="search">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            
+            <div id="EmployeeTable"></div>
             <script>
-                function increment() {
-                    var input = document.getElementById('quantity');
-                    input.value = parseInt(input.value) + 1;
-                }
-                function decrement() {
-                    var input = document.getElementById('quantity');
-                    if (input.value > 1) {
-                        input.value = parseInt(input.value) - 1;
+            // Function to fetch employee data
+            function fetchEmployeeData(search = '') {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", 'database_scripts/get_employee_data.php', true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        document.getElementById('EmployeeTable').innerHTML = this.responseText;
                     }
                 }
+                xhr.send("search=" + search);
+            }
+            
+            // Fetch all employee data when the page loads
+            fetchEmployeeData();
+            
+            // Fetch employee data based on search when the form is submitted
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var search = document.getElementById('search').value;
+                if (search === '') {
+                    // If the search term is blank, fetch all employee data
+                    fetchEmployeeData();
+                } else {
+                    fetchEmployeeData(search);
+                }
+            });
             </script>
-            <a href="#"><button>Thêm vào giỏ hàng</button></a>
-            <a href="#"><button>Mua ngay</button></a>
-        </main>
-    </div>
-    <div class="product-description">
-        <h2>Mô tả sản phẩm:</h2>
-        <p>Thông tin sản phẩm:</p>
-        <a>- Tác giả: Nhiều tác giả</a>
-        <a>- Số trang: 176</a>
-        <a>- Năm xuất bản: 2022</a>
-        <a>- Khổ sách: 19 x 26.5 cm</a>
-        <a>- Hình thức: Bìa mềm</a>
-        <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
-        <a>- Đổi mới</a>
-        <div class="product-description-new">
-            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-            <a>+ Định hướng các hoạt động dạy học</a>
-            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-            <a>+ Hỗ trợ tự học, vận dụng các kiến thức và kĩ năng đã học vào thực tiễn</a>
         </div>
-        <p>Lưu ý khi mua hàng:</p>
-        <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
-        <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
-    </div> 
-    <!-- content goes here -->
+    </div>
 
+    <!-- footer -->
     <div class="footer">
         <footer>
             <div class="container">
@@ -154,5 +155,7 @@
                 </div></p>
             </div>
         </footer>
-    </div>  
+    </div> 
 </body>
+
+</html>

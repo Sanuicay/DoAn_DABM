@@ -5,94 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/single_product.css">
+    <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/cover-box.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
-    <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="homepage_nologin.html">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 4"></a>
         </div>
     </div>
 
-    <!-- content goes here -->
-    <div class="content">
-        <div class="image-box">
-            <img src="img/pic1.png" alt="Image 1"><br>
-            <img src="img/pic2.png" alt="Image 2"><br>
-            <img src="img/pic3.png" alt="Image 3"><br>
-            <img src="img/pic4.png" alt="Image 4"><br>
-        </div>
-        <img src="img/pic1.png" alt="Large Image" class="large-image">
-        <main>
-            <h1>Tiếng Việt 1 (Tập 1)</h1>
-            <p>Tác giả: Nhiều tác giả</p>
-            <p>Nhà xuất bản: NXB Giáo dục Việt Nam</p>
-            <p>Năm xuất bản: 2020</p>
-            <p>Năm phát hành: 2020</p>
-            <p>Mã sách: TV1003</p>
-            <p>Thể loại: sách giáo khoa - giáo trình</p>
-            <p>Số trang: 189</p><br>
-            <p class="price">41,000 VND</p><br>
-            <div class="quantity-group">
-                <button onclick="decrement()">-</button>
-                <input id="quantity" type="text" value="1">
-                <button onclick="increment()">+</button>
-                <span class="stock">Kho: 125</span>
-            </div><br>
-            <script>
-                function increment() {
-                    var input = document.getElementById('quantity');
-                    input.value = parseInt(input.value) + 1;
-                }
-                function decrement() {
-                    var input = document.getElementById('quantity');
-                    if (input.value > 1) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                }
-            </script>
-            <a href="#"><button>Thêm vào giỏ hàng</button></a>
-            <a href="#"><button>Mua ngay</button></a>
-        </main>
+    <div class="login-box">
+        <h2>Đăng ký</h2>
+        <form action="#" method="post">
+            <input type="text" name="name" placeholder="Họ và Tên" required>
+            <input type="text" name="phoneNumber" placeholder="Số điện thoại" required>
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="text" name="username" placeholder="Tên đăng nhập" required>
+            <input type="password" name="password" id="password" placeholder="Mật khẩu" required>
+            <input type="text" name="address" placeholder="Địa chỉ" required>
+            <label for="agree">
+                Tôi đã đọc và đồng ý với các điều khoản sử dụng.
+                <input type="checkbox" id="agree" required>
+            </label>
+            <button type="submit">Đăng ký</button>
+        </form>
     </div>
-    <div class="product-description">
-        <h2>Mô tả sản phẩm:</h2>
-        <p>Thông tin sản phẩm:</p>
-        <a>- Tác giả: Nhiều tác giả</a>
-        <a>- Số trang: 176</a>
-        <a>- Năm xuất bản: 2022</a>
-        <a>- Khổ sách: 19 x 26.5 cm</a>
-        <a>- Hình thức: Bìa mềm</a>
-        <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
-        <a>- Đổi mới</a>
-        <div class="product-description-new">
-            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-            <a>+ Định hướng các hoạt động dạy học</a>
-            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-            <a>+ Hỗ trợ tự học, vận dụng các kiến thức và kĩ năng đã học vào thực tiễn</a>
-        </div>
-        <p>Lưu ý khi mua hàng:</p>
-        <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
-        <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
-    </div> 
-    <!-- content goes here -->
+
+    <script>
+            const passwordInput = document.getElementById('password');
+            const showPasswordCheckbox = document.getElementById('showPassword');
+    
+            passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+    </script>
 
     <div class="footer">
         <footer>
@@ -154,5 +115,5 @@
                 </div></p>
             </div>
         </footer>
-    </div>  
+    </div>
 </body>

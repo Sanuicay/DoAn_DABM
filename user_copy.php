@@ -1,3 +1,20 @@
+<?php
+// Connect to your database
+$con = mysqli_connect("localhost:3307","root","","doan");
+
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  exit();
+}
+$id = $_GET['id'];
+$query = "SELECT sur_name, last_name, phone_num, email, username, password, user_info
+          FROM user
+          WHERE ID = $id;";
+$result = mysqli_query($con,$query);
+$row = mysqli_fetch_assoc($result);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +62,10 @@
         <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Văn A</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 20031510</p>
+            <?php
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>" . $row["sur_name"] . " " . $row["last_name"] . "</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: " . $id . "</p>";
+            ?>
             <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Khách hàng</p>
             <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
@@ -58,7 +77,28 @@
                 <form>
                     <div class="name">
                         <div>
-                            <label for="ho">Họ:</label>
+                            <?php
+                                echo "<label for='ho'>Họ:</label>";
+                                echo "<input type='text' placeholder='$row[sur_name]' id='ho' name='ho'>";
+                            ?>
+                        </div>
+                        <div>
+                            <?php
+                                echo "<label for='ten'>Tên:</label>";
+                                echo "<input type='text' placeholder='$row[last_name]' id='ten' name='ten'>";
+                            ?>
+                        </div>
+                    </div>
+                    <br>
+                    <?php
+                        echo "<label for='email'>Email:</label>";
+                        echo "<input type='email' placeholder='$row[email]' id='email' name='email'><br>";
+                        echo "<label for='phone'>Số Điện Thoại:</label>";
+                        echo "<input type='tel' placeholder='$row[phone_num]' id='phone' name='phone'><br>";
+                        echo "<label for='info'>Thông tin thêm:</label>";
+                        echo "<input type='info' placeholder='$row[user_info]' id='info' name='info'><br>";
+                    ?>
+                            <!-- <label for="ho">Họ:</label>
                             <input type="text" id="ho" name="ho">
                         </div>
                         <div>
@@ -72,19 +112,27 @@
                     <label for="phone">Số Điện Thoại:</label>
                     <input type="tel" id="phone" name="phone"><br>
                     <label for="info">Thông tin thêm:</label>
-                    <input type="info" id="info" name="info"><br>
+                    <input type="info" id="info" name="info"><br> -->
                 </form>
             </div>
             <div class="account-info">
                 <h2>Thông Tin Tài Khoản</h2><br>
                 <form>
                     <div class="form-group">
-                        <label for="username">Tên Đăng Nhập:</label>
-                        <b>username</b>
+                        <?php
+                            echo "<label for='username'>Tên Đăng Nhập:</label>";
+                            echo "<b>$row[username]</b>";
+                        ?>
+                        <!-- <label for="username">Tên Đăng Nhập:</label>
+                        <b>username</b> -->
                     </div>
                     <div class="form-group">
-                        <label for="ID">ID:</label>
-                        <b>ID</b>
+                        <?php
+                            echo "<label for='ID'>ID:</label>";
+                            echo "<b>$id</b>";
+                        ?>
+                        <!-- <label for="ID">ID:</label>
+                        <b>ID</b> -->
                     </div>
                 </form>
                 <hr style="height:1px;border-width:0;color:gray;background-color:gray"><br>
