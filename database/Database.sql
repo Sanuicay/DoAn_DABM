@@ -1,3 +1,22 @@
+CREATE DATABASE IF NOT EXISTS DABM_database;
+USE DABM_database;
+
+-- ************************************** `user`
+
+CREATE TABLE `user`
+(
+ `ID`        varchar(45) NOT NULL ,
+ `sur_name`  varchar(45) NULL ,
+ `last_name` varchar(45) NULL ,
+ `phone_num` varchar(45) NULL ,
+ `email`     varchar(45) NULL ,
+ `username`  varchar(45) NULL ,
+ `password`  varchar(45) NULL ,
+ `user_info` longtext NULL ,
+
+PRIMARY KEY (`ID`)
+);
+
 -- ************************************** `author`
 
 CREATE TABLE `author`
@@ -8,18 +27,24 @@ CREATE TABLE `author`
 PRIMARY KEY (`author_ID`)
 );
 
--- ************************************** `belongs_to`
+-- ************************************** `publisher`
 
-CREATE TABLE `belongs_to`
+CREATE TABLE `publisher`
 (
- `book_ID`  varchar(45) NOT NULL ,
- `genre_ID` varchar(45) NOT NULL ,
+ `publisher_ID`   varchar(45) NOT NULL ,
+ `publisher_name` varchar(45) NOT NULL ,
 
-PRIMARY KEY (`book_ID`, `genre_ID`),
-KEY `FK_1` (`book_ID`),
-CONSTRAINT `FK_15` FOREIGN KEY `FK_1` (`book_ID`) REFERENCES `book` (`book_ID`),
-KEY `FK_2` (`genre_ID`),
-CONSTRAINT `FK_16` FOREIGN KEY `FK_2` (`genre_ID`) REFERENCES `genre` (`genre_ID`)
+PRIMARY KEY (`publisher_ID`)
+);
+
+-- ************************************** `genre`
+
+CREATE TABLE `genre`
+(
+ `genre_ID`   varchar(45) NOT NULL ,
+ `genre_name` varchar(45) NOT NULL ,
+
+PRIMARY KEY (`genre_ID`)
 );
 
 -- ************************************** `book`
@@ -40,6 +65,31 @@ CREATE TABLE `book`
 PRIMARY KEY (`book_ID`),
 KEY `FK_1` (`publisher_ID`),
 CONSTRAINT `FK_19` FOREIGN KEY `FK_1` (`publisher_ID`) REFERENCES `publisher` (`publisher_ID`)
+);
+
+-- ************************************** `member`
+
+CREATE TABLE `member`
+(
+ `ID` varchar(45) NOT NULL ,
+
+PRIMARY KEY (`ID`),
+KEY `FK_1` (`ID`),
+CONSTRAINT `FK_2` FOREIGN KEY `FK_1` (`ID`) REFERENCES `user` (`ID`)
+);
+
+-- ************************************** `belongs_to`
+
+CREATE TABLE `belongs_to`
+(
+ `book_ID`  varchar(45) NOT NULL ,
+ `genre_ID` varchar(45) NOT NULL ,
+
+PRIMARY KEY (`book_ID`, `genre_ID`),
+KEY `FK_1` (`book_ID`),
+CONSTRAINT `FK_15` FOREIGN KEY `FK_1` (`book_ID`) REFERENCES `book` (`book_ID`),
+KEY `FK_2` (`genre_ID`),
+CONSTRAINT `FK_16` FOREIGN KEY `FK_2` (`genre_ID`) REFERENCES `genre` (`genre_ID`)
 );
 
 -- ************************************** `cart`
@@ -93,27 +143,6 @@ KEY `FK_1` (`ID`),
 CONSTRAINT `FK_1` FOREIGN KEY `FK_1` (`ID`) REFERENCES `user` (`ID`)
 );
 
--- ************************************** `genre`
-
-CREATE TABLE `genre`
-(
- `genre_ID`   varchar(45) NOT NULL ,
- `genre_name` varchar(45) NOT NULL ,
-
-PRIMARY KEY (`genre_ID`)
-);
-
--- ************************************** `member`
-
-CREATE TABLE `member`
-(
- `ID` varchar(45) NOT NULL ,
-
-PRIMARY KEY (`ID`),
-KEY `FK_1` (`ID`),
-CONSTRAINT `FK_2` FOREIGN KEY `FK_1` (`ID`) REFERENCES `user` (`ID`)
-);
-
 -- ************************************** `order`
 
 CREATE TABLE `order`
@@ -125,14 +154,15 @@ CREATE TABLE `order`
 PRIMARY KEY (`order_ID`)
 );
 
--- ************************************** `publisher`
+-- ************************************** `purchase_order`
 
-CREATE TABLE `publisher`
+CREATE TABLE `purchase_order`
 (
- `publisher_ID`   varchar(45) NOT NULL ,
- `publisher_name` varchar(45) NOT NULL ,
+ `purchase_ID` varchar(45) NOT NULL ,
 
-PRIMARY KEY (`publisher_ID`)
+PRIMARY KEY (`purchase_ID`),
+KEY `FK_1` (`purchase_ID`),
+CONSTRAINT `FK_5` FOREIGN KEY `FK_1` (`purchase_ID`) REFERENCES `order` (`order_ID`)
 );
 
 -- ************************************** `purchase_include`
@@ -148,32 +178,6 @@ KEY `FK_1` (`purchase_ID`),
 CONSTRAINT `FK_9` FOREIGN KEY `FK_1` (`purchase_ID`) REFERENCES `purchase_order` (`purchase_ID`),
 KEY `FK_2` (`book_ID`),
 CONSTRAINT `FK_12` FOREIGN KEY `FK_2` (`book_ID`) REFERENCES `book` (`book_ID`)
-);
-
--- ************************************** `purchase_order`
-
-CREATE TABLE `purchase_order`
-(
- `purchase_ID` varchar(45) NOT NULL ,
-
-PRIMARY KEY (`purchase_ID`),
-KEY `FK_1` (`purchase_ID`),
-CONSTRAINT `FK_5` FOREIGN KEY `FK_1` (`purchase_ID`) REFERENCES `order` (`order_ID`)
-);
-
--- ************************************** `sale_include`
-
-CREATE TABLE `sale_include`
-(
- `sale_ID`       varchar(45) NOT NULL ,
- `book_ID`       varchar(45) NOT NULL ,
- `sale_quantity` int NOT NULL ,
-
-PRIMARY KEY (`sale_ID`, `book_ID`),
-KEY `FK_1` (`sale_ID`),
-CONSTRAINT `FK_10` FOREIGN KEY `FK_1` (`sale_ID`) REFERENCES `sale_order` (`sale_ID`),
-KEY `FK_2` (`book_ID`),
-CONSTRAINT `FK_13` FOREIGN KEY `FK_2` (`book_ID`) REFERENCES `book` (`book_ID`)
 );
 
 -- ************************************** `sale_order`
@@ -196,21 +200,21 @@ KEY `FK_3` (`employee_ID`),
 CONSTRAINT `FK_8` FOREIGN KEY `FK_3` (`employee_ID`) REFERENCES `employee` (`ID`)
 );
 
--- ************************************** `user`
+-- ************************************** `sale_include`
 
-CREATE TABLE `user`
+CREATE TABLE `sale_include`
 (
- `ID`        varchar(45) NOT NULL ,
- `sur_name`  varchar(45) NULL ,
- `last_name` varchar(45) NULL ,
- `phone_num` varchar(45) NULL ,
- `email`     varchar(45) NULL ,
- `username`  varchar(45) NULL ,
- `password`  varchar(45) NULL ,
- `user_info` longtext NULL ,
+ `sale_ID`       varchar(45) NOT NULL ,
+ `book_ID`       varchar(45) NOT NULL ,
+ `sale_quantity` int NOT NULL ,
 
-PRIMARY KEY (`ID`)
+PRIMARY KEY (`sale_ID`, `book_ID`),
+KEY `FK_1` (`sale_ID`),
+CONSTRAINT `FK_10` FOREIGN KEY `FK_1` (`sale_ID`) REFERENCES `sale_order` (`sale_ID`),
+KEY `FK_2` (`book_ID`),
+CONSTRAINT `FK_13` FOREIGN KEY `FK_2` (`book_ID`) REFERENCES `book` (`book_ID`)
 );
+
 
 -- ************************************** `written_by`
 
