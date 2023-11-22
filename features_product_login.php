@@ -12,6 +12,12 @@ if (isset($_SESSION["user_id"])) {
     $result = $mysqli->query($sql);
     
     $user = $result->fetch_assoc();
+
+    $sql = "SELECT book_name, img_path, sale_price, publisher_name 
+            FROM book, publisher
+            WHERE book.publisher_ID = publisher.publisher_ID";
+
+    $book = mysqli_query($mysqli, $sql);
 }
 
 ?>
@@ -72,6 +78,7 @@ if (isset($_SESSION["user_id"])) {
         <script src="js/homepage.js"></script>
 
         <!-- features categories -->
+        <!-- features categories -->
         <div class="categories">
             <h2 class="features-title">Sản phẩm</h2>
 
@@ -84,40 +91,24 @@ if (isset($_SESSION["user_id"])) {
                         <option>Sắp xếp theo số lượng mua</option>
                     </select> -->
                 </div>
-                <div class="row">
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
 
+                <div class="row">
+                    <?php
+                        while($row = mysqli_fetch_assoc($book) and $flag < 4){
+                    ?>
+                    <div class="col-4">
+                        <div class="description">
+                            <img src="<?php echo $row["img_path"];?>" alt="">
+                            <h2><?php echo $row["book_name"];?></h2>
+                            <h3><?php echo $row["publisher_name"];  ?></h3>
+                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                        </div>
+                    </div>
+                    <?php
+                            $flag = $flag + 1;
+                        }
+                    ?>
+                    
                     <a href="#">Xem thêm</a>
                 </div>
 
@@ -130,39 +121,22 @@ if (isset($_SESSION["user_id"])) {
                     </select> -->
                 </div>
                 <div class="row">
+                    <?php
+                        while($row = mysqli_fetch_assoc($book) and $flag < 8){
+                    ?>
                     <div class="col-4">
                         <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
+                            <img src="<?php echo $row["img_path"]; ?>" alt="">
+                            <h2><?php echo $row["book_name"];  ?></h2>
+                            <h3><?php echo $row["publisher_name"];  ?></h3>
+                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-
+                    <?php
+                            $flag = $flag + 1;
+                        }
+                    ?>
+                    
                     <a href="#">Xem thêm</a>
                 </div>
 
@@ -175,39 +149,22 @@ if (isset($_SESSION["user_id"])) {
                     </select> -->
                 </div>
                 <div class="row">
+                    <?php
+                        while($row = mysqli_fetch_assoc($book) and $flag < 12){
+                    ?>
                     <div class="col-4">
                         <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
+                            <img src="<?php echo $row["img_path"]; ?>" alt="">
+                            <h2><?php echo $row["book_name"];  ?></h2>
+                            <h3><?php echo $row["publisher_name"];  ?></h3>
+                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="img/pic1.png" alt="picture 1">
-                            <h2>Sách giáo khoa Tiếng Việt</h2>
-                            <h3>NXB Giáo Dục</h3>
-                            <h4>69.000đ</h4>
-                        </div>
-                    </div>
-
+                    <?php
+                            $flag = $flag + 1;
+                        }
+                    ?>
+                    
                     <a href="#">Xem thêm</a>
                 </div>
 

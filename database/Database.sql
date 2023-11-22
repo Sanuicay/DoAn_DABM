@@ -58,7 +58,6 @@ CREATE TABLE `book`
  `page_count`         int NOT NULL ,
  `purchase_price`     mediumint NOT NULL ,
  `sale_price`         mediumint NOT NULL ,
- `img_path`           varchar(MAX) NULL,
  `remaining_quantity` int NOT NULL ,
  `display_status`     varbinary(45) NOT NULL ,
  `publisher_ID`       varchar(45) NOT NULL ,
@@ -67,6 +66,9 @@ PRIMARY KEY (`book_ID`),
 KEY `FK_1` (`publisher_ID`),
 CONSTRAINT `FK_19` FOREIGN KEY `FK_1` (`publisher_ID`) REFERENCES `publisher` (`publisher_ID`)
 );
+
+ALTER TABLE `book`
+ADD img_path varchar(10000) NULL;
 
 -- ************************************** `member`
 
@@ -284,3 +286,23 @@ INSERT INTO `written_by` VALUES ('2', '01');
 -- add data to belongs_to
 INSERT INTO `belongs_to` VALUES ('1', '01');
 INSERT INTO `belongs_to` VALUES ('2', '01');
+
+-- insert the img_path attribute in the book table
+UPDATE book
+SET img_path = 'img/pic1.png'
+WHERE book_ID = '1';
+
+UPDATE book
+SET img_path = 'img/pic4.png'
+WHERE book_ID = '2';
+
+-- insert more books into the database
+INSERT INTO `book` VALUES ('3', 'Lược Sử Thời Gian', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/LuocSuThoiGian.jpeg');
+INSERT INTO `book` VALUES ('4', 'Đất Rừng Phương Nam', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/Dat_Rung_Phuong_Nam.jpeg');
+INSERT INTO `book` VALUES ('5', 'Doraemon', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/Doraemon.jpeg');
+INSERT INTO `book` VALUES ('6', 'Giải tích 2', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/GiaiTich2.jpeg');
+INSERT INTO `book` VALUES ('7', 'Giết Con Chim Nhại', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/GietConChimNhai.png');
+INSERT INTO `book` VALUES ('8', 'Mắt Biếc', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/MatBiec.jpeg');
+INSERT INTO `book` VALUES ('9', 'Thám Tử Lừng Danh Conan', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/conan.jpeg');
+INSERT INTO `book` VALUES ('10', 'Shin - Cậu Bé Bút Chì', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/shin.jpeg');
+INSERT INTO `book` VALUES ('11', 'Vũ Trụ Trong Vỏ Hạt Dẻ', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/VuTruTrongVoHatDe.jpeg');
