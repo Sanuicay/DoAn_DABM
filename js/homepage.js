@@ -16,9 +16,17 @@ document.getElementById('toggleBtn').addEventListener('click', function() {
     }
 });
 
-let availableKeywords = [
-    'Tiếng Việt 1 (Tập 1)',
-    'Tiếng Việt 1 (Tập 2)',
+let bookArray = [
+    { book_name: 'Tiếng Việt 1 (Tập 1)', book_ID: '1'},
+    { book_name: 'Tiếng Việt 1 (Tập 2)', book_ID: '2'},
+    { book_name: 'Lược Sử Thời Gian', book_ID: '3'},
+    { book_name: 'Đất Rừng Phương Nam', book_ID: '4'},
+    { book_name: 'Doraemon', book_ID: '5'},
+    { book_name: 'Giết Con Chim Nhại', book_ID: '7'},
+    { book_name: 'Mắt Biếc', book_ID: '8'},
+    { book_name: 'Thám Tử Lừng Danh Conan', book_ID: '9'},
+    { book_name: 'Shin - Cậu Bé Bút Chì', book_ID: '10'},
+    { book_name: 'Vũ Trụ Trong Vỏ Hạt Dẻ', book_ID: '11'},
 ];
 
 const resultsBox = document.querySelector(".result-box");
@@ -27,8 +35,9 @@ const inputBox = document.getElementById("input-box");
 inputBox.onkeyup = function(){
     let result = [];
     let input = inputBox.value;
+    const bookNames = bookArray.map(book => book.book_name);
     if (input.length) {
-        result = availableKeywords.filter((keyword)=>{
+        result = bookNames.filter((keyword)=>{
             return keyword.toLowerCase().includes(input.toLowerCase());
         });
         console.log(result);
@@ -48,8 +57,20 @@ function display(result){
     resultsBox.innerHTML = "<ul>" + content.join('') + "</ul> ";
 }
 
-function selectInput(list) {
-    window.location.href = "features_product_nologin.php";
-    inputBox.value = list.innerHTML;
-    resultsBox.innerHTML = '';
+function findBookID(bookName) {
+    const bookObject = bookArray.find(book => book.book_name === bookName);
+    return bookObject ? bookObject.book_ID : null;
+}
+
+function selectInput(bookName) {
+    const ID = findBookID(bookName.innerHTML);
+    // window.location.href = 'search_product.php?book=${encodeURIComponent(bookID)}';
+    const url = 'search_product.php?book=' + ID;
+    window.location.href = url;
+}
+
+function searchButton() {
+    let searchTerm = inputBox.value;
+    const url = 'search_by_name.php?search=' + searchTerm;
+    window.location.href = url;
 }
