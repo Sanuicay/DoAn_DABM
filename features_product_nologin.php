@@ -1,10 +1,10 @@
 <?php
 
+$mysqli = require __DIR__ . "/database.php";
+
 session_start();
 
 if (isset($_SESSION["user_id"])) {
-    
-    $mysqli = require __DIR__ . "/database.php";
     
     $sql = "SELECT * FROM user
             WHERE ID = {$_SESSION["user_id"]}";
@@ -12,13 +12,13 @@ if (isset($_SESSION["user_id"])) {
     $result = $mysqli->query($sql);
     
     $user = $result->fetch_assoc();
+}
 
-    $sql = "SELECT book_name, img_path, sale_price, publisher_name 
+$sql = "SELECT book_name, img_path, sale_price, publisher_name 
             FROM book, publisher
             WHERE book.publisher_ID = publisher.publisher_ID";
 
     $book = mysqli_query($mysqli, $sql);
-}
 
 $flag = 0;
 
@@ -72,15 +72,17 @@ $flag = 0;
 
 
         <!-- search bar -->
-        <div class="search-box">
-            <div class="row">
-            <input type="text" id="input-box" placeholder="Nhập tên sách cần tìm" autocomplete="off">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div id="hiddenElement" class="hidden">
+            <div class="search-box">
+                <div class="row">
+                <input type="text" id="input-box" placeholder="Nhập tên sách cần tìm" autocomplete="off">
+                <button onclick="searchButton()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="result-box">
+                </div>
             </div>
-            <div class="result-box">
-            </div>
+            <script src="js/homepage.js"></script>
         </div>
-        <script src="js/homepage.js"></script>
 
         <!-- features categories -->
         <!-- features categories -->

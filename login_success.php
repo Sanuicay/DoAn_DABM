@@ -67,17 +67,17 @@ if (isset($_SESSION["user_id"])) {
 
 
     <!-- search bar -->
-    <div id="hiddenElement" class="hidden">
-      <div class="search-box">
-        <div class="row">
-          <input type="text" id="input-box" placeholder="Nhập tên sách cần tìm" autocomplete="off">
-          <button><i class="fa-solid fa-magnifying-glass"></i></button>
+    <<div id="hiddenElement" class="hidden">
+            <div class="search-box">
+                <div class="row">
+                <input type="text" id="input-box" placeholder="Nhập tên sách cần tìm" autocomplete="off">
+                <button onclick="searchButton()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="result-box">
+                </div>
+            </div>
+            <script src="js/homepage.js"></script>
         </div>
-        <div class="result-box">
-        </div>
-      </div>
-      <script src="js/homepage.js"></script>
-    </div>
 
 
     <!-- content -->

@@ -1,10 +1,10 @@
 <?php
 
+$mysqli = require __DIR__ . "/database.php";
+
 session_start();
 
 if (isset($_SESSION["user_id"])) {
-    
-    $mysqli = require __DIR__ . "/database.php";
     
     $sql = "SELECT * FROM user
             WHERE ID = {$_SESSION["user_id"]}";
@@ -12,13 +12,14 @@ if (isset($_SESSION["user_id"])) {
     $result = $mysqli->query($sql);
     
     $user = $result->fetch_assoc();
-
-    $sql = "SELECT book_name, img_path, sale_price, publisher_name 
-            FROM book, publisher
-            WHERE book.publisher_ID = publisher.publisher_ID";
-
-    $book = mysqli_query($mysqli, $sql);
 }
+
+$sql = 'SELECT book_name, img_path, sale_price, publisher_name 
+        FROM book, publisher
+        WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = "'.$_GET['book'].'"';
+
+$book = mysqli_query($mysqli, $sql);
+$book2 = mysqli_query($mysqli, $sql);
 
 $flag = 0;
 
@@ -45,29 +46,33 @@ $flag = 0;
         <!-- header  -->
         <div class="header">
         <div class="header-left-section">
-          <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-          <a href="login_success.php">Trang chủ</a>
-          <a href="features_product_login.php">Cửa hàng</a>
-          <a href="#">Giới thiệu</a>
-          <a href="#">Liên hệ</a>
+            <a href="homepage_nologin.html">Trang chủ</a>
+            <a href="features_product_nologin.php">Cửa hàng</a>
+            <a href="#">Giới thiệu</a>
+            <a href="#">Liên hệ</a>
         </div>
-         <div class="header-right-section">
-          <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
-          <button id="toggleBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
-          <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-          
-            <?php if (isset($user)): ?>
-            <p>Xin chào <?= htmlspecialchars($user["last_name"]) ?></p>
-            <p><a href="logout.php">Log out</a></p>
-            <?php else: ?>
-                <?php header("Location: homepage_nologin.html"); ?>
-            <?php endif; ?>
-         </div>
+        <div class="header-right-section">
+            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <button id="toggleBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
+        </div>
+
+        <button class="header-login-button" onclick="redirectToLoginPage()">
+            Đăng nhập
+        </button>
+        <script>
+            function redirectToLoginPage() {
+            // Add code to redirect to the login page
+            window.location.href = 'login.php'; // Replace 'login.html' with the actual URL of your login page
+            }
+        </script>
         </div>
 
 
+        <!-- search bar -->
         <!-- search bar -->
         <div id="hiddenElement" class="hidden">
             <div class="search-box">
@@ -88,12 +93,12 @@ $flag = 0;
 
             <div class="small-container">
                 <div class="row row-2">
-                    <h2>Tuyển tập Best Sellers</h2>
-                    <!-- <select>
+                    <h2>Kết quả tìm kiếm</h2>
+                    <select>
                         <option>Mặc định</option>
                         <option>Sắp xếp theo giá</option>
                         <option>Sắp xếp theo số lượng mua</option>
-                    </select> -->
+                    </select>
                 </div>
 
                 <div class="row">
@@ -112,74 +117,16 @@ $flag = 0;
                             $flag = $flag + 1;
                         }
                     ?>
-                    
-                    <a href="#">Xem thêm</a>
-                </div>
-
-                <div class="row row-2">
-                    <h2>Sách Giáo khoa - Tham khảo</h2>
-                    <!-- <select>
-                        <option>Mặc định</option>
-                        <option>Sắp xếp theo giá</option>
-                        <option>Sắp xếp theo số lượng mua</option>
-                    </select> -->
-                </div>
-                <div class="row">
-                    <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 8){
-                    ?>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="<?php echo $row["img_path"]; ?>" alt="">
-                            <h2><?php echo $row["book_name"];  ?></h2>
-                            <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
-                        </div>
-                    </div>
-                    <?php
-                            $flag = $flag + 1;
-                        }
-                    ?>
-                    
-                    <a href="#">Xem thêm</a>
-                </div>
-
-                <div class="row row-2">
-                    <h2>Sách Tiểu thuyết</h2>
-                    <!-- <select>
-                        <option>Mặc định</option>
-                        <option>Sắp xếp theo giá</option>
-                        <option>Sắp xếp theo số lượng mua</option>
-                    </select> -->
-                </div>
-                <div class="row">
-                    <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 12){
-                    ?>
-                    <div class="col-4">
-                        <div class="description">
-                            <img src="<?php echo $row["img_path"]; ?>" alt="">
-                            <h2><?php echo $row["book_name"];  ?></h2>
-                            <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
-                        </div>
-                    </div>
-                    <?php
-                            $flag = $flag + 1;
-                        }
-                    ?>
-                    
-                    <a href="#">Xem thêm</a>
                 </div>
 
             </div>
 
-            <!-- <div class="page-button">
+            <div class="page-button">
                 <span>1</span>
                 <span>2</span>
                 <span>3</span>
                 <span>&#8594</span>
-            </div> -->
+            </div>
         </div>
 
 
