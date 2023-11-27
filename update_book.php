@@ -58,7 +58,6 @@ if(isset($_POST['confirm'])){
         $query = "UPDATE `book` SET `sale_price` = '$giatien' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
-    //and redirect to list_of_book.php
     header("Location: list_of_book.php");
 }
 else if(isset($_POST['cancel'])){
@@ -72,7 +71,6 @@ else if(isset($_POST['cancel'])){
     $theloaiID = "";
     $soluong = "";
     $giatien = "";
-    //and refresh
     header("Refresh:0");
 }
 
