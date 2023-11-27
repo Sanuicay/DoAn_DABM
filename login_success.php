@@ -48,7 +48,7 @@ if (isset($_SESSION["user_id"])) {
           <?php
           if (isset($user)) {
               //forward to user.php?id=" . $user["ID"]
-              echo "<a href=\"user_copy.php?id={$user["ID"]}\"><img class=\"header-icon\" src=\"img/icon_user.png\" alt=\"Icon 1\"></a>";
+              echo "<a href=\"user_copy.php\"><img class=\"header-icon\" src=\"img/icon_user.png\" alt=\"Icon 1\"></a>";
           } else {
               echo "<a href=\"login.php\"><img class=\"header-icon\" src=\"img/icon_user.png\" alt=\"Icon 1\"></a>";
           }

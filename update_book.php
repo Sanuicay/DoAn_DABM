@@ -1,72 +1,65 @@
 <?php
-// Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doan");
-
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
-$id = $_GET['id'];
+include("connection.php");
+$bookID = $_GET['id'];
 $query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price
           FROM book, written_by, belongs_to
-          WHERE book.book_ID = written_by.book_ID AND book.book_ID = belongs_to.book_ID AND book.book_ID = '$id'";
+          WHERE book.book_ID = written_by.book_ID AND book.book_ID = belongs_to.book_ID AND book.book_ID = '$bookID'";
 $result = mysqli_query($con,$query);
-$row = mysqli_fetch_assoc($result);
+$row_book = mysqli_fetch_assoc($result);
 
 if(isset($_POST['confirm'])){
     if (!empty($_POST['tensach'])){
         $tensach = $_POST['tensach'];
-        $query = "UPDATE `book` SET `book_name` = '$tensach' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `book_name` = '$tensach' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['nhaxuatbanID'])){
         $nhaxuatbanID = $_POST['nhaxuatbanID'];
-        $query = "UPDATE `book` SET `publisher_ID` = '$nhaxuatbanID' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `publisher_ID` = '$nhaxuatbanID' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['masach'])){
         $masach = $_POST['masach'];
-        $query = "UPDATE `book` SET `book_ID` = '$masach' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `book_ID` = '$masach' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['sotrang'])){
         $sotrang = $_POST['sotrang'];
-        $query = "UPDATE `book` SET `page_count` = '$sotrang' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `page_count` = '$sotrang' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['ngayphathanh'])){
         $ngayphathanh = $_POST['ngayphathanh'];
-        $query = "UPDATE `book` SET `release_date` = '$ngayphathanh' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `release_date` = '$ngayphathanh' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['tentacgiaID'])){
         $tentacgiaID = $_POST['tentacgiaID'];
-        $query = "UPDATE `written_by` SET `author_ID` = '$tentacgiaID' WHERE `written_by`.`book_ID` = '$id'";
+        $query = "UPDATE `written_by` SET `author_ID` = '$tentacgiaID' WHERE `written_by`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['namxuatban'])){
         $namxuatban = $_POST['namxuatban'];
-        $query = "UPDATE `book` SET `publication_year` = '$namxuatban' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `publication_year` = '$namxuatban' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['theloaiID'])){
         $theloaiID = $_POST['theloaiID'];
-        $query = "UPDATE `belongs_to` SET `genre_ID` = '$theloaiID' WHERE `belongs_to`.`book_ID` = '$id'";
+        $query = "UPDATE `belongs_to` SET `genre_ID` = '$theloaiID' WHERE `belongs_to`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['soluong'])){
         $soluong = $_POST['soluong'];
-        $query = "UPDATE `book` SET `remaining_quantity` = '$soluong' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `remaining_quantity` = '$soluong' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     if (!empty($_POST['giatien'])){
         $giatien = $_POST['giatien'];
-        $query = "UPDATE `book` SET `sale_price` = '$giatien' WHERE `book`.`book_ID` = '$id'";
+        $query = "UPDATE `book` SET `sale_price` = '$giatien' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
-    //and refresh
-    header("Refresh:0");
+    //and redirect to list_of_book.php
+    header("Location: list_of_book.php");
 }
 else if(isset($_POST['cancel'])){
     $tensach = "";
@@ -134,9 +127,36 @@ else if(isset($_POST['cancel'])){
         <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
+            <?php
+            echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>{$row['sur_name']} {$row['last_name']}</p>";
+            echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: {$user['ID']}</p>";
+            if ($id == 00000001)
+            {
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+            }
+            else
+            {
+                //check if the ID exsist in the employee table
+                $query_ = "SELECT ID
+                          FROM employee
+                          WHERE ID = $id;";
+                $result_ = mysqli_query($con,$query_);
+                $row_ = mysqli_fetch_assoc($result_);
+                //check number of rows
+                $count = mysqli_num_rows($result_);
+                if ($count == 1)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                }
+                else
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                }
+            }
+            ?>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
@@ -150,29 +170,29 @@ else if(isset($_POST['cancel'])){
                         <div>
                             <?php
                             echo "<label for='tensach'>Tên sách</label><br>";
-                            echo "<input type='text' id='tensach' placeholder='".$row['book_name']."' name='tensach'><br>";
+                            echo "<input type='text' id='tensach' placeholder='".$row_book['book_name']."' name='tensach'><br>";
                             echo "<label for='nhaxuatbanID'>Mã nhà xuất bản</label><br>";
-                            echo "<input type='text' id='nhaxuatbanID' placeholder='".$row['publisher_ID']."' name='nhaxuatbanID'><br>";
+                            echo "<input type='text' id='nhaxuatbanID' placeholder='".$row_book['publisher_ID']."' name='nhaxuatbanID'><br>";
                             echo "<label for='masach'>Mã sách</label><br>";
-                            echo "<input type='text' id='masach' placeholder='".$row['book_ID']."' name='masach'><br>";
+                            echo "<input type='text' id='masach' placeholder='".$row_book['book_ID']."' name='masach'><br>";
                             echo "<label for='sotrang'>Số trang</label><br>";
-                            echo "<input type='text' id='sotrang' placeholder='".$row['page_count']."' name='sotrang'><br>";
+                            echo "<input type='text' id='sotrang' placeholder='".$row_book['page_count']."' name='sotrang'><br>";
                             echo "<label for='ngayphathanh'>Ngày phát hành</label><br>";
-                            echo "<input type='text' id='ngayphathanh' placeholder='".$row['release_date']."' name='ngayphathanh'>";
+                            echo "<input type='text' id='ngayphathanh' placeholder='".$row_book['release_date']."' name='ngayphathanh'>";
                             ?>
                         </div>
                         <div>
                             <?php
                             echo "<label for='tentacgiaID'>Mã tác giả</label><br>";
-                            echo "<input type='text' id='tentacgiaID' placeholder='".$row['author_ID']."' name='tentacgiaID'><br>";
+                            echo "<input type='text' id='tentacgiaID' placeholder='".$row_book['author_ID']."' name='tentacgiaID'><br>";
                             echo "<label for='namxuatban'>Năm xuất bản</label><br>";
-                            echo "<input type='text' id='namxuatban' placeholder='".$row['publication_year']."' name='namxuatban'><br>";
+                            echo "<input type='text' id='namxuatban' placeholder='".$row_book['publication_year']."' name='namxuatban'><br>";
                             echo "<label for='theloaiID'>Mã thể loại</label><br>";
-                            echo "<input type='text' id='theloaiID' placeholder='".$row['genre_ID']."' name='theloaiID'><br>";
+                            echo "<input type='text' id='theloaiID' placeholder='".$row_book['genre_ID']."' name='theloaiID'><br>";
                             echo "<label for='soluong'>Số lượng</label><br>";
-                            echo "<input type='text' id='soluong' placeholder='".$row['remaining_quantity']."' name='soluong'><br>";
+                            echo "<input type='text' id='soluong' placeholder='".$row_book['remaining_quantity']."' name='soluong'><br>";
                             echo "<label for='giatien'>Giá tiền</label><br>";
-                            echo "<input type='text' id='giatien' placeholder='".$row['sale_price']."' name='giatien'>";
+                            echo "<input type='text' id='giatien' placeholder='".$row_book['sale_price']."' name='giatien'>";
                             ?>
                         </div>
                     </div>

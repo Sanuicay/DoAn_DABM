@@ -1,18 +1,93 @@
 <?php
-// Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doan");
-
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
+include("connection.php");
+//if change1 button is pressed, update the user info (ignore the blank input)
+if (isset($_POST['change1']))
+{
+    $ho = $_POST['ho'];
+    $ten = $_POST['ten'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $info = $_POST['info'];
+    if ($ho != "")
+    {
+        $query = "UPDATE user
+                  SET sur_name = '$ho'
+                  WHERE ID = $id;";
+        $result = mysqli_query($con,$query);
+    }
+    if ($ten != "")
+    {
+        $query = "UPDATE user
+                  SET last_name = '$ten'
+                  WHERE ID = $id;";
+        $result = mysqli_query($con,$query);
+    }
+    if ($email != "")
+    {
+        $query = "UPDATE user
+                  SET email = '$email'
+                  WHERE ID = $id;";
+        $result = mysqli_query($con,$query);
+    }
+    if ($phone != "")
+    {
+        $query = "UPDATE user
+                  SET phone_num = '$phone'
+                  WHERE ID = $id;";
+        $result = mysqli_query($con,$query);
+    }
+    if ($info != "")
+    {
+        $query = "UPDATE user
+                  SET user_info = '$info'
+                  WHERE ID = $id;";
+        $result = mysqli_query($con,$query);
+    }
+    header("Refresh:0");
 }
-$id = $_GET['id'];
-$query = "SELECT sur_name, last_name, phone_num, email, username, password, user_info
-          FROM user
-          WHERE ID = $id;";
-$result = mysqli_query($con,$query);
-$row = mysqli_fetch_assoc($result);
+
+if (isset($_POST['change2']))
+{
+    $old_password = $_POST['old-password'];
+    $new_password = $_POST['new-password'];
+    $confirm_password = $_POST['confirm-password'];
+    //check blank input
+    if ($old_password == "" || $new_password == "" || $confirm_password == "")
+    {
+        echo "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
+    }
+    else
+    {
+        if ($old_password != $row['password'])
+        {
+            echo "<script>alert('Mật khẩu cũ không đúng!');</script>";
+        }
+        else
+        {
+            if ($new_password == $old_password)
+            {
+                echo "<script>alert('Mật khẩu mới không được trùng với mật khẩu cũ!');</script>";
+            }
+            else
+            {
+                if ($new_password != $confirm_password)
+                {
+                    echo "<script>alert('Mật khẩu mới không trùng khớp!');</script>";
+                }
+                else
+                {
+                    $query = "UPDATE user
+                              SET password = '$new_password'
+                              WHERE ID = $id;";
+                    $result = mysqli_query($con,$query);
+                    echo "<script>alert('Đổi mật khẩu thành công!');</script>";
+                }
+            }
+        }
+    }
+    header("Refresh:0");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +120,15 @@ $row = mysqli_fetch_assoc($result);
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -64,20 +148,43 @@ $row = mysqli_fetch_assoc($result);
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p> -->
+            <!-- <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
             <?php
                 echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
                 echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
+                }
             ?>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="list_of_book2.html"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
             <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="body-container">
             <div class="profile">
                 <h2>Hồ Sơ Của Tôi</h2>
-                <form>
+                <form method="POST">
                     <div class="name">
                         <div>
                             <?php
@@ -100,6 +207,7 @@ $row = mysqli_fetch_assoc($result);
                         echo "<input type='tel' placeholder='$row[phone_num]' id='phone' name='phone'><br>";
                         echo "<label for='info'>Thông tin thêm:</label>";
                         echo "<input type='info' placeholder='$row[user_info]' id='info' name='info'><br>";
+                        echo "<input type='submit' name='change1' value='Thay Đổi'>;"
                     ?>
                             <!-- <label for="ho">Họ:</label>
                             <input type="text" id="ho" name="ho">
@@ -118,7 +226,7 @@ $row = mysqli_fetch_assoc($result);
                     <input type="info" id="info" name="info"><br> -->
                 </form>
             </div>
-            <div class="account-info">
+            <div class="account-info" method="POST">
                 <h2>Thông Tin Tài Khoản</h2><br>
                 <form>
                     <div class="form-group">
@@ -139,7 +247,7 @@ $row = mysqli_fetch_assoc($result);
                     </div>
                 </form>
                 <hr style="height:1px;border-width:0;color:gray;background-color:gray"><br>
-                <form>
+                <form method="POST">
                     <div class="form-group">
                         <label for="old-password">Mật Khẩu Cũ:</label><br>
                         <input type="password" id="old-password" name="old-password"><br>
@@ -154,35 +262,9 @@ $row = mysqli_fetch_assoc($result);
                         <label for="confirm-password">Xác nhận Mật Khẩu Mới:</label><br>
                         <input type="password" id="confirm-password" name="confirm-password"><br>
                     </div>                  
-                    <input type="submit" value="Thay Đổi">
+                    <input type="submit" name="change2" value="Thay Đổi">
                 </form>
             </div>
-
-            <script>
-                // Check if there's a saved value when the page loads
-                document.getElementById('ho').value = localStorage.getItem('ho') || '';
-                document.getElementById('ten').value = localStorage.getItem('ten') || '';
-                document.getElementById('email').value = localStorage.getItem('email') || '';
-                document.getElementById('phone').value = localStorage.getItem('phone') || '';
-                document.getElementById('info').value = localStorage.getItem('info') || '';
-                
-                // Save the value whenever it changes
-                document.getElementById('ho').addEventListener('input', function() {
-                    localStorage.setItem('ho', this.value);
-                });
-                document.getElementById('ten').addEventListener('input', function() {
-                    localStorage.setItem('ten', this.value);
-                });
-                document.getElementById('email').addEventListener('input', function() {
-                    localStorage.setItem('email', this.value);
-                });
-                document.getElementById('phone').addEventListener('input', function() {
-                    localStorage.setItem('phone', this.value);
-                });
-                document.getElementById('info').addEventListener('input', function() {
-                    localStorage.setItem('info', this.value);
-                });
-            </script>
         </div>
     </div>
     <!-- content goes here -->

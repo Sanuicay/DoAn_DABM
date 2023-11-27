@@ -27,12 +27,13 @@ if (mysqli_connect_errno()) {
     $result2 = mysqli_query($con,$query2);
     $result3 = mysqli_query($con,$query3);
     if($result && $result2 && $result3){
-        echo "Thêm sách thành công";
+        header("Location: list_of_book2.html");
     }
     else{
-        echo "Thêm sách thất bại";
+        #create an error message
+        echo "<script type='text/javascript'>alert('Error!');</script>";
     }
-    header("Location: list_of_book2.html");
+
  }
 
 ?>
