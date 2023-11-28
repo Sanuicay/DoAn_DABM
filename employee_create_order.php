@@ -131,11 +131,11 @@ if (mysqli_connect_errno()) {
                 <button id="addProductBtn" onclick="showProductForm()">Thêm sản phẩm</button>
 
                     
-    
+            
             <div id="productForm">
                 <label for="productName">Tên/Mã sản phẩm:</label>
                 <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm">
-        
+                
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
         
@@ -144,10 +144,10 @@ if (mysqli_connect_errno()) {
             </div>
             <br>
             <div class = "bounding">
-                <button   id="confirmOrderBtn" onclick="confirmOrder()">Xác nhận và in đơn hàng</button>
-                <button  id="cancelOrderBtn" onclick="cancelOrder()">Hủy đơn hàng</button>
+                <button id="confirmOrderBtn" onclick="confirmOrder()">Xác nhận và in đơn hàng</button>
+                <button id="cancelOrderBtn" onclick="cancelOrder()">Hủy đơn hàng</button>
             </div>
-            
+           
             <script>
                  function showForm() {
                     var formContainer = document.getElementById("formContainer");
@@ -180,14 +180,6 @@ if (mysqli_connect_errno()) {
                     document.getElementById("delProductBtn").style.display = "inline-block";
                 }
                 function addProduct() {
-                    <?php 
-                    $sp_id = $_POST['productName'];
-                    // $sp_info = mysqli_query($con,
-                    // ' SELECT * FROM `book`
-                    //   WHERE book_ID = $sp_id
-                    // ')
-                    ?>
-                    var productName = <?php echo $sp_id ?>
                     var productName = document.getElementById("productName").value;
                     var quantity = document.getElementById("quantity").value;
 

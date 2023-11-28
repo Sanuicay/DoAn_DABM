@@ -14,7 +14,7 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price
+  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status
   FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
   WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
   ";
@@ -127,7 +127,7 @@ while($item = mysqli_fetch_array($result)) {
                         <span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?>
                     </div>
                     <div>
-                        <span class="label">Tình trạng thanh toán:</span> Đã thanh toán
+                        <span class="label">Tình trạng thanh toán:</span> <?php echo $item['payment_status'] ?>
                     </div>
                     <div>
                         <span class="label">Trạng thái đơn hàng:</span> Đang vận chuyển
