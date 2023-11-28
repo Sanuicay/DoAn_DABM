@@ -75,13 +75,16 @@ if (mysqli_connect_errno()) {
             <div class="order-info-container">
                 <div class="order-info">
                     <div>
-                        <span class="label">Mã đơn hàng:</span> DH123456
+                        <span class="label">Mã đơn hàng:</span> 
+                        <input type="text" id="s.orderid" name="s.orderid" placeholder="Nhập mã đơn hàng">
                     </div>
                     <div>
-                        <span class="label">Tình trạng thanh toán:</span> Đã thanh toán
+                        <span class="label">Thời gian:</span> 
+                        <input type="date" id="s.orderdate" name="s.orderdate" placeholder="Nhập ngày tạo đơn">
                     </div>
                     <div>
-                        <span class="label">Trạng thái đơn hàng:</span> Đang vận chuyển
+                        <span class="label">Ghi chú:</span>
+                        <input type="text" id="s.ordernote" name="s.ordernote" placeholder="Ghi chú nếu có">
                     </div>
                 </div>
                 <div class="total">
@@ -231,9 +234,37 @@ if (mysqli_connect_errno()) {
                     }
                 }
                 function confirmOrder() {
-                    // Implement your confirm order logic here
-                    // For now, let's just show an alert
-                    alert("Order confirmed!");
+                    // Retrieve order information
+                    var orderID = document.getElementById("s.orderid").value;
+                    var orderDate = document.getElementById("s.orderdate").value;
+                    var orderNote = document.getElementById("s.ordernote").value;
+                    var customerName = document.getElementById("name").value;
+
+                    // Prepare data to be sent to the server
+                    var data = {
+                        orderID: orderID,
+                        orderDate: orderDate,
+                        orderNote: orderNote,
+                        customerName: customerName
+                        // Add other order-related data here
+                    };
+
+                    // Send data to the server using AJAX
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "./database_scripts/add_order_sales.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                alert("Order confirmed!");
+                            } else {
+                                alert("Error: " + xhr.status);
+                                console.error(xhr.responseText);
+                            }
+                        }
+                    };
+
+                    xhr.send(JSON.stringify(data));
                 }
 
                 function cancelOrder() {
