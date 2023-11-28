@@ -1,12 +1,15 @@
 <?php
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doantest");
+$con = mysqli_connect("localhost:3307","root","","dabm_database");
 
 // Check connection
 if (mysqli_connect_errno()) {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   exit();
 }
+
+include_once('database_scripts/func_total_price_sale.php');
+
   // Get the orderId value from the URL parameter
   $orderId = $_GET["orderId"];
 
@@ -25,7 +28,8 @@ if (mysqli_connect_errno()) {
 //  $stmt->bind_param("ii", $orderId,$stmt['order_ID']);
  $stmt_->execute();
  $tmp = $stmt_->get_result();
- $sum = 0
+ $small_sum = 0;
+ $sum = total_price_sales($con, $orderId);
  
 ?>
 
@@ -182,11 +186,12 @@ while($item = mysqli_fetch_array($result)) {
                         <td><?php echo $item['book_name'] ?></td>
                         <td><?php echo $item['sale_price'] ?></td>
                         <td><?php echo $item['sale_quantity'] ?></td>
-                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $sum+=$item['sale_price'] * $item['sale_quantity']?></td>
+                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $small_sum+=$item['sale_price'] * $item['sale_quantity']?></td>
                         <!-- Product information will be added here -->
                     </tbody>
                     <?php } ?>  
                 </table>
+                <br>
                 <div class="total">
                     <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
                 </div> 
