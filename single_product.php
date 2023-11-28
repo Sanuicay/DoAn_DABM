@@ -101,8 +101,8 @@ $result = mysqli_query($con,$query);
                 echo "0 results";
               }
             ?>
-            <a href="#"><button>Thêm vào giỏ hàng</button></a>
-            <a href="#"><button>Mua ngay</button></a>
+            <a href="#"><input type="button" value="Thêm vào giỏ hàng"></a>
+            <a href="#"><input type="button" value="Mua ngay"></a>
         </main>
     </div>
     <div class="product-description">
