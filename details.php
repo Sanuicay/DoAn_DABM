@@ -1,9 +1,48 @@
 <?php
-    include_once('database_scripts/connect.php')
+// Connect to your database
+$con = mysqli_connect("localhost:3307","root","","doantest");
+
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  exit();
+}
+  // Get the orderId value from the URL parameter
+  $orderId = $_GET["orderId"];
+
+  // Prepare and execute the SQL query
+  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price
+  FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
+  WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
+  ";
+
+ $stmt = $con->prepare($sql);
+//  $stmt->bind_param("ii", $orderId,$stmt['order_ID']);
+ $stmt->execute();
+
+ $result = $stmt->get_result();
+ $stmt_ = $con->prepare($sql);
+//  $stmt->bind_param("ii", $orderId,$stmt['order_ID']);
+ $stmt_->execute();
+ $tmp = $stmt_->get_result();
+ $sum = 0
+ 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="css/style_duong.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/employee.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/order.css">
+    <link rel="stylesheet" href="css/search.css">
+</head>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,138 +97,118 @@
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
+        <?php   
+
+
+while($item = mysqli_fetch_array($result)) { 
+
+    if ($item['order_ID']!=$orderId) {
+
+        continue;
+    } else {
+
+        $sp = $item;
+    }
+            ?>
+            <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
             <br>
-            <div class = "main-container">
-                <div class="search-container">
-                    <div class="search-icons">
-                        <div class="search-icon">
-                            <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        </div>
-                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">
-                        <div class="filter-icon" onclick="handleFilterClick()">
-                            <img class="side-box-image" src="img/icon_filter.png" alt="Icon"/>
-                        </div>
+            <div class="center"><h1>Thông tin đơn hàng</h1></div>
+            <div class="order-info-container">
+                <div class="order-info">
+                    <div>
+                        <span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?>
                     </div>
-                </div> 
-                <div class ="button-container">
-                    <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
-                    <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button>
-                </div>                 
-            </div>       
-            <div id="filter-box" class="filter-box">
-                <ul>
-                    <li>Đơn nhập hàng</li>
-                    <li>Đơn bán hàng</li>
-                    <li>Ngày gần nhất</li>
-                    <li>Ngày xa nhất</li>
-                    <li>Sắp xếp theo giá tiền tăng dần</li>
-                    <li>Sắp xếp theo giá tiền giảm dần</li>
-                </ul>
+                    <div>
+                        <span class="label">Tình trạng thanh toán:</span> Đã thanh toán
+                    </div>
+                    <div>
+                        <span class="label">Trạng thái đơn hàng:</span> Đang vận chuyển
+                    </div>
+                </div>
+                <div class="total">
+                    <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
+                </div>
             </div>
-            <script>
-                function handleFilterClick() {
-                    // Add your filter action here
-                    var filterBox = document.getElementById("filter-box");
-                    var mouseX = event.clientX;
-                    var mouseY = event.clientY;
-
-                    filterBox.style.left = mouseX + "px";
-                    filterBox.style.top = mouseY + "px";
-
-                    filterBox.style.display = (filterBox.style.display === "block") ? "none" : "block";
-                }
-                document.addEventListener("click", function(event) {
-                    var filterIcon = document.querySelector(".filter-icon");
-                    if (event.target === filterIcon) {
-                        toggleFilterBox(event);
-                    } else {
-                        document.getElementById("filter-box").style.display = "none";
-                    }
-                })
-                function handleCreateOrder(orderType) {
-                    if (orderType === 'sell') {
-                        // Logic for creating a sell order
-                        window.location.href = 'employee_create_order.html';
-                        alert("Tạo đơn bán hàng!");
-                    } else if (orderType === 'buy') {
-                        // Logic for creating a buy order
-                        alert("Tạo đơn nhập hàng!");
-                        window.location.href = 'employee_create_order.html';
-                    }
-                }
-            </script>
-            
-            <!-- Result display area (optional) -->
-            <div id="searchResults"></div>
-            <?php
-            $count = 1;
-            $sql_test = mysqli_query($mysqli,
-            'SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, count(*) as count_item, payment_status
-            FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
-            WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID 
-            GROUP BY order_ID,E.sur_name,E.last_name,sur,last_n, order_date, payment_status
-            ')
+            </div>
+            <div>
+                <div id="customerForm">
+                <h2>Thông tin khách hàng</h2>
+                <div>
+                        <span class="label">Tên khách hàng: </span> <?php echo $item['sur'];echo " "; echo $item['last_n'] ?>
+                    </div>
+                    <div>
+                        <span class="label">Số điện thoại:</span> <?php echo $item['phone']?>
+                    </div>
+                    <div>
+                        <span class="label">Email:</span> <?php echo $item['email']?>
+                    </div>
+                    <div>
+                        <span class="label">Địa chỉ giao hàng:</span> <?php echo $item['delivery_address']?>
+                    </div>
+                </div>
+            </div>
+            <?php 
+            if ($sp) break;
+ }
             ?>
-            <h2>Danh sách hóa đơn</h2>
-            <div class="table-container">                
-                <table>
+            
+            <h2>Danh sách sản phẩm</h2>
+            <!-- Result display area (optional) -->
+                <table id="productTable">
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Mã đơn</th>
-                            <th>Thời gian</th>
-                            <th>Khách hàng</th>
-                            <th>Nhân viên</th>
-                            <th>Tổng tiền</th>
-                            <th>Tình trạng thanh toán</th>
-                            <th>Trạng thái</th>
-                            <th>Địa chỉ</th>
+                            <th>Hình ảnh sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
                         </tr>
                     </thead>
-                   
-                    <tbody>
-                        <?php
-                            while($item = mysqli_fetch_array($sql_test)) {
-                                $tmp = $item['order_ID'];
-                        ?>
-                        <tr onclick="redirectToDetailsPage('<?php echo $item['order_ID'] ?>')">
-                            <td><?php echo $count++ ?></td>
-                            <td><?php echo $item['order_ID'] ?></td>
-                            <td><?php echo $item['order_date'] ?></td>
-                            <td><?php echo $item['sur'];echo " "; echo $item['last_n'] ?></td>
-                            <td><?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?></td>
-                            <td><?php echo $item['count_item'] ?></td>
-                            <td><?php echo $item['payment_status'] ?></td>
-                            <td>Shipped</td>
-                            <td>123 Main Street</td>
-                        </tr>
-                        <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php   
+                    while($item = mysqli_fetch_array($tmp)) { 
+                        if ($item['order_ID']!=$orderId) {
+            
+                            continue;
+                        } else {
 
+                        }
+                    ?>
+                    <tbody id="productBody">
+                        <td><?php echo $item['book_name'] ?></td>
+                        <td><?php echo $item['book_name'] ?></td>
+                        <td><?php echo $item['sale_price'] ?></td>
+                        <td><?php echo $item['sale_quantity'] ?></td>
+                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $sum+=$item['sale_price'] * $item['sale_quantity']?></td>
+                        <!-- Product information will be added here -->
+                    </tbody>
+                    <?php } ?>  
+                </table>
+                <div class="total">
+                    <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
+                </div> 
+                <br>
             <script>
-                function redirectToDetailsPage(orderId) {
-                    // Thực hiện chuyển hướng đến trang chi tiết với orderId là tham số
-                    window.location.href = 'details.php?orderId=' + orderId;
-                }
-                function redirectToCreateOrder() {
-                    // Thực hiện chuyển hướng đến trang tạo mới đơn hàng
-                    window.location.href = 'create-order.html';
+                // Lấy giá trị orderId từ tham số truyền vào URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const orderId = urlParams.get('orderId');
+
+                // Thêm các thông tin khác tương ứng với orderId
+                
+                // Ví dụ: Hiển thị nút để quay lại trang trước
+                document.write('<button onclick="goBack()">Go Back</button>');
+
+                // Hàm để quay lại trang trước
+                function goBack() {
+                    window.history.back();
                 }
             </script>
-            <br>
-        <br>
+
         </div>
     </div>
-
-    <!-- footer -->
     <div class="footer">
         <footer>
             <div class="container">
@@ -252,5 +271,4 @@
         </footer>
     </div> 
 </body>
-
 </html>
