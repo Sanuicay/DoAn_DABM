@@ -1,3 +1,54 @@
+<?php
+include 'connection.php';
+$con = mysqli_connect("localhost:3307","root","","doan");
+if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    exit();
+}
+
+// When click on update button update the address in that row
+if(isset($_POST['update'])) {
+    // Get the old address from the database
+    $query = "SELECT address FROM delivery_address WHERE ID = $id;";
+    $result = mysqli_query($con,$query);
+    $row = mysqli_fetch_assoc($result);
+    $old_address = $row['address'];
+    // Get the new address from the form
+    $new_address = $_POST['address'];
+    $query = "UPDATE delivery_address
+                SET address = '$new_address'
+                WHERE address = '$old_address';";
+    $result = mysqli_query($con,$query);
+    if($result){
+        echo "<script>alert('Cập nhật thành công!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+    else{
+        echo "<script>alert('Cập nhật thất bại!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+    header("Refresh:0");
+}
+
+// When click on delete button
+if(isset($_POST['delete'])){
+    $address = $_POST['address'];
+    $query = "DELETE FROM delivery_address
+              WHERE address = '$address';";
+    $result = mysqli_query($con,$query);
+    if($result){
+        echo "<script>alert('Xóa thành công!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+    else{
+        echo "<script>alert('Xóa thất bại!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,12 +102,36 @@
     </div>
 
     <div class="content">
-        <div class="side-box">
+    <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn A</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 20031510</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Khách hàng</p>
+            <?php
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
+                }
+            ?>
             <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
             <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
@@ -64,7 +139,23 @@
         <div class="banner">
             <div class="title">Địa chỉ của tôi</div>
             <a href="#"><input type="button" value="Thêm địa chỉ"></a>
-            <input type="text" id="address" name="KTX Khu B ĐHQG, Đông Hòa, Dĩ An, Bình Dương">        
+            <form method="POST">
+                <?php
+                    $query = "SELECT address
+                              FROM delivery_address, member, user
+                              WHERE delivery_address.ID = member.ID AND member.ID = user.ID AND user.ID = $id;";
+                    $result = mysqli_query($con,$query);
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo "<div style='display: flex; justify-content: space-between;'>";
+                        echo "<input type='text' name='address' value='{$row['address']}'>";
+                        echo "<div>";
+                        echo "<input type='submit' name='update' value='Cập nhật'>";
+                        echo "<input type='submit' name='delete' value='Xóa'>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                ?>
+            <form>
         </div>
     </div>
     <!-- content goes here -->
