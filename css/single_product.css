@@ -67,13 +67,14 @@ main p {
 .quantity-group {
     display: flex;
     align-items: center;
+    margin-right:600px;
 }
 .quantity-group button {
     background: none;
     border: none;
     font-size: 2em;
-    margin-right:10px;
-    margin-left:10px;
+    margin-right:0px;
+    margin-left:0px;
 }
 .quantity-group input {
     margin-right:0px;
@@ -92,7 +93,8 @@ input[type="button"]{
     border: 1px solid black;
     border-radius: 15px;
     color: black;
-    margin-right: 10px;
+    margin-left:0px;
+    margin-right: 20px;
     padding: 10px 40px;
     text-align: center;
     display: inline-block;
