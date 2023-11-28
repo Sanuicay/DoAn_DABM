@@ -5,13 +5,17 @@
     background-color:#FFFFFF;
     width: 100%;
 }
+
+.row {
+    display: flex;
+    align-items: flex-start;
+}
+
 .footer-logo {
     height: 21px;
     margin-left: 0px;
 }
 .footer h3 {
-    margin-top:0px;
-    margin-bottom:13px;
     color: #9F9F9F;
     font-weight:bold;
     font-size:16px;
