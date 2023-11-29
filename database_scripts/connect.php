@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost:3307","root","","doantest");
+$mysqli = new mysqli("localhost:3307","root","","dabm_database");
 
 // Check connection
 if ($mysqli -> connect_errno) {

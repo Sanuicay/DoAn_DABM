@@ -1,17 +1,20 @@
 <?php
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doantest");
+$con = mysqli_connect("localhost:3307","root","","dabm_database");
 
 // Check connection
 if (mysqli_connect_errno()) {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   exit();
 }
+
+include_once('database_scripts/func_total_price_sale.php');
+
   // Get the orderId value from the URL parameter
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price
+  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status
   FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
   WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
   ";
@@ -25,7 +28,8 @@ if (mysqli_connect_errno()) {
 //  $stmt->bind_param("ii", $orderId,$stmt['order_ID']);
  $stmt_->execute();
  $tmp = $stmt_->get_result();
- $sum = 0
+ $small_sum = 0;
+ $sum = total_price_sales($con, $orderId);
  
 ?>
 
@@ -123,7 +127,7 @@ while($item = mysqli_fetch_array($result)) {
                         <span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?>
                     </div>
                     <div>
-                        <span class="label">Tình trạng thanh toán:</span> Đã thanh toán
+                        <span class="label">Tình trạng thanh toán:</span> <?php echo $item['payment_status'] ?>
                     </div>
                     <div>
                         <span class="label">Trạng thái đơn hàng:</span> Đang vận chuyển
@@ -182,11 +186,12 @@ while($item = mysqli_fetch_array($result)) {
                         <td><?php echo $item['book_name'] ?></td>
                         <td><?php echo $item['sale_price'] ?></td>
                         <td><?php echo $item['sale_quantity'] ?></td>
-                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $sum+=$item['sale_price'] * $item['sale_quantity']?></td>
+                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $small_sum+=$item['sale_price'] * $item['sale_quantity']?></td>
                         <!-- Product information will be added here -->
                     </tbody>
                     <?php } ?>  
                 </table>
+                <br>
                 <div class="total">
                     <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
                 </div> 

@@ -1,6 +1,8 @@
 <?php
-    include_once('database_scripts/connect.php')
+    include_once('database_scripts/connect.php');
+    include_once('database_scripts/func_total_price_sale.php');
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -127,12 +129,12 @@
             <div id="searchResults"></div>
             <?php
             $count = 1;
-            $sql_test = mysqli_query($mysqli,
-            'SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, count(*) as count_item, payment_status
-            FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
-            WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID 
-            GROUP BY order_ID,E.sur_name,E.last_name,sur,last_n, order_date, payment_status
-            ')
+            $sql_test = mysqli_query($mysqli, 'SELECT order_ID, E.sur_name, E.last_name, M.sur_name as sur, M.last_name as last_n, order_date, count(*) as count_item, payment_status,
+                delivery_address
+                FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
+                WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID = M.ID 
+                GROUP BY order_ID, E.sur_name, E.last_name, sur, last_n, order_date, payment_status');
+
             ?>
             <h2>Danh sách hóa đơn</h2>
             <div class="table-container">                
@@ -162,10 +164,10 @@
                             <td><?php echo $item['order_date'] ?></td>
                             <td><?php echo $item['sur'];echo " "; echo $item['last_n'] ?></td>
                             <td><?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?></td>
-                            <td><?php echo $item['count_item'] ?></td>
+                            <td><?php echo total_price_sales($mysqli, $item['order_ID']); ?></td>
                             <td><?php echo $item['payment_status'] ?></td>
                             <td>Shipped</td>
-                            <td>123 Main Street</td>
+                            <td><?php echo $item['delivery_address'] ?></td></td>
                         </tr>
                         <?php
                             }
