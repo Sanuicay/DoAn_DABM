@@ -46,6 +46,21 @@ if(isset($_POST['delete'])){
     }
 }
 
+// When click on add address button, pop up a form to add address and add it to the database
+if(isset($_POST['add_address'])){
+    $address = $_POST['address'];
+    $query = "INSERT INTO delivery_address (ID, address)
+              VALUES ($id, '$address');";
+    $result = mysqli_query($con,$query);
+    if($result){
+        echo "<script>alert('Thêm thành công!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+    else{
+        echo "<script>alert('Thêm thất bại!')</script>";
+        echo "<script>window.location.href='address.php'</script>";
+    }
+}
 ?>
 
 
@@ -136,9 +151,18 @@ if(isset($_POST['delete'])){
             <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
             <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
         </div>
+        
         <div class="banner">
-            <div class="title">Địa chỉ của tôi</div>
-            <a href="#"><input type="button" value="Thêm địa chỉ"></a>
+            <div style="display: flex; justify-content: space-between;">
+                <div class="title">Địa chỉ của tôi</div>
+                <form method="POST" id="addressForm" style="display: none;">
+                    <input type="text" name="address" placeholder="Nhập địa chỉ mới">
+                    <input type="submit" name="add_address" value="Thêm địa chỉ">
+                </form>
+                <div style="display: flex; justify-content: space-between;">
+                    <input type="button" onclick="openForm()" name="add address" value="Thêm địa chỉ">
+                </div>             
+            </div>
             <form method="POST">
                 <?php
                     $query = "SELECT address
@@ -146,7 +170,7 @@ if(isset($_POST['delete'])){
                               WHERE delivery_address.ID = member.ID AND member.ID = user.ID AND user.ID = $id;";
                     $result = mysqli_query($con,$query);
                     while($row = mysqli_fetch_assoc($result)){
-                        echo "<div style='display: flex; justify-content: space-between;'>";
+                        echo "<div style='display: flex; justify-content: space-between; align-items: center;'>";
                         echo "<input type='text' name='address' value='{$row['address']}'>";
                         echo "<div>";
                         echo "<input type='submit' name='update' value='Cập nhật'>";
@@ -157,6 +181,11 @@ if(isset($_POST['delete'])){
                 ?>
             <form>
         </div>
+        <script>
+            function openForm() {
+                document.getElementById("addressForm").style.display = "block";
+            }
+        </script>
     </div>
     <!-- content goes here -->
 
