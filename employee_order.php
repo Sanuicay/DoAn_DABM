@@ -1,5 +1,5 @@
 <?php
-    include_once('database_scripts/connect.php');
+    include_once('connection.php');
     include_once('database_scripts/func_total_price_sale.php');
 ?>
 
@@ -54,9 +54,36 @@
         <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
+            <?php
+            echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>{$row['sur_name']} {$row['last_name']}</p>";
+            echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: {$user['ID']}</p>";
+            if ($id == 00000001)
+            {
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+            }
+            else
+            {
+                //check if the ID exsist in the employee table
+                $query_ = "SELECT ID
+                          FROM employee
+                          WHERE ID = $id;";
+                $result_ = mysqli_query($con,$query_);
+                $row_ = mysqli_fetch_assoc($result_);
+                //check number of rows
+                $count = mysqli_num_rows($result_);
+                if ($count == 1)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                }
+                else
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                }
+            }
+            ?>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
