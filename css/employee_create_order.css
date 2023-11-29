@@ -1,0 +1,13 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 30px;
+}
+
+.button-container input[type="submit"] {
+    background-color: #F9F1E7;
+    color: #B88E2F;
+    border: 1px solid #B88E2F; 
+    border-radius: 4px;
+    cursor: pointer;
+}
