@@ -7,57 +7,56 @@ if (mysqli_connect_errno()) {
 }
 
 // When click on update button update the address in that row
-if(isset($_POST['update'])) {
-    // Get the old address from the database
-    $query = "SELECT address FROM delivery_address WHERE ID = $id;";
-    $result = mysqli_query($con,$query);
-    $row = mysqli_fetch_assoc($result);
-    $old_address = $row['address'];
-    // Get the new address from the form
-    $new_address = $_POST['address'];
+if (isset($_POST['update'])) {
+    $old_address = $_POST['old_address'];
+    $new_address = $_POST['new_address'];
+
+    // SQL query to update the address
     $query = "UPDATE delivery_address
-                SET address = '$new_address'
-                WHERE address = '$old_address';";
-    $result = mysqli_query($con,$query);
-    if($result){
+              SET address = '$new_address'
+              WHERE address = '$old_address';";
+
+    // Execute the query
+    if (mysqli_query($con, $query)) {
         echo "<script>alert('Cập nhật thành công!')</script>";
         echo "<script>window.location.href='address.php'</script>";
-    }
-    else{
+    } else {
         echo "<script>alert('Cập nhật thất bại!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     }
-    header("Refresh:0");
 }
 
 // When click on delete button
-if(isset($_POST['delete'])){
-    $address = $_POST['address'];
-    $query = "DELETE FROM delivery_address
-              WHERE address = '$address';";
-    $result = mysqli_query($con,$query);
-    if($result){
+if (isset($_POST['delete'])) {
+    $address = $_POST['address']; // assuming you have a hidden input field with name 'address' in your form
+
+    // SQL query to delete the address
+    $query = "DELETE FROM delivery_address WHERE address = '$address' AND ID = $id";
+
+    // Execute the query
+    if (mysqli_query($con, $query)) {
         echo "<script>alert('Xóa thành công!')</script>";
         echo "<script>window.location.href='address.php'</script>";
-    }
-    else{
+    } else {
         echo "<script>alert('Xóa thất bại!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     }
 }
 
 // When click on add address button, pop up a form to add address and add it to the database
-if(isset($_POST['add_address'])){
-    $address = $_POST['address'];
+if (isset($_POST['add_address'])) {
+    $new_address = $_POST['address'];
+
+    // SQL query to add the new address
     $query = "INSERT INTO delivery_address (ID, address)
-              VALUES ($id, '$address');";
-    $result = mysqli_query($con,$query);
-    if($result){
-        echo "<script>alert('Thêm thành công!')</script>";
+              VALUES ($id, '$new_address');";
+
+    // Execute the query
+    if (mysqli_query($con, $query)) {
+        echo "<script>alert('Thêm địa chỉ thành công!')</script>";
         echo "<script>window.location.href='address.php'</script>";
-    }
-    else{
-        echo "<script>alert('Thêm thất bại!')</script>";
+    } else {
+        echo "<script>alert('Thêm địa chỉ thất bại!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     }
 }
@@ -190,11 +189,11 @@ if(isset($_POST['add_address'])){
                 var originalContent = document.getElementById(divId).innerHTML;
                 var encodedContent = encodeURIComponent(originalContent);
                 var updateForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
-                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px;'></p>" +
+                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px; background-color: #ffffff'></p>" +
                                 "<div>" +
                                 "<input type='hidden' name='old_address' value='" + address + "'>" +
-                                "<input type='submit' name='update' value='Cập nhật'>" +
-                                "<button type='button' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")'>Hủy</button>" +
+                                "<input type='submit' name='update' value='Cập nhật' style='margin-right: 30px; color: black;'>" +
+                                "<input type='button' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-left: 10px; border:none;'>" +
                                 "</div>" +
                                 "</form>";
                 document.getElementById(divId).innerHTML = updateForm;
