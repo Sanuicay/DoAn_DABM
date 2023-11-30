@@ -164,23 +164,48 @@ if(isset($_POST['add_address'])){
                 </div>             
             </div>
             <form method="POST">
-                <?php
-                    $query = "SELECT address
-                              FROM delivery_address, member, user
-                              WHERE delivery_address.ID = member.ID AND member.ID = user.ID AND user.ID = $id;";
-                    $result = mysqli_query($con,$query);
-                    while($row = mysqli_fetch_assoc($result)){
-                        echo "<div style='display: flex; justify-content: space-between; align-items: center;'>";
-                        echo "<input type='text' name='address' value='{$row['address']}'>";
-                        echo "<div>";
-                        echo "<input type='submit' name='update' value='Cập nhật'>";
-                        echo "<input type='submit' name='delete' value='Xóa'>";
-                        echo "</div>";
-                        echo "</div>";
-                    }
-                ?>
+            <!-- Your existing PHP code -->
+            <?php
+                $query = "SELECT address
+                        FROM delivery_address, member, user
+                        WHERE delivery_address.ID = member.ID AND member.ID = user.ID AND user.ID = $id;";
+                $result = mysqli_query($con,$query);
+                $i = 0;
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "<div id='addressDiv{$i}' style='display: flex; justify-content: space-between; align-items: center;'>";
+                    echo "<p>{$row['address']}</p>"; // Display the address as text
+                    echo "<div>";
+                    echo "<button type='button' onclick='openUpdateForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Cập nhật</button>";
+                    echo "<input type='submit' name='delete' value='Xóa'>";
+                    echo "</div>";
+                    echo "</div>";
+                    $i++;
+                }
+            ?>
             <form>
         </div>
+
+        <script>
+            function openUpdateForm(address, divId) {
+                var originalContent = document.getElementById(divId).innerHTML;
+                var encodedContent = encodeURIComponent(originalContent);
+                var updateForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
+                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px;'></p>" +
+                                "<div>" +
+                                "<input type='hidden' name='old_address' value='" + address + "'>" +
+                                "<input type='submit' name='update' value='Cập nhật'>" +
+                                "<button type='button' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")'>Hủy</button>" +
+                                "</div>" +
+                                "</form>";
+                document.getElementById(divId).innerHTML = updateForm;
+            }
+
+            function cancelUpdate(divId, encodedContent) {
+                var originalContent = decodeURIComponent(encodedContent);
+                document.getElementById(divId).innerHTML = originalContent;
+            }
+        </script>
+
         <script>
             function openForm() {
                 document.getElementById("addressForm").style.display = "block";
