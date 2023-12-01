@@ -111,8 +111,8 @@ if (isset($_POST['add_address'])) {
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Địa chỉ của tôi</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="address.html">> Địa chỉ của tôi</a>
+            <a href="user_copy.php">Cá nhân</a>
+            <a href="address.php">> Địa chỉ của tôi</a>
         </div>
     </div>
 
@@ -147,8 +147,8 @@ if (isset($_POST['add_address'])) {
                     }
                 }
             ?>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="address.html"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
+            <a href="user_copy.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="address.php"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
             <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
         </div>
         
