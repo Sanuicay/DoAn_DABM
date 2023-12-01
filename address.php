@@ -28,10 +28,11 @@ if (isset($_POST['update'])) {
 
 // When click on delete button
 if (isset($_POST['delete'])) {
-    $address = $_POST['address']; // assuming you have a hidden input field with name 'address' in your form
+    $address = $_POST['address'];
 
     // SQL query to delete the address
-    $query = "DELETE FROM delivery_address WHERE address = '$address' AND ID = $id";
+    $query = "DELETE FROM delivery_address
+              WHERE address = '$address';";
 
     // Execute the query
     if (mysqli_query($con, $query)) {
