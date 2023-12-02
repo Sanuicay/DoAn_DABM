@@ -43,15 +43,13 @@ if(isset($_POST['add_to_cart'])){
     }
     else{
         $quantity = $_POST['quantity'];
-        $query = "INSERT INTO cart_include (ID, book_ID, quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+        $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
         $result = mysqli_query($con,$query);
-        if($result){
-            echo "<script>alert('Sản phẩm đã được thêm vào giỏ hàng!')</script>";
-            echo "<script>window.location = 'single_product.php?id=$book_id'</script>";
+        if ($result) {
+            echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
         }
         else{
-            echo "<script>alert('Đã có lỗi xảy ra!')</script>";
-            echo "<script>window.location = 'single_product.php?id=$book_id'</script>";
+            echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
         }
     }
 }
@@ -115,33 +113,33 @@ if(isset($_POST['add_to_cart'])){
         <!-- SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
         FROM book, author, publisher, genre, written_by, belongs_to
         WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
-            <form method="post">
-                <?php
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo "<h1>" . $row["book_name"]. "</h1>";
-                        echo "<p>Tác giả: " . $row["author_name"]. "</p>";
-                        echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
-                        echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
-                        echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
-                        echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
-                        echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
-                        echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
-                        echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
-                        echo "<div class='quantity-group'>";
-                            echo "<button onclick='decrement()'>-</button>";
-                            echo "<input id='quantity' type='text' value='1'>";
-                            echo "<button onclick='increment()'>+</button>";
-                            echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
-                        echo "</div><br>";
-                        // get the quantity in the quantity-group
-                        
-                        echo "<button type='submit' name='add_to_cart' class='add-to-cart'>Thêm vào giỏ hàng</button>";
-                    }
-                } else {
-                    echo "0 results";
+            <?php
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<h1>" . $row["book_name"]. "</h1>";
+                    echo "<p>Tác giả: " . $row["author_name"]. "</p>";
+                    echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
+                    echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
+                    echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
+                    echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
+                    echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
+                    echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
+                    echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
+                    echo "<div class='quantity-group'>";
+                        echo "<button onclick='decrement()'>-</button>";
+                        echo "<input type='text' id='quantity' name='quantity' value='1'>";
+                        echo "<button onclick='increment()'>+</button>";
+                        echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
+                    echo "</div><br>";
                 }
-                ?>
+            } else {
+                echo "0 results";
+            }
+            ?>
+            <form method="post">
+                <input type="hidden" name="quantity" id="quantity">
+                <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
+                <button type="submit" name="buy_now">Mua ngay</button>
             </form>
         </main>
     </div>
