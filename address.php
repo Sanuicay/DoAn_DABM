@@ -8,6 +8,14 @@ if (mysqli_connect_errno()) {
 
 // When click on update button update the address in that row
 if (isset($_POST['update'])) {
+    if (isset($_POST['delete'])) {
+    if (!empty($_POST['address'])) {
+        $address = $_POST['address'];
+        // rest of your code
+    } else {
+        echo "<script>alert('Address field is empty!')</script>";
+    }
+}
     $old_address = $_POST['old_address'];
     $new_address = $_POST['new_address'];
 
@@ -28,19 +36,32 @@ if (isset($_POST['update'])) {
 
 // When click on delete button
 if (isset($_POST['delete'])) {
-    $address = $_POST['address'];
+    if (isset($_POST['delete'])) {
+        if (!empty($_POST['address'])) {
+            $address = $_POST['address'];
 
-    // SQL query to delete the address
-    $query = "DELETE FROM delivery_address
-              WHERE address = '$address';";
-
-    // Execute the query
-    if (mysqli_query($con, $query)) {
-        echo "<script>alert('Xóa thành công!')</script>";
-        echo "<script>window.location.href='address.php'</script>";
-    } else {
-        echo "<script>alert('Xóa thất bại!')</script>";
-        echo "<script>window.location.href='address.php'</script>";
+            // SQL query to delete the address
+            $query = "DELETE FROM `delivery_address` WHERE address = ?";
+        
+            // Prepare the statement
+            $stmt = mysqli_prepare($con, $query);
+        
+            // Bind the address variable to the prepared statement
+            mysqli_stmt_bind_param($stmt, "s", $address);
+        
+            // Execute the statement
+            $result = mysqli_stmt_execute($stmt);
+        
+            if ($result) {
+                echo "<script>alert('Xóa thành công address: $address')</script>";
+                echo "<script>window.location.href='address.php'</script>";
+            } else {
+                echo "<script>alert('Xóa thất bại!')</script>";
+                echo "<script>window.location.href='address.php'</script>";
+            }
+        } else {
+            echo "<script>alert('Address field is empty!')</script>";
+        }
     }
 }
 
@@ -176,7 +197,8 @@ if (isset($_POST['add_address'])) {
                     echo "<p>{$row['address']}</p>"; // Display the address as text
                     echo "<div>";
                     echo "<button type='button' onclick='openUpdateForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Cập nhật</button>";
-                    echo "<input type='submit' name='delete' value='Xóa'>";
+                    // echo "<input type='submit' name='delete' value='Xóa'>";
+                    echo "<button type='button' onclick='openDeleteForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Xóa</button>";
                     echo "</div>";
                     echo "</div>";
                     $i++;
@@ -203,6 +225,20 @@ if (isset($_POST['add_address'])) {
             function cancelUpdate(divId, encodedContent) {
                 var originalContent = decodeURIComponent(encodedContent);
                 document.getElementById(divId).innerHTML = originalContent;
+            }
+            
+            //open delete form will have a pre-filled address field and can't be edited
+            function openDeleteForm(address, divId) {
+                var originalContent = document.getElementById(divId).innerHTML;
+                var encodedContent = encodeURIComponent(originalContent);
+                var deleteForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
+                                "<p><input type='text' name='address' value='" + address + "' style='border: none; background: none; width: 200px; background-color: #ffffff' readonly></p>" +
+                                "<div>" +
+                                "<input type='submit' name='delete' value='Xóa' style='margin-right: 30px; color: black;'>" +
+                                "<input type='button' onclick='cancelDelete(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-left: 10px; border:none;'>" +
+                                "</div>" +
+                                "</form>";
+                document.getElementById(divId).innerHTML = deleteForm;
             }
         </script>
 
