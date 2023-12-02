@@ -197,7 +197,6 @@ if (isset($_POST['add_address'])) {
                     echo "<p>{$row['address']}</p>"; // Display the address as text
                     echo "<div>";
                     echo "<button type='button' onclick='openUpdateForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Cập nhật</button>";
-                    // echo "<input type='submit' name='delete' value='Xóa'>";
                     echo "<button type='button' onclick='openDeleteForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Xóa</button>";
                     echo "</div>";
                     echo "</div>";
@@ -212,11 +211,11 @@ if (isset($_POST['add_address'])) {
                 var originalContent = document.getElementById(divId).innerHTML;
                 var encodedContent = encodeURIComponent(originalContent);
                 var updateForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
-                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px; background-color: #ffffff'></p>" +
+                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px; background-color: #F9F1E7'></p>" +
                                 "<div>" +
                                 "<input type='hidden' name='old_address' value='" + address + "'>" +
-                                "<input type='submit' name='update' value='Cập nhật' style='margin-right: 30px; color: black;'>" +
-                                "<input type='button' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-left: 10px; border:none;'>" +
+                                "<input type='submit' name='update' value='Cập nhật' style='color: black;'>" +
+                                "<input type='submit' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-right: 20px; color: black;'>" +
                                 "</div>" +
                                 "</form>";
                 document.getElementById(divId).innerHTML = updateForm;
@@ -232,13 +231,18 @@ if (isset($_POST['add_address'])) {
                 var originalContent = document.getElementById(divId).innerHTML;
                 var encodedContent = encodeURIComponent(originalContent);
                 var deleteForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
-                                "<p><input type='text' name='address' value='" + address + "' style='border: none; background: none; width: 200px; background-color: #ffffff' readonly></p>" +
+                                "<p><input type='text' name='address' value='" + address + "' style='border: none; background: none; width: 200px; background-color: #F9F1E7' readonly></p>" +
                                 "<div>" +
-                                "<input type='submit' name='delete' value='Xóa' style='margin-right: 30px; color: black;'>" +
-                                "<input type='button' onclick='cancelDelete(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-left: 10px; border:none;'>" +
+                                "<input type='submit' name='delete' value='Xóa' style='color: black;'>" +
+                                "<input type='submit' onclick='cancelDelete(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-right: 20px; color: black;'>" +
                                 "</div>" +
                                 "</form>";
                 document.getElementById(divId).innerHTML = deleteForm;
+            }
+
+            function cancelDelete(divId, encodedContent) {
+                var originalContent = decodeURIComponent(encodedContent);
+                document.getElementById(divId).innerHTML = originalContent;
             }
         </script>
 
