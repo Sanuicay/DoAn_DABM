@@ -45,7 +45,8 @@ p {
 }
 .total {
     float: right;
-    border: 2px solid black;
+    background-color: #ffffff;
+    border: none;
     padding: 30px 50px;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -54,6 +55,7 @@ p {
 .total button {
     background-color: #ffffff;
     border: 2px solid black;
+    margin-left: 67px;
     border-radius: 10px;
     padding: 10px 20px;
     font-size: 16px;
