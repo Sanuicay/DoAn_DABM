@@ -1,4 +1,20 @@
 <?php
+// Get user ID
+session_start();
+//check if user is logged in
+if(!isset($_SESSION['user_id'])){
+    $user_id = -1;
+}
+else{
+    $con = require __DIR__ . "/database.php";
+    
+    $sql = "SELECT * FROM user
+            WHERE ID = {$_SESSION["user_id"]}";
+            
+    $user = $con->query($sql)->fetch_assoc();
+    $user_id = $user["ID"];
+}
+
 // Connect to your database
 $con = mysqli_connect("localhost:3307","root","","doan");
 
@@ -9,15 +25,36 @@ if (mysqli_connect_errno()) {
 }
 
 // Get the ID from the GET request, ID can be "1" or "D001"
-$id = $_GET['id'];
+$book_id = $_GET['id'];
 //sanitize the id before using in the query
-$id = mysqli_real_escape_string($con, $id);
+$book_id = mysqli_real_escape_string($con, $book_id);
 
 $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
           FROM book, author, publisher, genre, written_by, belongs_to
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$id';";
+          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$book_id';";
 $result = mysqli_query($con,$query);
 
+
+//When click on the button "Thêm vào giỏ hàng", if the user is not logged in, redirect to login page
+// else add the book to the cart_include table
+if(isset($_POST['add_to_cart'])){
+    if($user_id == -1){
+        header('location:login.html');
+    }
+    else{
+        $quantity = $_POST['quantity'];
+        $query = "INSERT INTO cart_include (ID, book_ID, quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+        $result = mysqli_query($con,$query);
+        if($result){
+            echo "<script>alert('Sản phẩm đã được thêm vào giỏ hàng!')</script>";
+            echo "<script>window.location = 'single_product.php?id=$book_id'</script>";
+        }
+        else{
+            echo "<script>alert('Đã có lỗi xảy ra!')</script>";
+            echo "<script>window.location = 'single_product.php?id=$book_id'</script>";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,31 +115,34 @@ $result = mysqli_query($con,$query);
         <!-- SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
         FROM book, author, publisher, genre, written_by, belongs_to
         WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
-            <?php
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                  echo "<h1>" . $row["book_name"]. "</h1>";
-                  echo "<p>Tác giả: " . $row["author_name"]. "</p>";
-                  echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
-                  echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
-                  echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
-                  echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
-                  echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
-                  echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
-                  echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
-                    echo "<div class='quantity-group'>";
-                        echo "<button onclick='decrement()'>-</button>";
-                        echo "<input id='quantity' type='text' value='1'>";
-                        echo "<button onclick='increment()'>+</button>";
-                        echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
-                    echo "</div><br>";
+            <form method="post">
+                <?php
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<h1>" . $row["book_name"]. "</h1>";
+                        echo "<p>Tác giả: " . $row["author_name"]. "</p>";
+                        echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
+                        echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
+                        echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
+                        echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
+                        echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
+                        echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
+                        echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
+                        echo "<div class='quantity-group'>";
+                            echo "<button onclick='decrement()'>-</button>";
+                            echo "<input id='quantity' type='text' value='1'>";
+                            echo "<button onclick='increment()'>+</button>";
+                            echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
+                        echo "</div><br>";
+                        // get the quantity in the quantity-group
+                        
+                        echo "<button type='submit' name='add_to_cart' class='add-to-cart'>Thêm vào giỏ hàng</button>";
+                    }
+                } else {
+                    echo "0 results";
                 }
-              } else {
-                echo "0 results";
-              }
-            ?>
-            <a href="#"><input type="button" value="Thêm vào giỏ hàng"></a>
-            <a href="#"><input type="button" value="Mua ngay"></a>
+                ?>
+            </form>
         </main>
     </div>
     <div class="product-description">
