@@ -14,10 +14,14 @@ include("connection.php");
     $giatien = $_POST['giatien'];
 
     //check null
-
     if ($tensach == "" || $nhaxuatbanID == "" || $masach == "" || $sotrang == "" || $ngayphathanh == "" || $tentacgiaID == "" || $namxuatban == "" || $theloaiID == "" || $soluong == "" || $giatien == "")
     {
         echo "<script>alert('Vui lòng nhập đầy đủ thông tin!')</script>";
+    }
+    //check if sotrang, soluong, gia tien is a number and is larger than 0
+    else if (!is_numeric($sotrang) || !is_numeric($soluong) || !is_numeric($giatien) || $sotrang < 0 || $soluong < 0 || $giatien < 0)
+    {
+        echo "<script>alert('Vui lòng nhập số lượng, số trang, giá tiền hợp lệ!')</script>";
     }
     else
     {
@@ -180,7 +184,14 @@ include("connection.php");
                             
                             <!-- namxuatban -->
                             <label for='namxuatban'>Năm xuất bản</label><br>
-                            <input type='number' id='namxuatban' name='namxuatban'><br>
+                            <select id='namxuatban' name='namxuatban'>
+                                <?php
+                                $year = date("Y"); // get the current year
+                                for ($i = $year; $i >= 1900; $i--) { // replace 1900 with the earliest year you want
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                                ?>
+                            </select><br>
 
                             <!-- theloaiID -->
                             <label for='theloai'>Mã thể loại</label><br>
