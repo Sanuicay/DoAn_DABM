@@ -60,23 +60,37 @@ if (mysqli_connect_errno()) {
     </div>
 
     <div class="content">
+        <?php
+            $sql = "SELECT book_name, sale_price, cart_quantity
+            FROM book, cart_include
+            WHERE book.book_ID = cart_include.book_ID";
+            $result = mysqli_query($con, $sql);
+        ?>
         <table>
             <tr>
-              <th>Sản Phẩm</th>
-              <th>Giá</th> 
-              <th>Số Lượng</th>
-              <th>Tổng Phụ</th>
+                <th>Sản Phẩm</th>
+                <th>Giá</th> 
+                <th>Số Lượng</th>
+                <th>Tổng Phụ</th>
             </tr>
-            <tr>
-              <td>Tiếng Việt 1 (Tập 1)</td>
-              <td>4,000 VND</td>
-              <td>1</td>
-              <td>4,000 VND</td>
-            </tr>
+            <form method="POST">
+                <?php
+                    $total = 0;
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $total += $row['sale_price'] * $row['cart_quantity'];
+                        echo "<tr>";
+                        echo "<td>" . $row['book_name'] . "</td>";
+                        echo "<td>" . $row['sale_price'] . " VND</td>";
+                        echo "<td>" . $row['cart_quantity'] . "</td>";
+                        echo "<td>" . $total . " VND</td>";
+                        echo "</tr>";
+                    }
+                ?>
+            </form>
         </table>
         <div class="total">
             <h2>Tổng Thanh Toán</h2>
-            <p>Tổng: 4,000 VND</p>
+            <p>Tổng: <?php echo $total; ?> VND</p>
             <button type="button">Mua Hàng</button>
         </div>
     </div>
