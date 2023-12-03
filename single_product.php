@@ -49,14 +49,16 @@ if(isset($_POST['add_to_cart'])){
             $quantity = 1;
             echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
         }
-        $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
-        $result = mysqli_query($con,$query);
-        if ($result) {
-            echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
-            echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-        }
         else{
-            echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+            $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+            $result = mysqli_query($con,$query);
+            if ($result) {
+                echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+                echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+            }
+            else{
+                echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+            }
         }
     }
 }
