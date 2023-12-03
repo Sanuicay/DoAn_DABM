@@ -43,7 +43,11 @@ if(isset($_POST['add_to_cart'])){
     }
     else{
         $quantity = $_POST['quantity'];
-        echo "<script>alert('$quantity');</script>";
+        //check quantity, if quantity is less than 1, alert and set quantity to 1
+        if($quantity < 1){
+            echo "<script>alert('Số lượng không hợp lệ!');</script>";
+            $quantity = 1;
+        }
         $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
         $result = mysqli_query($con,$query);
         if ($result) {
