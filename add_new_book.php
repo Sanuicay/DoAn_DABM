@@ -47,6 +47,7 @@ include("connection.php");
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
 
+
 </head>
 <body>
     <!-- header -->
@@ -124,7 +125,7 @@ include("connection.php");
                 <form method="POST">
                     <div class="name">
                         <div>
-                            <label for="tensach">Tên sách</label><br>
+                            <!-- <label for="tensach">Tên sách</label><br>
                             <input type="text" id="tensach" name="tensach"><br>
                             <label for="nhaxuatbanID">Mã nhà xuất bản</label><br>
                             <input type="text" id="nhaxuatbanID" name="nhaxuatbanID"><br>
@@ -145,7 +146,88 @@ include("connection.php");
                             <label for="soluong">Số lượng</label><br>
                             <input type="text" id="soluong" name="soluong"><br>
                             <label for="giatien">Giá tiền</label><br>
-                            <input type="text" id="giatien" name="giatien">
+                            <input type="text" id="giatien" name="giatien"> -->
+
+
+                            <!-- tensach -->
+                            <label for='tensach'>Tên sách</label><br>
+                            <input type='text' id='tensach' name='tensach'><br>
+
+                            <!-- nhaxuatbanID -->
+                            <label for='nhaxuatban'>Mã nhà xuất bản</label><br>
+                            <select id='nhaxuatbanID' name='nhaxuatbanID'>
+                            <?php
+                            $query = "SELECT publisher_ID, publisher_name
+                                      FROM publisher;";
+                            $result = mysqli_query($con,$query);
+                            while ($row = mysqli_fetch_assoc($result))
+                            {
+                                echo "<option value='{$row['publisher_ID']}'>{$row['publisher_ID']} ({$row['publisher_name']})</option>";
+                            }
+                            echo "</select><br>";
+                            ?>
+
+                            <!-- masach -->                   
+                            <?php
+                            //masach will be the highest number in book_ID + 1 and cannot be changed
+                            $query = "SELECT MAX(book_ID) AS max_book_ID
+                                      FROM book;";
+                            $result = mysqli_query($con,$query);
+                            $row = mysqli_fetch_assoc($result);
+                            $masach = $row['max_book_ID'] + 1;
+                            echo "<label for='masach'>Mã sách</label><br>";
+                            echo "<input type='text' id='masach' name='masach' value='$masach' readonly><br>";
+                            ?>
+
+                            <!-- sotrang -->
+                            <label for='sotrang'>Số trang</label><br>
+                            <input type='number' id='sotrang' name='sotrang'><br>
+
+                            <!-- ngayphathanh -->
+                            <label for='ngayphathanh'>Ngày phát hành</label><br>
+                            <input type='date' id='ngayphathanh' name='ngayphathanh'><br>
+
+                            </div>
+                        <div>
+                            <!-- tentacgiaID -->
+                            <label for='tentacgia'>Mã tác giả</label><br>
+                            <select id='tentacgiaID' name='tentacgiaID'>
+                            <?php
+                            $query = "SELECT author_ID, author_name
+                                      FROM author;";
+                            $result = mysqli_query($con,$query);
+                            while ($row = mysqli_fetch_assoc($result))
+                            {
+                                echo "<option value='{$row['author_ID']}'>{$row['author_ID']} ({$row['author_name']})</option>";
+                            }
+                            echo "</select><br>";
+                            ?>
+                            
+                            <!-- namxuatban -->
+                            <label for='namxuatban'>Năm xuất bản</label><br>
+                            <input type='number' id='namxuatban' name='namxuatban'><br>
+
+                            <!-- theloaiID -->
+                            <label for='theloai'>Mã thể loại</label><br>
+                            <select id='theloaiID' name='theloaiID'>
+                            <?php
+                            $query = "SELECT genre_ID, genre_name
+                                      FROM genre;";
+                            $result = mysqli_query($con,$query);
+                            while ($row = mysqli_fetch_assoc($result))
+                            {
+                                echo "<option value='{$row['genre_ID']}'>{$row['genre_ID']} ({$row['genre_name']})</option>";
+                            }
+                            echo "</select><br>";
+                            ?>
+
+                            <!-- soluong -->
+                            <label for='soluong'>Số lượng</label><br>
+                            <input type='number' id='soluong' name='soluong'><br>
+
+                            <!-- giatien -->
+                            <label for='giatien'>Giá tiền</label><br>
+                            <input type='number' id='giatien' name='giatien'><br>
                         </div>
                     </div>
                     <div class="description">
