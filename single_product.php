@@ -47,6 +47,7 @@ if(isset($_POST['add_to_cart'])){
         if($quantity < 1){
             echo "<script>alert('Số lượng không hợp lệ!');</script>";
             $quantity = 1;
+            echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
         }
         $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
         $result = mysqli_query($con,$query);
