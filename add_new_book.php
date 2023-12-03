@@ -125,30 +125,6 @@ include("connection.php");
                 <form method="POST">
                     <div class="name">
                         <div>
-                            <!-- <label for="tensach">Tên sách</label><br>
-                            <input type="text" id="tensach" name="tensach"><br>
-                            <label for="nhaxuatbanID">Mã nhà xuất bản</label><br>
-                            <input type="text" id="nhaxuatbanID" name="nhaxuatbanID"><br>
-                            <label for="masach">Mã sách</label><br>
-                            <input type="text" id="masach" name="masach"><br>
-                            <label for="sotrang">Số trang</label><br>
-                            <input type="text" id="sotrang" name="sotrang"><br>
-                            <label for="ngayphathanh">Ngày phát hành</label><br>
-                            <input type="text" id="ngayphathanh" name="ngayphathanh">
-                        </div>
-                        <div>
-                            <label for="tentacgia">Mã tác giả</label><br>
-                            <input type="text" id="tentacgiaID" name="tentacgiaID"><br>
-                            <label for="namxuatban">Năm xuất bản</label><br>
-                            <input type="text" id="namxuatban" name="namxuatban"><br>
-                            <label for="theloai">Mã thể loại</label><br>
-                            <input type="text" id="theloaiID" name="theloaiID"><br>
-                            <label for="soluong">Số lượng</label><br>
-                            <input type="text" id="soluong" name="soluong"><br>
-                            <label for="giatien">Giá tiền</label><br>
-                            <input type="text" id="giatien" name="giatien"> -->
-
-
                             <!-- tensach -->
                             <label for='tensach'>Tên sách</label><br>
                             <input type='text' id='tensach' name='tensach'><br>
@@ -186,7 +162,6 @@ include("connection.php");
                             <!-- ngayphathanh -->
                             <label for='ngayphathanh'>Ngày phát hành</label><br>
                             <input type='date' id='ngayphathanh' name='ngayphathanh'><br>
-
                             </div>
                         <div>
                             <!-- tentacgiaID -->
