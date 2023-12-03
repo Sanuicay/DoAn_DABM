@@ -87,8 +87,18 @@ label {
     width: 45%;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"], input[type="date"] {
     width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 40px;
+    border: 1px solid #ddd;
+}
+
+option {
+    width: 100%;
+    background-color: #ffffff;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 40px;

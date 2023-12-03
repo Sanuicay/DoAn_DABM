@@ -86,7 +86,7 @@ include("connection.php");
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -134,9 +134,17 @@ include("connection.php");
                             <input type='text' id='tensach' name='tensach'><br>
 
                             <!-- nhaxuatbanID -->
-                            <label for='nhaxuatban'>Mã nhà xuất bản</label><br>
-                            <select id='nhaxuatbanID' name='nhaxuatbanID'>
                             <?php
+                            echo"<label for='nhaxuatban'>Mã nhà xuất bản</label><br>";
+                            echo"<select id='nhaxuatbanID' name='nhaxuatbanID'>";
+                            echo "<style>
+                                #nhaxuatbanID {
+                                    width: 200px;
+                                    height: 40px;
+                                    border: 1px solid #000;
+                                    border-radius: 5px;
+                                }
+                            </style>";
                             $query = "SELECT publisher_ID, publisher_name
                                       FROM publisher;";
                             $result = mysqli_query($con,$query);
