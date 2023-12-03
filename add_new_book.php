@@ -134,17 +134,10 @@ include("connection.php");
                             <input type='text' id='tensach' name='tensach'><br>
 
                             <!-- nhaxuatbanID -->
+                            
+                            <label for='nhaxuatban'>Mã nhà xuất bản</label><br>
+                            <select id='nhaxuatbanID' name='nhaxuatbanID'>
                             <?php
-                            echo"<label for='nhaxuatban'>Mã nhà xuất bản</label><br>";
-                            echo"<select id='nhaxuatbanID' name='nhaxuatbanID'>";
-                            echo "<style>
-                                #nhaxuatbanID {
-                                    width: 200px;
-                                    height: 40px;
-                                    border: 1px solid #000;
-                                    border-radius: 5px;
-                                }
-                            </style>";
                             $query = "SELECT publisher_ID, publisher_name
                                       FROM publisher;";
                             $result = mysqli_query($con,$query);
