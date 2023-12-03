@@ -102,19 +102,19 @@ if (isset($_POST['add_address'])) {
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="login_success.php">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
             <button class="header-login-button" onclick="redirectToLogout()">
                 Đăng xuất
             </button>
@@ -139,7 +139,7 @@ if (isset($_POST['add_address'])) {
 
     <div class="content">
     <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
             <?php
                 echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";

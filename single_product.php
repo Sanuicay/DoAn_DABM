@@ -47,6 +47,7 @@ if(isset($_POST['add_to_cart'])){
         $result = mysqli_query($con,$query);
         if ($result) {
             echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+            echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
         }
         else{
             echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
@@ -80,7 +81,7 @@ if(isset($_POST['add_to_cart'])){
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
