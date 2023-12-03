@@ -43,6 +43,7 @@ if(isset($_POST['add_to_cart'])){
     }
     else{
         $quantity = $_POST['quantity'];
+        echo "<script>alert('$quantity');</script>";
         $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
         $result = mysqli_query($con,$query);
         if ($result) {
@@ -90,19 +91,6 @@ if(isset($_POST['add_to_cart'])){
 
     <!-- content goes here -->
     <div class="content">
-        <script>
-            function increment() {
-                var input = document.getElementById('quantity');
-                input.value = parseInt(input.value) + 1;
-            }
-
-            function decrement() {
-                var input = document.getElementById('quantity');
-                if (input.value > 1) {
-                    input.value = parseInt(input.value) - 1;
-                }
-            }
-        </script>
         <div class="image-box">
             <img src="img/pic1.png" alt="Image 1"><br>
             <img src="img/pic2.png" alt="Image 2"><br>
@@ -127,21 +115,26 @@ if(isset($_POST['add_to_cart'])){
                     echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
                     echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
                     echo "<div class='quantity-group'>";
-                        echo "<button onclick='decrement()'>-</button>";
-                        echo "<input type='text' id='quantity' name='quantity' value='1'>";
-                        echo "<button onclick='increment()'>+</button>";
-                        echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
-                    echo "</div><br>";
-                }
-            } else {
-                echo "0 results";
+                    echo "<input type='number' id='quantity' name='quantity' value='1' min='1' max='" . $row["remaining_quantity"]. "' oninput='updateQuantity()'>";
+                    echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
+                echo "</div><br>";
             }
-            ?>
-            <form method="post">
-                <input type="hidden" name="quantity" id="quantity">
-                <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
-                <button type="submit" name="buy_now">Mua ngay</button>
-            </form>
+        } else {
+            echo "0 results";
+        }
+    ?>
+    <form method="POST">
+        <input type="hidden" name="quantity" id="hiddenQuantity">
+        <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
+        <button type="submit" name="buy_now">Mua ngay</button>
+    </form>
+    
+    <script>
+        function updateQuantity() {
+            var quantity = document.getElementById('quantity').value;
+            document.getElementById('hiddenQuantity').value = quantity;
+        }
+    </script>
         </main>
     </div>
     <div class="product-description">
