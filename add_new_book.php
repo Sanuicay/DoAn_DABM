@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 
-  if(isset($_POST['confirm'])){
+if(isset($_POST['confirm'])){
     $tensach = $_POST['tensach'];
     $nhaxuatbanID = $_POST['nhaxuatbanID'];
     $masach = $_POST['masach'];
@@ -34,7 +34,10 @@ include("connection.php");
         //redirect to list_of_book.php
         header('location:list_of_book.php');    
     }
- }
+}
+else if(isset($_POST['cancel'])){
+    header('location:list_of_book.php');
+}
 
 ?>
 
