@@ -43,7 +43,6 @@ if(isset($_POST['add_to_cart'])){
     }
     else{
         $quantity = $_POST['quantity'];
-        echo "<script>alert('$quantity');</script>";
         $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
         $result = mysqli_query($con,$query);
         if ($result) {
