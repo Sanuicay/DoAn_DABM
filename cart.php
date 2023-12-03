@@ -77,12 +77,14 @@ if (mysqli_connect_errno()) {
                 <?php
                     $total = 0;
                     while ($row = mysqli_fetch_assoc($result)) {
-                        $total += $row['sale_price'] * $row['cart_quantity'];
+                        $subtotal = 0;
+                        $subtotal += $row['sale_price'] * $row['cart_quantity'];
+                        $total += $subtotal;
                         echo "<tr>";
                         echo "<td>" . $row['book_name'] . "</td>";
                         echo "<td>" . $row['sale_price'] . " VND</td>";
                         echo "<td>" . $row['cart_quantity'] . "</td>";
-                        echo "<td>" . $total . " VND</td>";
+                        echo "<td>" . $subtotal . " VND</td>";
                         echo "</tr>";
                     }
                 ?>

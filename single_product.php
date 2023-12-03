@@ -50,14 +50,32 @@ if(isset($_POST['add_to_cart'])){
             echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
         }
         else{
-            $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+            // Check if the book is already in the cart
+            $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
             $result = mysqli_query($con,$query);
-            if ($result) {
-                echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
-                echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+            if ($result->num_rows > 0) {
+                // If the book is already in the cart, update the quantity
+                $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
+                $result = mysqli_query($con,$query);
+                if ($result) {
+                    echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                }
+                else{
+                    echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                }
             }
             else{
-                echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                // If the book is not in the cart, insert the book into the cart
+                $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+                $result = mysqli_query($con,$query);
+                if ($result) {
+                    echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                }
+                else{
+                    echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                }
             }
         }
     }
