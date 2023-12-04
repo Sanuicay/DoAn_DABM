@@ -99,6 +99,17 @@ if (mysqli_connect_errno()) {
         
         <div class="banner">
             <div class="title">Thông tin hóa đơn</div>
+            <div class="order">
+                <table>
+                    <tr>
+                        <th>Mã hóa đơn</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Ngày giao hàng</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <!-- content goes here -->

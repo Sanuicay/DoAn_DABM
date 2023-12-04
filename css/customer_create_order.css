@@ -37,8 +37,23 @@ p {
     font-size: 30px;
     margin-bottom: 20px;
 }
-
-form {
+.order {
     display: flex;
     flex-direction: column;
+}
+
+.order table {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border: none;
+    text-align: center;
+}
+
+.order th, td {
+    border: none;
+    border-collapse: collapse;
+    padding: 15px;
+    vertical-align: middle;
 }
