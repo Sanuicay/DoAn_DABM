@@ -11,6 +11,7 @@ if (mysqli_connect_errno()) {
 
 // When click on the 'Mua hang' button
 
+
 ?>
 
 
@@ -98,7 +99,7 @@ if (mysqli_connect_errno()) {
         <div class="total">
             <h2>Tổng Thanh Toán</h2>
             <p id="total">Tổng: 0 VND</p>
-            <button type="button">Mua Hàng</button>
+            <button type="button" onclick="Buy_a_book()">Mua Hàng</button>
         </div>
         <script>
             var checkboxes = document.getElementsByClassName('selectBook');
@@ -106,12 +107,29 @@ if (mysqli_connect_errno()) {
                 checkboxes[i].addEventListener('change', function() {
                     var total = 0;
                     for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j] !== this) {
+                            checkboxes[j].checked = false;
+                        }
                         if (checkboxes[j].checked) {
                             total += parseInt(checkboxes[j].value);
                         }
                     }
                     document.getElementById('total').innerText = 'Tổng: ' + total + ' VND';
                 });
+            }
+            function Buy_a_book() {
+                var checkboxes = document.getElementsByClassName('selectBook');
+                var book_ID = 0;
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        book_ID = i + 1;
+                    }
+                }
+                if (book_ID == 0) {
+                    alert('Bạn chưa chọn sách để mua');
+                } else {
+                    window.location.href = 'customer_create_order.php?id=' + book_ID;
+                }
             }
         </script>
     </div>
