@@ -5,7 +5,10 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
 }
-
+//get the id of the product
+$product_id = $_GET['id'];
+//sanitize the id before using in the query
+$product_id = mysqli_real_escape_string($con, $product_id);
 ?>
 
 <!DOCTYPE html>
@@ -127,34 +130,64 @@ if (mysqli_connect_errno()) {
             </div>
             <div class="customer-info">
                 <table>
-                    <tr>
-                        <th>Khách hàng</th>
-                        <td>Nguyễn A</td>
-                        <th></th>
-                        <th>Tổng</th>
-                        <td>1.000.000đ</td>
-                    </tr>
-                    <tr>
-                        <th>Địa chỉ</th>
-                        <td>KTX Khu A</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Số điện thoại</th>
-                        <td>0123456789</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Ghi chú</th>
-                        <td>Không có</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <form method="POST">
+                        <?php
+                            $user_ID = $_SESSION['user_id'];
+                            $sql = "SELECT sur_name, last_name, phone_num
+                            FROM user
+                            WHERE ID = $user_ID" ;
+                            $result = mysqli_query($con, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<th>Khách hàng</th>";
+                                echo "<td>" . $row['sur_name'] . " " . $row['last_name'] . "</td>";
+                                echo "<th></th>";
+                            }
+                        ?>
+                        <?php
+                            $user_ID = $_SESSION['user_id'];
+                            $sql = "SELECT book_name, sale_price, cart_quantity
+                            FROM book, cart_include
+                            WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
+                            $result = mysqli_query($con, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $subtotal = $row['sale_price'] * $row['cart_quantity'];
+                                echo "<th>Tổng</th>";
+                                echo "<td>" . $subtotal . " VND</td>";
+                                echo "</tr>";
+                            }
+                        ?>
+                        <?php
+                            $user_ID = $_SESSION['user_id'];
+                            $sql = "SELECT sur_name, last_name, phone_num
+                            FROM user
+                            WHERE ID = $user_ID" ;
+                            $result = mysqli_query($con, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<th>Địa chỉ</th>";
+                                echo "<td>KTX Khu A</td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "</tr>";
+                                echo "<tr>";
+                                echo "<th>Số điện thoại</th>";
+                                echo "<td>" . $row['phone_num'] . "</td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "</tr>";
+                                echo "<tr>";
+                                echo "<th>Ghi chú</th>";
+                                echo "<td>Không có</td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "<td></td>";
+                                echo "</tr>";
+                            }
+                        ?>
+                    </form>
                 </table>
             </div>
             <div class="title">
@@ -164,6 +197,13 @@ if (mysqli_connect_errno()) {
                     </tr>
                 </table>
             </div>
+            <?php
+                $user_ID = $_SESSION['user_id'];
+                $sql = "SELECT book_name, sale_price, cart_quantity
+                FROM book, cart_include
+                WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
+                $result = mysqli_query($con, $sql);
+            ?>
             <div class="product">
                 <table>
                     <tr>
@@ -172,12 +212,18 @@ if (mysqli_connect_errno()) {
                         <th>Số lượng</th>
                         <th>Tổng phụ</th>
                     </tr>
-                    <tr>
-                        <td>Tiếng Việt</td>
-                        <td>41.000 VND</td>
-                        <td>1</td>
-                        <td>41.000 VND</td>
-                    </tr>
+                    <form method="POST">
+                    <?php
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $subtotal = $row['sale_price'] * $row['cart_quantity'];
+                            echo "<tr>";
+                            echo "<td>" . $row['book_name'] . "</td>";
+                            echo "<td>" . $row['sale_price'] . " VND</td>";
+                            echo "<td>" . $row['cart_quantity'] . "</td>";
+                            echo "<td>" . $subtotal . " VND</td>";
+                            echo "</tr>";
+                        }
+                    ?>
                 </table>
             </div>
             <div class="button-container">
