@@ -61,9 +61,10 @@ if (mysqli_connect_errno()) {
 
     <div class="content">
         <?php
+            $user_ID = $_SESSION['user_id'];
             $sql = "SELECT book_name, sale_price, cart_quantity
             FROM book, cart_include
-            WHERE book.book_ID = cart_include.book_ID";
+            WHERE book.book_ID = cart_include.book_ID AND cart_include.ID = $user_ID" ;
             $result = mysqli_query($con, $sql);
         ?>
         <table>
@@ -72,29 +73,44 @@ if (mysqli_connect_errno()) {
                 <th>Giá</th> 
                 <th>Số Lượng</th>
                 <th>Tổng Phụ</th>
+                <th></th>
             </tr>
             <form method="POST">
-                <?php
-                    $total = 0;
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $subtotal = 0;
-                        $subtotal += $row['sale_price'] * $row['cart_quantity'];
-                        $total += $subtotal;
-                        echo "<tr>";
-                        echo "<td>" . $row['book_name'] . "</td>";
-                        echo "<td>" . $row['sale_price'] . " VND</td>";
-                        echo "<td>" . $row['cart_quantity'] . "</td>";
-                        echo "<td>" . $subtotal . " VND</td>";
-                        echo "</tr>";
-                    }
-                ?>
+            <?php
+                $total = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $subtotal = $row['sale_price'] * $row['cart_quantity'];
+                    $total += $subtotal;
+                    echo "<tr>";
+                    echo "<td>" . $row['book_name'] . "</td>";
+                    echo "<td>" . $row['sale_price'] . " VND</td>";
+                    echo "<td>" . $row['cart_quantity'] . "</td>";
+                    echo "<td>" . $subtotal . " VND</td>";
+                    echo "<td><input type='checkbox' class='selectBook' value='" . $subtotal . "'></td>";
+                    echo "</tr>";
+                }
+            ?>
             </form>
         </table>
         <div class="total">
             <h2>Tổng Thanh Toán</h2>
-            <p>Tổng: <?php echo $total; ?> VND</p>
+            <p id="total">Tổng: 0 VND</p>
             <button type="button">Mua Hàng</button>
         </div>
+        <script>
+            var checkboxes = document.getElementsByClassName('selectBook');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', function() {
+                    var total = 0;
+                    for (var j = 0; j < checkboxes.length; j++) {
+                        if (checkboxes[j].checked) {
+                            total += parseInt(checkboxes[j].value);
+                        }
+                    }
+                    document.getElementById('total').innerText = 'Tổng: ' + total + ' VND';
+                });
+            }
+        </script>
     </div>
     <!-- content goes here -->
 

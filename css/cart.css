@@ -42,6 +42,7 @@ p {
     border: none;
     border-collapse: collapse;
     padding: 15px;
+    vertical-align: middle;
 }
 .total {
     float: right;
