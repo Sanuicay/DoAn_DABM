@@ -32,28 +32,146 @@ p {
     color: black;
 }
 
-.title {
+.order-title {
     text-align: center;
+    color: #B88E2F;
+    font-weight: bold;
     font-size: 30px;
     margin-bottom: 20px;
 }
-.order {
+
+.order-info {
     display: flex;
     flex-direction: column;
 }
 
-.order table {
+.order-info table {
     height: 100%;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #F9F1E7;
     border-collapse: collapse;
     border: none;
-    text-align: center;
+    text-align: left;
 }
 
-.order th, td {
+.order-info th, td {
+    width: 20%;
     border: none;
     border-collapse: collapse;
     padding: 15px;
     vertical-align: middle;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+}
+
+.title table {
+    height: 100%;
+    width: 100%;
+    background-color: #F9F1E7;
+    border-collapse: collapse;
+    border: none;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.title th {
+    width: 50%;
+    color: #B88E2F;
+    font-size: 20px;
+    border: none;
+    border-collapse: collapse;
+    padding: 15px;
+    vertical-align: middle;
+}
+.left-title {
+    text-align:left;
+}
+
+.customer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-info table {
+    height: 100%;
+    width: 100%;
+    background-color: #F9F1E7;
+    border-collapse: collapse;
+    border: none;
+    text-align: left;
+}
+
+.customer-info th, td {
+    width: 20%;
+    border: none;
+    border-collapse: collapse;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+}
+
+.product table {
+    height: 100%;
+    width: 80%;
+    background-color: #F9F1E7;
+    border-collapse: collapse;
+    border: none;
+    margin: auto;
+    text-align: center;
+}
+
+.product table tr:first-child {
+    background-color: #ffffff;
+}
+
+.product th, td {
+    width: 20%;
+    border: none;
+    border-collapse: collapse;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin: auto;
+}
+
+.button-container input[type="submit"] {
+    margin-top: 20px;
+    width: 300px;
+    height: 40px;
+    color: #000;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button-container input[name="confirm"] {
+    margin-right: 70px;
+    background-color: #E0FFD5;
+}
+
+.button-container input[name="confirm"]:hover {
+    background-color: #C1FFB8;
+}
+
+.button-container input[name="cancel"] {
+    background-color: #F8C2B1;
+}
+
+.button-container input[name="cancel"]:hover {
+    background-color: #F5A99A;
 }
