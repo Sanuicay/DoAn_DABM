@@ -8,7 +8,6 @@ if (mysqli_connect_errno()) {
 
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +15,7 @@ if (mysqli_connect_errno()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/address.css">
+    <link rel="stylesheet" href="css/customer_create_order.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
@@ -54,15 +53,16 @@ if (mysqli_connect_errno()) {
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Địa chỉ của tôi</p>
+        <p class="box-text">Chi tiết đơn hàng</p>
         <div>
             <a href="user_copy.php">Cá nhân</a>
-            <a href="address.php">> Địa chỉ của tôi</a>
+            <a href="#">> Lịch sử giao dịch</a>
+            <a>> Chi tiết hóa đơn </a>
         </div>
     </div>
 
     <div class="content">
-    <div class="side-box">
+        <div class="side-box">
             <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
             <?php
@@ -98,84 +98,8 @@ if (mysqli_connect_errno()) {
         </div>
         
         <div class="banner">
-            <div style="display: flex; justify-content: space-between;">
-                <div class="title">Địa chỉ của tôi</div>
-                <form method="POST" id="addressForm" style="display: none;">
-                    <input type="text" name="address" placeholder="Nhập địa chỉ mới">
-                    <input type="submit" name="add_address" value="Thêm địa chỉ">
-                    <input type="submit" onclick="document.getElementById('addressForm').style.display = 'none';" value="Hủy">
-                </form>
-                <div style="display: flex; justify-content: space-between;">
-                    <input type="button" onclick="openForm()" name="add address" value="Thêm địa chỉ">
-                </div>             
-            </div>
-            <form method="POST">
-            <!-- Your existing PHP code -->
-            <?php
-                $query = "SELECT address
-                        FROM delivery_address, member, user
-                        WHERE delivery_address.ID = member.ID AND member.ID = user.ID AND user.ID = $id;";
-                $result = mysqli_query($con,$query);
-                $i = 0;
-                while($row = mysqli_fetch_assoc($result)){
-                    echo "<div id='addressDiv{$i}' style='display: flex; justify-content: space-between; align-items: center;'>";
-                    echo "<p>{$row['address']}</p>"; // Display the address as text
-                    echo "<div>";
-                    echo "<button type='button' onclick='openUpdateForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Cập nhật</button>";
-                    echo "<button type='button' onclick='openDeleteForm(\"{$row['address']}\", \"addressDiv{$i}\")'>Xóa</button>";
-                    echo "</div>";
-                    echo "</div>";
-                    $i++;
-                }
-            ?>
-            <form>
+            <div class="title">Thông tin hóa đơn</div>
         </div>
-
-        <script>
-            function openUpdateForm(address, divId) {
-                var originalContent = document.getElementById(divId).innerHTML;
-                var encodedContent = encodeURIComponent(originalContent);
-                var updateForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
-                                "<p><input type='text' name='new_address' placeholder='Nhập địa chỉ mới' style='border: none; background: none; width: 200px; background-color: #F9F1E7'></p>" +
-                                "<div>" +
-                                "<input type='hidden' name='old_address' value='" + address + "'>" +
-                                "<input type='submit' name='update' value='Cập nhật' style='color: black;'>" +
-                                "<input type='submit' onclick='cancelUpdate(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-right: 20px; color: black;'>" +
-                                "</div>" +
-                                "</form>";
-                document.getElementById(divId).innerHTML = updateForm;
-            }
-
-            function cancelUpdate(divId, encodedContent) {
-                var originalContent = decodeURIComponent(encodedContent);
-                document.getElementById(divId).innerHTML = originalContent;
-            }
-            
-            //open delete form will have a pre-filled address field and can't be edited
-            function openDeleteForm(address, divId) {
-                var originalContent = document.getElementById(divId).innerHTML;
-                var encodedContent = encodeURIComponent(originalContent);
-                var deleteForm = "<form method='POST' style='display: flex; justify-content: space-between; align-items: center;'>" +
-                                "<p><input type='text' name='address' value='" + address + "' style='border: none; background: none; width: 200px; background-color: #F9F1E7' readonly></p>" +
-                                "<div>" +
-                                "<input type='submit' name='delete' value='Xóa' style='color: black;'>" +
-                                "<input type='submit' onclick='cancelDelete(\"" + divId + "\", \"" + encodedContent + "\")' value='Hủy' style='margin-right: 20px; color: black;'>" +
-                                "</div>" +
-                                "</form>";
-                document.getElementById(divId).innerHTML = deleteForm;
-            }
-
-            function cancelDelete(divId, encodedContent) {
-                var originalContent = decodeURIComponent(encodedContent);
-                document.getElementById(divId).innerHTML = originalContent;
-            }
-        </script>
-
-        <script>
-            function openForm() {
-                document.getElementById("addressForm").style.display = "block";
-            }
-        </script>
     </div>
     <!-- content goes here -->
 

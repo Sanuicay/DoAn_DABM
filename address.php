@@ -139,7 +139,7 @@ if (isset($_POST['add_address'])) {
     </div>
 
     <div class="content">
-    <div class="side-box">
+        <div class="side-box">
             <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
             <?php
