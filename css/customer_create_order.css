@@ -61,6 +61,14 @@ p {
     padding: 15px;
     vertical-align: middle;
 }
+.order-info select {
+    height: 30px;
+    width: 100%;
+    background-color: #F9F1E7;
+    padding: 0px;
+    border-radius: 0px;
+    border: 1px solid black;
+}
 
 .title {
     display: flex;
@@ -110,6 +118,15 @@ p {
     border-collapse: collapse;
     padding: 15px;
     vertical-align: middle;
+}
+
+.customer-info select {
+    height: 30px;
+    width: 100%;
+    background-color: #F9F1E7;
+    padding: 0px;
+    border-radius: 0px;
+    border: 1px solid black;
 }
 
 .product {
@@ -174,4 +191,24 @@ p {
 
 .button-container input[name="cancel"]:hover {
     background-color: #F5A99A;
+}
+
+.order-info input[type="text"] {
+    height: 30px;
+    width: 100%;
+    color: black;
+    background-color: #F9F1E7;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+.customer-info input[type="text"] {
+    height: 30px;
+    width: 100%;
+    color: black;
+    background-color: #ffffff;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid black;
+    border-radius: 0px;
 }
