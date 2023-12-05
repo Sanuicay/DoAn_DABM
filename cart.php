@@ -125,8 +125,17 @@ if (mysqli_connect_errno()) {
             }
             function Buy_a_book() {
                 var checkboxes = document.getElementsByClassName('selectBook');
-                var book_ID = document.getElementsByTagName('td')[0].innerText;
+                // take the book_ID of the selected book
+                var book_ID = 0;
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        book_ID = checkboxes[i].parentElement.parentElement.children[0].innerText;
+                        break;
+                    }
+                }
+                // send the book_ID to the next page
                 window.location.href = 'customer_create_order.php?id=' + book_ID;
+
             }
         </script>
     </div>
