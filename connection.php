@@ -12,7 +12,7 @@ else{
             
     $user = $con->query($sql)->fetch_assoc();
 }
-$id = $user["ID"];
+$id = $_SESSION['user_id'];
 $query = "SELECT sur_name, last_name, phone_num, email, username, password, user_info
           FROM user
           WHERE ID = $id;";

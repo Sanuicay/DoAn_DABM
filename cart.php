@@ -66,13 +66,18 @@ if (mysqli_connect_errno()) {
     <div class="content">
         <?php
             $user_ID = $_SESSION['user_id'];
-            $sql = "SELECT book_name, sale_price, cart_quantity
+            // $sql = "SELECT book_name, sale_price, cart_quantity
+            // FROM book, cart_include
+            // WHERE book.book_ID = cart_include.book_ID AND cart_include.ID = $user_ID" ;
+            // also select book_ID
+            $sql = "SELECT book.book_ID, book_name, sale_price, cart_quantity
             FROM book, cart_include
             WHERE book.book_ID = cart_include.book_ID AND cart_include.ID = $user_ID" ;
             $result = mysqli_query($con, $sql);
         ?>
         <table>
             <tr>
+                <th>ID</th>
                 <th>Sản Phẩm</th>
                 <th>Giá</th> 
                 <th>Số Lượng</th>
@@ -86,6 +91,7 @@ if (mysqli_connect_errno()) {
                     $subtotal = $row['sale_price'] * $row['cart_quantity'];
                     $total += $subtotal;
                     echo "<tr>";
+                    echo "<td>" . $row['book_ID'] . "</td>";
                     echo "<td>" . $row['book_name'] . "</td>";
                     echo "<td>" . $row['sale_price'] . " VND</td>";
                     echo "<td>" . $row['cart_quantity'] . "</td>";
@@ -119,17 +125,8 @@ if (mysqli_connect_errno()) {
             }
             function Buy_a_book() {
                 var checkboxes = document.getElementsByClassName('selectBook');
-                var book_ID = 0;
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                        book_ID = i + 1;
-                    }
-                }
-                if (book_ID == 0) {
-                    alert('Bạn chưa chọn sách để mua');
-                } else {
-                    window.location.href = 'customer_create_order.php?id=' + book_ID;
-                }
+                var book_ID = document.getElementsByTagName('td')[0].innerText;
+                window.location.href = 'customer_create_order.php?id=' + book_ID;
             }
         </script>
     </div>
