@@ -166,32 +166,100 @@ else if(isset($_POST['cancel'])){
                 <form method="POST">
                     <div class="name">
                         <div>
-                            <?php
-                            echo "<label for='tensach'>Tên sách</label><br>";
-                            echo "<input type='text' id='tensach' placeholder='".$row_book['book_name']."' name='tensach'><br>";
-                            echo "<label for='nhaxuatbanID'>Mã nhà xuất bản</label><br>";
-                            echo "<input type='text' id='nhaxuatbanID' placeholder='".$row_book['publisher_ID']."' name='nhaxuatbanID'><br>";
-                            echo "<label for='masach'>Mã sách</label><br>";
-                            echo "<input type='text' id='masach' placeholder='".$row_book['book_ID']."' name='masach'><br>";
-                            echo "<label for='sotrang'>Số trang</label><br>";
-                            echo "<input type='text' id='sotrang' placeholder='".$row_book['page_count']."' name='sotrang'><br>";
-                            echo "<label for='ngayphathanh'>Ngày phát hành</label><br>";
-                            echo "<input type='text' id='ngayphathanh' placeholder='".$row_book['release_date']."' name='ngayphathanh'>";
-                            ?>
-                        </div>
+                            <!-- using base from add_new_book.php but with placeholder -->
+                            <!-- tên sách -->
+                            <label for="tensach">Tên sách</label><br>
+                            <input type="text" id="tensach" name="tensach" placeholder="<?php echo $row_book['book_name']; ?>"><br>
+
+                            <!-- mã nhà xuất bản -->
+                            <label for="nhaxuatbanID">Mã nhà xuất bản</label><br>
+                            <select id="nhaxuatbanID" name="nhaxuatbanID">
+                                <?php
+                                $query = "SELECT publisher_ID, publisher_name FROM publisher";
+                                $result = mysqli_query($con,$query);
+                                $preselectedPublisherID = $row_book['publisher_ID'];
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    if ($row['publisher_ID'] == $preselectedPublisherID) {
+                                        echo "<option value='" . $row['publisher_ID'] . "' selected>" . $row['publisher_name'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['publisher_ID'] . "'>" . $row['publisher_name'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+
+                            <!-- mã sách, uneditable -->
+                            <label for="masach">Mã sách</label><br>
+                            <input type="text" id="masach" name="masach" placeholder="<?php echo $row_book['book_ID']; ?>" readonly><br>
+
+                            <!-- số trang -->
+                            <label for="sotrang">Số trang</label><br>
+                            <input type="number" id="sotrang" name="sotrang" placeholder="<?php echo $row_book['page_count']; ?>"><br>
+
+                            <!-- ngày phát hành -->
+                            <label for='ngayphathanh'>Ngày phát hành</label><br>
+                            <input type='text' id='ngayphathanh' name='ngayphathanh' placeholder='<?php echo $row_book['release_date']; ?>'><br>
+
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script>
+                            $(document).ready(function(){
+                            $('#ngayphathanh').on('focus',function(){
+                                $(this).attr('type', 'date');
+                            }).on('blur',function(){
+                                if($(this).val() == ""){
+                                $(this).attr('type', 'text');
+                                }
+                            });
+                            });
+                            </script>
+                            
+                            </div>
                         <div>
-                            <?php
-                            echo "<label for='tentacgiaID'>Mã tác giả</label><br>";
-                            echo "<input type='text' id='tentacgiaID' placeholder='".$row_book['author_ID']."' name='tentacgiaID'><br>";
-                            echo "<label for='namxuatban'>Năm xuất bản</label><br>";
-                            echo "<input type='text' id='namxuatban' placeholder='".$row_book['publication_year']."' name='namxuatban'><br>";
-                            echo "<label for='theloaiID'>Mã thể loại</label><br>";
-                            echo "<input type='text' id='theloaiID' placeholder='".$row_book['genre_ID']."' name='theloaiID'><br>";
-                            echo "<label for='soluong'>Số lượng</label><br>";
-                            echo "<input type='text' id='soluong' placeholder='".$row_book['remaining_quantity']."' name='soluong'><br>";
-                            echo "<label for='giatien'>Giá tiền</label><br>";
-                            echo "<input type='text' id='giatien' placeholder='".$row_book['sale_price']."' name='giatien'>";
-                            ?>
+                            <!-- tên tác giả -->
+                            <label for="tentacgiaID">Tên tác giả</label><br>
+                            <select id="tentacgiaID" name="tentacgiaID">
+                                <?php
+                                $query = "SELECT author_ID, author_name FROM author";
+                                $result = mysqli_query($con,$query);
+                                $preselectedAuthorID = $row_book['author_ID'];
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    if ($row['author_ID'] == $preselectedAuthorID) {
+                                        echo "<option value='" . $row['author_ID'] . "' selected>" . $row['author_name'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['author_ID'] . "'>" . $row['author_name'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+
+                            <!-- năm xuất bản -->
+                            <label for="namxuatban">Năm xuất bản</label><br>
+                            <input type="number" id="namxuatban" name="namxuatban" placeholder="<?php echo $row_book['publication_year']; ?>"><br>
+
+                            <!-- thể loại -->
+                            <label for="theloaiID">Thể loại</label><br>
+                            <select id="theloaiID" name="theloaiID">
+                                <?php
+                                $query = "SELECT genre_ID, genre_name FROM genre";
+                                $result = mysqli_query($con,$query);
+                                $preselectedGenreID = $row_book['genre_ID'];
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    if ($row['genre_ID'] == $preselectedGenreID) {
+                                        echo "<option value='" . $row['genre_ID'] . "' selected>" . $row['genre_name'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row['genre_ID'] . "'>" . $row['genre_name'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+
+                            <!-- số lượng -->
+                            <label for="soluong">Số lượng</label><br>
+                            <input type="number" id="soluong" name="soluong" placeholder="<?php echo $row_book['remaining_quantity']; ?>"><br>
+
+                            <!-- giá tiền -->
+                            <label for="giatien">Giá tiền</label><br>
+                            <input type="number" id="giatien" name="giatien" placeholder="<?php echo $row_book['sale_price']; ?>"><br>
                         </div>
                     </div>
                     <div class="description">

@@ -9,10 +9,42 @@ if (mysqli_connect_errno()) {
 }
 
 $search = $_POST['search'];
+$search = str_replace(' ', '', $search);
+$search = str_replace('(', '', $search);
+$search = str_replace(')', '', $search);
+$search = str_replace(';', '', $search);
+$search = strtolower($search);
+
 $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
           FROM book, author, publisher, genre, written_by, belongs_to 
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_name LIKE '%$search%'";
+          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
 $result = mysqli_query($con, $query);
+
+if (mysqli_num_rows($result) == 0) {
+    // If no books found by name, search by author name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+              FROM book, author, publisher, genre, written_by, belongs_to 
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(author.author_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+    $result = mysqli_query($con, $query);
+}
+
+if (mysqli_num_rows($result) == 0) {
+    // If no books found by author name, search by publisher name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+              FROM book, author, publisher, genre, written_by, belongs_to 
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(publisher.publisher_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+    $result = mysqli_query($con, $query);
+}
+
+if (mysqli_num_rows($result) == 0) {
+    // If no books found by publisher name, search by genre name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+              FROM book, author, publisher, genre, written_by, belongs_to 
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(genre.genre_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+    $result = mysqli_query($con, $query);
+}
+
+
 
 if (mysqli_num_rows($result) > 0) {
     echo "<table>

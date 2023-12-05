@@ -2,7 +2,7 @@
 $id = $_GET['id'];
 
 echo "<script>
-    var confirmation = confirm('Are you sure you want to delete this book?');
+    var confirmation = confirm('XÁC NHẬN XÓA SÁCH?');
     if (confirmation) {
         window.location.href = 'delete_book_data_from_ID.php?id={$id}';
     } else {
