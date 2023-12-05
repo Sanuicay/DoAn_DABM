@@ -39,11 +39,11 @@ if (isset($_POST['confirm'])) {
     //check if the order_ID_flag is true
     if ($order_ID_flag) {
         $user_ID = $_SESSION['user_id'];
-        //insert data into sale_order table include sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID
+        //insert data into sale_order table include sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID = 20010101
         $delivery_address = $_POST['address'];
         $payment_status = $_POST['payment_status'];
-        $query = "INSERT INTO sale_order (order_ID, delivery_date, delivery_address, payment_status, ID)
-                  VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID');";
+        $query = "INSERT INTO sale_order (sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID)
+                  VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
         $result = mysqli_query($con, $query);
         if ($result) {
             echo "<script>alert('Đặt hàng thành công!');</script>";
@@ -153,11 +153,11 @@ if (isset($_POST['cancel'])) {
         
         <div class="banner">
             <div class="order-title">Thông tin hóa đơn</div>
-            <div class="order-info">
-                <table>
-                    <tr>
-                        <th>Mã hóa đơn</th>
-                        <form method="POST">
+            <form method="POST">
+                <div class="order-info">
+                    <table>
+                        <tr>
+                            <th>Mã hóa đơn</th>
                             <?php
                                 $sql = "SELECT MAX(CAST(SUBSTRING(order_ID, 4) AS UNSIGNED)) AS max_order_ID
                                         FROM `order`;";
@@ -166,34 +166,32 @@ if (isset($_POST['cancel'])) {
                                 $order_ID = 'ONL' . ($row['max_order_ID'] + 1);
                                 echo "<td><input type='text' name='order_ID' id='order_ID' value='$order_ID' readonly></td>";
                             ?>
-                        </form>
-                        <td></td>
-                        <th>Phương thức thanh toán</th>
-                        <td><select name="payment" id="payment">
-                            <option value="shipCOD">Thanh toán khi nhận hàng</option>
-                            <option value="online">Thanh toán online</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <th>Trạng thái đơn hàng</th>
-                        <td><input type="text" name="order_status" id="order_status" value="Đang chờ duyệt" readonly></td>
-                        <td></td>
-                        <th>Tình trạng thanh toán</th>
-                        <td><input type="text" name="payment_status" id="payment_status" value="Chưa thanh toán" readonly></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="title">
-                <table>
-                    <tr>
-                        <th><div class="left-title">Khách hàng</div></th>
-                        <th>Tổng hóa đơn</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="customer-info">
-                <table>
-                    <form method="POST">
+                            <td></td>
+                            <th>Phương thức thanh toán</th>
+                            <td><select name="payment" id="payment">
+                                <option value="shipCOD">Thanh toán khi nhận hàng</option>
+                                <option value="online">Thanh toán online</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th>Trạng thái đơn hàng</th>
+                            <td><input type="text" name="order_status" id="order_status" value="Đang chờ duyệt" readonly></td>
+                            <td></td>
+                            <th>Tình trạng thanh toán</th>
+                            <td><input type="text" name="payment_status" id="payment_status" value="Chưa thanh toán" readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="title">
+                    <table>
+                        <tr>
+                            <th><div class="left-title">Khách hàng</div></th>
+                            <th>Tổng hóa đơn</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="customer-info">
+                    <table>
                         <?php
                             $user_ID = $_SESSION['user_id'];
                             $sql = "SELECT sur_name, last_name, phone_num
@@ -264,32 +262,30 @@ if (isset($_POST['cancel'])) {
                                 echo "</tr>";
                             }
                         ?>
-                    </form>
-                </table>
-            </div>
-            <div class="title">
-                <table>
-                    <tr>
-                        <th><div class="left-title">Sản phẩm</div></th>
-                    </tr>
-                </table>
-            </div>
-            <?php
-                $user_ID = $_SESSION['user_id'];
-                $sql = "SELECT book_name, sale_price, cart_quantity
-                FROM book, cart_include
-                WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
-                $result = mysqli_query($con, $sql);
-            ?>
-            <div class="product">
-                <table>
-                    <tr>
-                        <th>Sản phẩm</th>
-                        <th>Đơn giá</th>
-                        <th>Số lượng</th>
-                        <th>Tổng phụ</th>
-                    </tr>
-                    <form method="POST">
+                    </table>
+                </div>
+                <div class="title">
+                    <table>
+                        <tr>
+                            <th><div class="left-title">Sản phẩm</div></th>
+                        </tr>
+                    </table>
+                </div>
+                <?php
+                    $user_ID = $_SESSION['user_id'];
+                    $sql = "SELECT book_name, sale_price, cart_quantity
+                    FROM book, cart_include
+                    WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
+                    $result = mysqli_query($con, $sql);
+                ?>
+                <div class="product">
+                    <table>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng phụ</th>
+                        </tr>
                         <?php
                             while ($row = mysqli_fetch_assoc($result)) {
                                 $subtotal = $row['sale_price'] * $row['cart_quantity'];
@@ -301,10 +297,8 @@ if (isset($_POST['cancel'])) {
                                 echo "</tr>";
                             }
                         ?>
-                    </form>
-                </table>
-            </div>
-            <form method="POST">
+                    </table>
+                </div>
                 <div class="button-container">
                     <input type="submit" name="confirm" value="Đặt hàng">
                     <input type="submit" name="cancel" value="Hủy đơn hàng">
