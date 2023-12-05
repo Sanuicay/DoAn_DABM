@@ -46,11 +46,35 @@ if (isset($_POST['confirm'])) {
                   VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
         $result = mysqli_query($con, $query);
         if ($result) {
-            echo "<script>alert('Đặt hàng thành công!');</script>";
-            echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
+            // set sale_ID flag to true
+            $sale_ID_flag = true;
         } else {
             echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
             echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
+        }
+    }
+
+    //check if the sale_ID_flag is true
+    if ($sale_ID_flag) {
+        //insert data into sale_include table include sale_ID, book_ID, sale_quantity
+        $user_ID = $_SESSION['user_id'];
+        $sql = "SELECT book_ID, cart_quantity
+                FROM cart_include
+                WHERE ID = $user_ID AND book_ID = $product_id;";
+        $result = mysqli_query($con, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $book_ID = $row['book_ID'];
+            $sale_quantity = $row['cart_quantity'];
+            $query = "INSERT INTO sale_include (sale_ID, book_ID, sale_quantity)
+                      VALUES ('$order_ID', '$book_ID', '$sale_quantity');";
+            $result = mysqli_query($con, $query);
+            if ($result) {
+                echo "<script>alert('Đặt hàng thành công!');</script>";
+                echo "<script>window.location.href='cart.php';</script>";
+            } else {
+                echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
+                echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
+            }
         }
     }
 }
