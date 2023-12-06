@@ -14,19 +14,22 @@ $product_id = mysqli_real_escape_string($con, $product_id);
 if (isset($_POST['confirm'])) {
     $order_ID = $_POST['order_ID'];
     $order_date = date("Y-m-d");
-    $order_info = $_POST['order_info'];
+    $payment = $_POST['payment'];
+    $order_status = $_POST['order_status'];
+    $note = $_POST['note'];
     //check if the order_ID exsist in the order table
     $query = "SELECT order_ID
-              FROM `order`
-              WHERE order_ID = '$order_ID';";
+            FROM `order`
+            WHERE order_ID = '$order_ID';";
     $result = mysqli_query($con,$query);
     if (mysqli_num_rows($result) > 0) {
         echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
         echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
     }
     else {
+        // order_info = $payment + $order_status + $note
         $sql = "INSERT INTO `order` (order_ID, order_date, order_info)
-                VALUES ('$order_ID', '$order_date', '$order_info');";
+                VALUES ('$order_ID', '$order_date', '$payment, $order_status, $note');";
         $result = mysqli_query($con, $sql);
         if ($result) {
             //set order_ID flag to true
@@ -43,7 +46,7 @@ if (isset($_POST['confirm'])) {
         $delivery_address = $_POST['address'];
         $payment_status = $_POST['payment_status'];
         $query = "INSERT INTO sale_order (sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID)
-                  VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
+                VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
         $result = mysqli_query($con, $query);
         if ($result) {
             // set sale_ID flag to true
@@ -66,11 +69,21 @@ if (isset($_POST['confirm'])) {
             $book_ID = $row['book_ID'];
             $sale_quantity = $row['cart_quantity'];
             $query = "INSERT INTO sale_include (sale_ID, book_ID, sale_quantity)
-                      VALUES ('$order_ID', '$book_ID', '$sale_quantity');";
+                    VALUES ('$order_ID', '$book_ID', '$sale_quantity');";
             $result = mysqli_query($con, $query);
             if ($result) {
-                echo "<script>alert('Đặt hàng thành công!');</script>";
-                echo "<script>window.location.href='cart.php';</script>";
+                // if payment = shipCOD
+                if ($payment == 'shipCOD') {
+                    //delete data from cart_include table
+                    $sql = "DELETE FROM cart_include
+                            WHERE ID = $user_ID AND book_ID = $product_id;";
+                    $result = mysqli_query($con, $sql);
+                    echo "<script>alert('Đặt hàng thành công!');</script>";
+                    echo "<script>window.location.href='cart.php';</script>";
+                } else {
+                    // redirect to payment.php?id=$order_ID
+                    echo "<script>window.location.href='payment.php?id=$order_ID';</script>";
+                }
             } else {
                 echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
                 echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
@@ -235,11 +248,16 @@ if (isset($_POST['cancel'])) {
                             FROM book, cart_include
                             WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
                             $result = mysqli_query($con, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $subtotal = $row['sale_price'] * $row['cart_quantity'];
-                                echo "<th>Tổng</th>";
-                                echo "<td>" . $subtotal . " VND</td>";
-                                echo "</tr>";
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $subtotal = $row['sale_price'] * $row['cart_quantity'];
+                                    echo "<th>Tổng</th>";
+                                    echo "<td>" . $subtotal . " VND</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                //redirect to cart.php
+                                echo "<script>window.location.href='cart.php';</script>";
                             }
                         ?>
                         <?php
@@ -279,7 +297,7 @@ if (isset($_POST['cancel'])) {
                                 echo "</tr>";
                                 echo "<tr>";
                                 echo "<th>Ghi chú</th>";
-                                echo "<td><input type='text' name='order_info' id='order_info'></td>";
+                                echo "<td><input type='text' name='note' id='note'></td>";
                                 echo "<td></td>";
                                 echo "<td></td>";
                                 echo "<td></td>";

@@ -1,19 +1,12 @@
 <?php
 include 'connection.php';
-
-// Connect to database
 $con = mysqli_connect("localhost:3307","root","","doan");
-// Check connection
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
-}   
-
-// When click on the 'Mua hang' button
-
+}
 
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -22,29 +15,29 @@ if (mysqli_connect_errno()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/payment.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
-    <script src="javascript/address_script.js"></script>
 </head>
 <body>
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="login_success.php">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
             <button class="header-login-button" onclick="redirectToLogout()">
                 Đăng xuất
             </button>
@@ -60,83 +53,52 @@ if (mysqli_connect_errno()) {
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Giỏ hàng</p>
+        <p class="box-text">Chi tiết đơn hàng</p>
+        <div>
+            <a href="user_copy.php">Cá nhân</a>
+            <a href="#">> Lịch sử giao dịch</a>
+            <a>> Chi tiết hóa đơn </a>
+        </div>
     </div>
 
     <div class="content">
-        <?php
-            $user_ID = $_SESSION['user_id'];
-            // $sql = "SELECT book_name, sale_price, cart_quantity
-            // FROM book, cart_include
-            // WHERE book.book_ID = cart_include.book_ID AND cart_include.ID = $user_ID" ;
-            // also select book_ID
-            $sql = "SELECT book.book_ID, book_name, sale_price, cart_quantity
-            FROM book, cart_include
-            WHERE book.book_ID = cart_include.book_ID AND cart_include.ID = $user_ID" ;
-            $result = mysqli_query($con, $sql);
-        ?>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Sản Phẩm</th>
-                <th>Giá</th> 
-                <th>Số Lượng</th>
-                <th>Tổng Phụ</th>
-                <th></th>
-            </tr>
-            <form method="POST">
+        <div class="side-box">
+            <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
+            <br>
             <?php
-                $total = 0;
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $subtotal = $row['sale_price'] * $row['cart_quantity'];
-                    $total += $subtotal;
-                    echo "<tr>";
-                    echo "<td>" . $row['book_ID'] . "</td>";
-                    echo "<td>" . $row['book_name'] . "</td>";
-                    echo "<td>" . $row['sale_price'] . " VND</td>";
-                    echo "<td>" . $row['cart_quantity'] . "</td>";
-                    echo "<td>" . $subtotal . " VND</td>";
-                    echo "<td><input type='checkbox' class='selectBook' value='" . $subtotal . "'></td>";
-                    echo "</tr>";
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
                 }
             ?>
-            </form>
-        </table>
-        <div class="total">
-            <h2>Tổng Thanh Toán</h2>
-            <p id="total">Tổng: 0 VND</p>
-            <button type="button" onclick="Buy_a_book()">Mua Hàng</button>
+            <a href="user_copy.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="address.php"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
+            <a href="#"><img class="side-box-last-button" src="img/purchase_history_button.png" alt="Button3"></a>
         </div>
-        <script>
-            var checkboxes = document.getElementsByClassName('selectBook');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].addEventListener('change', function() {
-                    var total = 0;
-                    for (var j = 0; j < checkboxes.length; j++) {
-                        if (checkboxes[j] !== this) {
-                            checkboxes[j].checked = false;
-                        }
-                        if (checkboxes[j].checked) {
-                            total += parseInt(checkboxes[j].value);
-                        }
-                    }
-                    document.getElementById('total').innerText = 'Tổng: ' + total + ' VND';
-                });
-            }
-            function Buy_a_book() {
-                var checkboxes = document.getElementsByClassName('selectBook');
-                // take the book_ID of the selected book
-                var book_ID = 0;
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                        book_ID = checkboxes[i].parentElement.parentElement.children[0].innerText;
-                        break;
-                    }
-                }
-                // send the book_ID to the next page
-                window.location.href = 'customer_create_order.php?id=' + book_ID;
-            }
-        </script>
+        
+        <div class="banner">
+        </div>
     </div>
     <!-- content goes here -->
 
