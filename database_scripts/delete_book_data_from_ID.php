@@ -24,9 +24,10 @@ $query = "DELETE FROM book WHERE book_ID = '$id'";
 $result = mysqli_query($con, $query);
 
 if ($result) {
-    //redirect to list_of_book2.html (outside of database_scripts folder)
-    header("Location: ../list_of_book2.html");
+    echo "<script>alert('Xóa thành công!')</script>";
+    echo "<script>window.location.href = '../list_of_book.php';</script>";
 } else {
-    echo "Error deleting record: " . mysqli_error($con);
+    echo "<script>alert('Xóa thất bại!')</script>";
+    echo "<script>window.location.href = '../list_of_book.php';</script>";
 }
 ?>
