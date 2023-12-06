@@ -160,12 +160,9 @@ if (isset($_POST['change2']))
     </div>
 
     <div class="content">
-    <div class="side-box">
+        <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p> -->
-            <!-- <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
             <?php
                 echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
                 echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
@@ -202,6 +199,8 @@ if (isset($_POST['change2']))
             <div class="profile">
                 <h2>Hồ Sơ Của Tôi</h2>
                 <form method="POST">
+
+                    <!-- Họ và Tên -->
                     <div class="name">
                         <div>
                             <?php
@@ -217,15 +216,27 @@ if (isset($_POST['change2']))
                         </div>
                     </div>
                     <br>
+                    
+                    <!-- Email -->
                     <?php
                         echo "<label for='email'>Email:</label>";
                         echo "<input type='email' value='$row_employee[email]' id='email' name='email'><br>";
+                    ?>
+
+                    <!-- Số điện thoại -->
+                    <?php
                         echo "<label for='phone'>Số Điện Thoại:</label>";
                         echo "<input type='tel' pattern='0[0-9]{9,10}' value='$row_employee[phone_num]' id='phone' name='phone'><br>";
-                        echo "<label for='info'>Thông tin thêm:</label>";
-                        echo "<input type='info' value='$row_employee[user_info]' id='info' name='info'><br>";
+                    ?>
+
+                    <!-- Ngày vào làm -->
+                    <?php
                         echo "<label for='start_date'>Ngày vào làm:</label>";
                         echo "<input type='date' value='$row_employee[start_date]' id='start_date' name='start_date' readonly><br>";
+                    ?>
+
+                    <!-- Trạng thái -->
+                    <?php
                         echo "<label for='status'>Trạng thái:</label>";
                         echo "<select id='status' name='status'>";
                         if ($row_employee['employee_status'] == "Full-time")
@@ -240,58 +251,69 @@ if (isset($_POST['change2']))
                         }
                         echo "<input type='submit' name='change1' value='Thay Đổi'>;"
                     ?>
+
+                    <!-- Thông tin thêm -->
+                    <?php
+                        echo "<label for='info'>Thông tin thêm:</label>";
+                        echo "<input type='info' value='$row_employee[user_info]' id='info' name='info'><br>";
+                    ?>                 
                 </form>
             </div>
             <div class="account-info" method="POST">
                 <h2>Thông Tin Tài Khoản</h2><br>
                 <form>
+                    <!-- Tên đăng nhập -->
                     <div class="form-group">
                         <?php
                             echo "<label for='username'>Tên Đăng Nhập:</label>";
                             echo "<b>$row_employee[username]</b>";
                         ?>
-                        <!-- <label for="username">Tên Đăng Nhập:</label>
-                        <b>username</b> -->
                     </div>
+
+                    <!-- ID -->
                     <div class="form-group">
                         <?php
                             echo "<label for='ID'>ID:</label>";
                             echo "<b>$employeeID</b>";
                         ?>
-                        <!-- <label for="ID">ID:</label>
-                        <b>ID</b> -->
                     </div>
                 </form>
                 <hr style="height:1px;border-width:0;color:gray;background-color:gray"><br>
                 <form method="POST">
-                <div class="form-group">
-                    <label for="old-password">Mật Khẩu Cũ:</label><br>
-                    <input type="password" id="old-password" name="old-password" value="<?php echo $row_employee['password']; ?>" readonly>
-                    <input type="checkbox" onclick="ShowPassword()">
-                </div>
+                    <!-- Mật khẩu cũ -->
+                    <div class="form-group">
+                        <label for="old-password">Mật Khẩu Cũ:</label><br>
+                        <input type="password" id="old-password" name="old-password" value="<?php echo $row_employee['password']; ?>" readonly>
+                        <input type="checkbox" onclick="ShowPassword()">
+                    </div>
 
-
-
-                <script>
-                function ShowPassword() {
-                    var x = document.getElementById("old-password");
-                    if (x.type === "password") {
-                        x.type = "text";
-                    } else {
-                        x.type = "password";
+                    <!-- JavaScript của mật khẩu cũ-->
+                    <script>
+                    function ShowPassword() {
+                        var x = document.getElementById("old-password");
+                        if (x.type === "password") {
+                            x.type = "text";
+                        } else {
+                            x.type = "password";
+                        }
                     }
-                }
-                </script>
+                    </script>
+
+                    <!-- Mật khẩu mới -->
                     <br>
                     <div class="form-group">
                         <label for="new-password">Mật Khẩu Mới:</label><br>
                         <input type="password" id="new-password" name="new-password"><br>
                     </div>
                     <br>
+
+                    <!-- Xác nhận mật khẩu mới -->
                     <div class="form-group">
                         <label for="confirm-password">Xác nhận Mật Khẩu Mới:</label><br>
                         <input type="password" id="confirm-password" name="confirm-password"><br>
-                    </div>                  
+                    </div>         
+                    
+                    <!-- Nút thay đổi -->
                     <input type="submit" name="change2" value="Thay Đổi">
                 </form>
             </div>

@@ -192,10 +192,6 @@ include("connection.php");
                     <label for="phone">Số Điện Thoại:</label>
                     <input type="tel" pattern="0[0-9]{9,10}" id="phone" name="phone">
 
-                    <!-- Info -->
-                    <label for="info">Thông tin thêm:</label>
-                    <input type="info" id="info" name="info"> <br>
-
                     <!-- Start date -->
                     <label for="start_date">Ngày vào làm:</label> <br>
                     <input type="date" id="start_date" name="start_date">
@@ -206,6 +202,10 @@ include("connection.php");
                         <option value="Full-time">Full-time</option>
                         <option value="Part-time">Part-time</option>
                     </select>
+
+                    <!-- Info -->
+                    <label for="info">Thông tin thêm:</label>
+                    <input type="info" id="info" name="info"> <br>                   
                 </form>
             </div>
             <div class="account-info" method="POST">
