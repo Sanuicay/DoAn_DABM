@@ -46,11 +46,6 @@ include("connection.php");
         </div>
     </div>
 
-    <div class="box"> <!--cover-box.css-->
-        <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Giỏ hàng</p>
-    </div>
-
     <!-- content -->
     <div class="content">
         <div class="side-box">
@@ -87,53 +82,21 @@ include("connection.php");
             <a href="manager_logistic.php"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
-            <!-- real content goes here -->
-            <div class="search-container">
-                <div class="search-icon">
-                    <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                </div>
-                <form id="searchForm" method="post">
-                    <input type="text" id="search" name="search">
-                    <input type="submit" value="Submit">
-                </form>
-                <div class="button-container">
-                    <a href="add_new_employee.php"><input type="button" value="Thêm nhân viên"></a>
-                </div>
-            </div>
-            <div id="employeeTable"></div>
-            <script>           
-            function redirectToDetailsPage(ID) {
-                window.location.href = 'update_employee.php?id=' + ID;
+            <style>
+            .centered-images {
+                display: flex;
+                justify-content: center;
+                margin-top: 50px;
             }
-            // Function to fetch employee data
-            function fetchemployeeData(search = '') {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'database_scripts/get_employee_data.php', true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                        document.getElementById('employeeTable').innerHTML = this.responseText;
-                    }
-                }
-                xhr.send("search=" + search);
+            .centered-images a {
+                margin: 0 10px; /* Adjust as needed */
             }
-            
-            // Fetch all employee data when the page loads
-            fetchemployeeData();
-            
-            // Fetch employee data based on search when the form is submitted
-            document.getElementById('searchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                var search = document.getElementById('search').value;
-                if (search === '') {
-                    // If the search term is blank, fetch all employee data
-                    fetchemployeeData();
-                } else {
-                    fetchemployeeData(search);
-                }
-            });
-            </script>
+            </style>
 
+            <div class="centered-images">
+                <a href="manager_book_logistic.php"><img src="img/book_logistics_manager.png" alt="button1" width="300"></a>
+                <a href="manager_income_logistic.php"><img src="img/logistics_manager.png" alt="button2" width="300"></a>
+            </div>
         </div>
     </div>
 
