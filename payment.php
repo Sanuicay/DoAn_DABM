@@ -5,7 +5,39 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
 }
+//get the id of the order from the url
+$order_id = $_GET['id'];
+//sanitize the id
+$order_id = mysqli_real_escape_string($con,$order_id);
 
+
+//check if the user id is in the sale_order table
+$user_id = $_SESSION['user_id'];
+$query = "SELECT *
+          FROM sale_order
+          WHERE sale_ID = '$order_id' AND member_ID = '$user_id';";
+$result = mysqli_query($con,$query);
+if (mysqli_num_rows($result) == 0){
+    echo "<script>window.location.href = 'cart.php';</script>";
+}
+
+//check if the id is in the order table
+$query = "SELECT *
+          FROM `order`
+          WHERE order_ID = '$order_id';";
+$result = mysqli_query($con,$query);
+if (mysqli_num_rows($result) == 0){
+    echo "<script>window.location.href = 'cart.php';</script>";
+}
+
+//check payment_status in sale_order table
+$query = "SELECT payment_status
+          FROM sale_order
+          WHERE sale_ID = '$order_id';";
+$result = mysqli_query($con,$query);
+if (mysqli_num_rows($result) == 'Đã thanh toán'){
+    echo "<script>window.location.href = 'cart.php';</script>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,12 +85,7 @@ if (mysqli_connect_errno()) {
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Chi tiết đơn hàng</p>
-        <div>
-            <a href="user_copy.php">Cá nhân</a>
-            <a href="#">> Lịch sử giao dịch</a>
-            <a>> Chi tiết hóa đơn </a>
-        </div>
+        <p class="box-text">Thanh toán</p>
     </div>
 
     <div class="content">
@@ -98,6 +125,21 @@ if (mysqli_connect_errno()) {
         </div>
         
         <div class="banner">
+            <form method="POST">
+                <div class="receipt">
+                    <div class="receipt-info">
+                        <p>Mã QR hết hạn sau: 09:14</p>
+                        <p>Dịch vụ: Số tiền</p>
+                        <p>41.000 VND</p>
+                        <p>Thanh toán cho DABM</p>
+                        <p>Mã đơn hàng: ONL2108429999</p>
+                    </div>
+                    <div class="image">
+                        <img src="img/momo_logo.png" alt="Momo Logo" width="100px" height="100px">
+                        <img src="img/payment_QR.png" alt="QR Code" width="200px" height="200px">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <!-- content goes here -->

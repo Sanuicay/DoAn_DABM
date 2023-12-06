@@ -72,12 +72,12 @@ if (isset($_POST['confirm'])) {
                     VALUES ('$order_ID', '$book_ID', '$sale_quantity');";
             $result = mysqli_query($con, $query);
             if ($result) {
+                //delete data from cart_include table
+                $sql = "DELETE FROM cart_include
+                        WHERE ID = $user_ID AND book_ID = $product_id;";
+                $result = mysqli_query($con, $sql);
                 // if payment = shipCOD
-                if ($payment == 'shipCOD') {
-                    //delete data from cart_include table
-                    $sql = "DELETE FROM cart_include
-                            WHERE ID = $user_ID AND book_ID = $product_id;";
-                    $result = mysqli_query($con, $sql);
+                if ($payment == 'shipCOD') {                 
                     echo "<script>alert('Đặt hàng thành công!');</script>";
                     echo "<script>window.location.href='cart.php';</script>";
                 } else {
