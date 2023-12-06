@@ -128,15 +128,19 @@ if (mysqli_num_rows($result) == 'Đã thanh toán'){
             <form method="POST">
                 <div class="receipt">
                     <div class="receipt-info">
-                        <p>Mã QR hết hạn sau: 09:14</p>
-                        <p>Dịch vụ: Số tiền</p>
-                        <p>41.000 VND</p>
-                        <p>Thanh toán cho DABM</p>
-                        <p>Mã đơn hàng: ONL2108429999</p>
+                        <div class="timer">
+                            <p>Mã QR hết hạn sau: 09:14</p>
+                        </div>
+                        <div class="info">
+                            <p><img src="img/payment_icon_1.png" alt="Service" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Dịch vụ</p>
+                            <p>DABM</p>
+                            <p>Thanh toán cho DABM</p>
+                            <p>Mã đơn hàng: ONL2108429999</p>
+                        </div>
                     </div>
-                    <div class="image">
-                        <img src="img/momo_logo.png" alt="Momo Logo" width="100px" height="100px">
-                        <img src="img/payment_QR.png" alt="QR Code" width="200px" height="200px">
+                    <div class="image" style="position: relative">
+                        <img src="img/momo_logo.png" alt="Momo Logo" width="80px" height="80px" style="position: absolute; top: 15px; right: 15px;">
+                        <img src="img/payment_QR.png" alt="QR Code" width="230px" height="230px" style="margin-top: 100px;">
                     </div>
                 </div>
             </form>

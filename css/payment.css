@@ -41,19 +41,38 @@ p {
     padding: 0px;
     border: none;
 }
-
-.receipt-info {
+.timer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    width: 40%;
+    height: 25%;
+    width: 100%;
     padding: 20px;
     border: 1px solid #000;
     line-height: 1.6;
 }
+.info {
+    display: flex;
+    height: 75%;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #000;
+    line-height: 1.6;
+}
+.receipt-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 45%;
+    padding: 0px;
+    border: none;
+    line-height: 1.6;
+}
 
 .image {
-    width: 60%;
+    width: 55%;
     display: flex;
     flex-direction: column;
     justify-content: center; 
@@ -61,4 +80,5 @@ p {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
     border-right: 1px solid #000;
+    position: relative;
 }
