@@ -129,13 +129,63 @@ if (mysqli_num_rows($result) == 'Đã thanh toán'){
                 <div class="receipt">
                     <div class="receipt-info">
                         <div class="timer">
-                            <p>Mã QR hết hạn sau: 09:14</p>
+                            <!-- make a timer 10 minute count down -->
+                            <p>Mã QR hết hạn sau:</p>
+                            <div style="display: flex; justify-content: center;">
+                                <p id="timer"></p>
+                            </div>
+                            <script>
+                                var countDownDate = new Date().getTime() + 600000;
+                                var x = setInterval(function() {
+                                    var now = new Date().getTime();
+                                    var distance = countDownDate - now;
+                                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                    document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+                                    if (distance < 0) {
+                                        clearInterval(x);
+                                        document.getElementById("timer").innerHTML = "EXPIRED";
+                                        location.reload();
+                                    }
+                                }, 1000);
+                            </script>
                         </div>
                         <div class="info">
                             <p><img src="img/payment_icon_1.png" alt="Service" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Dịch vụ</p>
-                            <p>DABM</p>
-                            <p>Thanh toán cho DABM</p>
-                            <p>Mã đơn hàng: ONL2108429999</p>
+                            <div style="display: flex; justify-content: center;">
+                                <p>DABM</p>
+                            </div>
+                            <p><img src="img/payment_icon_4.png" alt="Money" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Số tiền</p>
+                            <div style="display: flex; justify-content: center;">
+                                <?php
+                                    //get the book_ID and quantity from the sale_include table then get the price from the book table and calculate the price
+                                    $query = "SELECT book_ID, sale_quantity
+                                              FROM sale_include
+                                              WHERE sale_ID = '$order_id';";
+                                    $result = mysqli_query($con,$query);
+                                    $total = 0;
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $book_ID = $row['book_ID'];
+                                        $quantity = $row['sale_quantity'];
+                                        $query_ = "SELECT sale_price
+                                                   FROM book
+                                                   WHERE book_ID = '$book_ID';";
+                                        $result_ = mysqli_query($con,$query_);
+                                        $row_ = mysqli_fetch_assoc($result_);
+                                        $price = $row_['sale_price'];
+                                        $total += $price * $quantity;
+                                    }
+                                    echo "<p>$total VND</p>";
+                                ?>
+                            </div>
+                            <p><img src="img/payment_icon_2.png" alt="Infor" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Thông tin</p>
+                            <div style="display: flex; justify-content: center;">
+                                <p>Thanh toán cho DABM</p>
+                            </div>
+                            <p><img src="img/payment_icon_3.png" alt="Money" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Mã đơn hàng</p>
+                            <div style="display: flex; justify-content: center;">
+                                <p><?php echo $order_id; ?></p>
+                            </div>
                         </div>
                     </div>
                     <div class="image" style="position: relative">
