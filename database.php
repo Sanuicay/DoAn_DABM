@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost:3307";
-$dbname = "doan";
+$dbname = "dabm_database";
 $username = "root";
 $password = "";
 

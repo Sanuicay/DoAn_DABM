@@ -1,30 +1,37 @@
 <?php
-$con = mysqli_connect("localhost:3307", "root", "", "doantest");
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
 
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
+        if (mysqli_connect_errno()) {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            exit();
+        }
+        // Get the phone number from the POST data
+        
+        $data = json_decode(file_get_contents("php://input"));
+        $phoneNumber = $data->phoneNum;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the phone number from the POST data
-    $phoneNumber = $_POST["phone"];
+        // Query the database for user information based on the phone number
+        $query = "SELECT sur_name, last_name, email FROM user WHERE phone_num = '$phoneNumber'";
+        
+        $result = mysqli_query($con, $query);
 
-    // Query the database for user information based on the phone number
-    $query = "SELECT sur_name, last_name, email FROM user WHERE phone = '$phoneNumber'";
-    $result = mysqli_query($con, $query);
+        if ($result) {
+            // Fetch the data as an associative array
+            $userData = mysqli_fetch_assoc($result);
+            http_response_code(200);
+            $response = [
+                'success' => true,
+                'message' => 'Hello world',
+                'userData' => $userData,
+            ];
+            echo json_encode($response);
+            // Return the user data as a JSON response
+        } else {
+            echo "Error executing query: " . mysqli_error($con);
+        }
 
-    if ($result) {
-        // Fetch the data as an associative array
-        $userData = mysqli_fetch_assoc($result);
-
-        // Return the user data as a JSON response
-        echo json_encode($userData);
-    } else {
-        echo "Error executing query: " . mysqli_error($con);
+        //Close the database connection
+        mysqli_close($con);
     }
-
-    // Close the database connection
-    mysqli_close($con);
-}
 ?>

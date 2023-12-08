@@ -163,10 +163,33 @@ if (mysqli_connect_errno()) {
                     var phone = document.getElementById("phone").value;
                     var email = document.getElementById("email").value;
 
-                    var customerInfo = "<strong>Tên:</strong> " + name + "<br><strong>Số điện thoại:</strong> " + phone + "<br><strong>Email:</strong> " + email;
+                    
+                    console.log(phone);
+                    fetch('http://localhost:8012/DoAn_DABM/database_scripts/fetch_user_data.php',{
+                        method: 'POST',
+                        headers: {  // <-- Corrected property name
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({phoneNum: phone})
+                    })
+                    .then(response => {
+                        if (!response.ok){
+                            throw new Error('Http error!');
+                        }
 
-                    var customerDetails = document.getElementById("customerDetails");
-                    customerDetails.innerHTML = customerInfo;
+                        return response.json();
+                    })
+                    .then (data=>{
+                        const userData = data.userData;
+                        console.log(userData);
+                        var customerInfo = "<strong>Tên:</strong> " + userData.sur_name + " " + userData.last_name +  "<br><strong>Số điện thoại:</strong> " + phone + "<br><strong>Email:</strong> " + userData.email;
+
+                        var customerDetails = document.getElementById("customerDetails");
+                        customerDetails.innerHTML = customerInfo;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
 
                     // Clear the form fields
                     document.getElementById("name").value = "";
