@@ -8,7 +8,7 @@ echo "<script>
     if (confirmation) {
         window.location.href = 'payment_confirmation2.php?id=$order_id';
     } else {
-        window.location.href = 'cart.php';
+        window.location.href = 'customer_order_history.php';
     }
 </script>";
 ?>

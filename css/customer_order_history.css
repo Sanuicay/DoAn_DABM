@@ -42,13 +42,13 @@ p {
     width: 100%;
     background-color: #F9F1E7;
     border-collapse: collapse;
-    border: none;
-    text-align: left;
+    border: 1px solid black;
+    text-align: center;
 }
 
 .order-info th, td {
-    width: 20%;
-    border: none;
+    width: 100/9%;
+    border: 1px solid black;
     border-collapse: collapse;
     padding: 15px;
     vertical-align: middle;
@@ -63,12 +63,12 @@ p {
     border: 1px solid black;
 }
 
-.order-info input[type="text"] {
+.order-info input[type="submit"] {
     height: 30px;
     width: 100%;
-    color: black;
+    color: blue;
     background-color: #F9F1E7;
+    margin: auto;
     padding: 0px;
-    margin: 0px;
     border: none;
 }

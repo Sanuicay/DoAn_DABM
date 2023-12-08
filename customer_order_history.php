@@ -5,6 +5,23 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
 }
+
+// when click on the purchase button
+if (isset($_POST['purchase'])) {
+    $order_ID = $_POST['order_ID'];
+    // check if the order is paid or not
+    $query = "  SELECT *
+                FROM sale_order
+                WHERE sale_ID = '$order_ID' AND payment_status = 'Đã thanh toán';";
+    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($result) == 1) {
+        echo "<script>alert('Đơn hàng đã được thanh toán trước đó!');</script>";
+    } else {
+        // redirect to the payment page
+        header("Location: payment.php?id=$order_ID");
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -95,59 +112,70 @@ if (mysqli_connect_errno()) {
         </div>
         
         <div class="banner">
-            <div class="order-info">
-                <table>
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Ngày đặt hàng</th>
-                        <th>Mã hóa đơn</th>
-                        <th>Thành tiền</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                    <?php
-                        $user_ID = $_SESSION['user_id'];
-                        $query = "  SELECT 
-                                        o.order_ID, 
-                                        o.order_date, 
-                                        o.order_info, 
-                                        b.book_name, 
-                                        b.sale_price, 
-                                        si.sale_quantity
-                                    FROM 
-                                        `order` AS o
-                                    JOIN 
-                                        sale_order AS so ON o.order_ID = so.sale_ID
-                                    JOIN 
-                                        sale_include AS si ON so.sale_ID = si.sale_ID
-                                    JOIN 
-                                        book AS b ON si.book_ID = b.book_ID
-                                    WHERE 
-                                        so.member_ID = $user_ID AND
-                                        o.order_ID LIKE 'ONL%'
-                                    ORDER BY 
-                                        o.order_date DESC,
-                                        o.order_ID ASC;";
-                        $result = mysqli_query($con, $query);
-                        $count = mysqli_num_rows($result);
-                        $i = 1;
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $order_info_parts = explode(',', $row['order_info']);
-                            $info = trim($order_info_parts[1]); 
-                            echo "<tr>";
-                            echo "<td>" . $i . "</td>";
-                            echo "<td>" . $row['book_name'] . "</td>";
-                            echo "<td>" . $row['order_date'] . "</td>";
-                            echo "<td>" . $row['order_ID'] . "</td>";
-                            echo "<td>" . $row['sale_price'] * $row['sale_quantity'] . " VND</td>";
-                            echo "<td>" . $info . "</td>";
-                            echo "</tr>";
-                            $i++;
-                        }
-                    ?>
-                </table>
-            </div>
+            <form method="POST">
+                <div class="order-info">
+                    <table>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Ngày đặt hàng</th>
+                            <th>Mã hóa đơn</th>
+                            <th>Thành tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Tinh trạng thanh toán</th>
+                            <th>Hành động</th>
+                        </tr>
+                        <?php
+                            $user_ID = $_SESSION['user_id'];
+                            $query = "  SELECT 
+                                            o.order_ID, 
+                                            o.order_date, 
+                                            o.order_info, 
+                                            b.book_name, 
+                                            b.sale_price, 
+                                            so.payment_status,
+                                            si.sale_quantity
+                                        FROM 
+                                            `order` AS o
+                                        JOIN 
+                                            sale_order AS so ON o.order_ID = so.sale_ID
+                                        JOIN 
+                                            sale_include AS si ON so.sale_ID = si.sale_ID
+                                        JOIN 
+                                            book AS b ON si.book_ID = b.book_ID
+                                        WHERE 
+                                            so.member_ID = $user_ID AND
+                                            o.order_ID LIKE 'ONL%'
+                                        ORDER BY 
+                                            o.order_date DESC,
+                                            o.order_ID ASC;";
+                            $result = mysqli_query($con, $query);
+                            $count = mysqli_num_rows($result);
+                            $i = 1;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $order_info_parts = explode(',', $row['order_info']);
+                                $info = trim($order_info_parts[1]); 
+                                echo "<tr>";
+                                echo "<td>" . $i . "</td>";
+                                echo "<td style='text-align: left;'>" . $row['book_name'] . "</td>";
+                                echo "<td>" . $row['sale_quantity'] . "</td>";
+                                echo "<td>" . $row['order_date'] . "</td>";
+                                echo "<td>" . $row['order_ID'] . "</td>";
+                                echo "<td>" . $row['sale_price'] * $row['sale_quantity'] . " VND</td>";
+                                echo "<td>" . $info . "</td>";
+                                echo "<td>" . $row['payment_status'] . "</td>";
+                                echo "<form method='POST'>";
+                                echo "<input type='hidden' name='order_ID' value='" . $row['order_ID'] . "'>";
+                                echo "<td> <input type='submit' name='purchase' value='Thanh toán'> </td>";
+                                echo "</form>";
+                                echo "</tr>";
+                                $i++;
+                            }
+                        ?>
+                    </table>
+                </div>
+            </form>
         </div>
     </div>
     <!-- content goes here -->

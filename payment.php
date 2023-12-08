@@ -40,13 +40,13 @@ if (mysqli_num_rows($result) == 1){
 }
 
 
-//when click on the confirm button reload the page
+//when click on the confirm button
 if (isset($_POST['confirm'])) {
-    echo "<script>window.location.href = 'payment.php?id=$order_id';</script>";
+    echo "<script>window.location.href = 'customer_order_history.php';</script>";
 }
-//when click on the cancel button redirect to cart.php
+//when click on the cancel button
 if (isset($_POST['cancel'])) {
-    echo "<script>window.location.href = 'cart.php';</script>";
+    echo "<script>window.location.href = 'customer_order_history.php';</script>";
 }
 ?>
 

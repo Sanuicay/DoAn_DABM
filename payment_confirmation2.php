@@ -12,12 +12,12 @@ $result = mysqli_query($con,$sql);
 if ($result) {
     echo "<script>
         alert('ĐÃ THANH TOÁN');
-        window.location.href = 'cart.php';
+        window.location.href = 'customer_order_history.php';
     </script>";
 } else {
     echo "<script>
         alert('THANH TOÁN THẤT BẠI');
-        window.location.href = 'cart.php';
+        window.location.href = 'customer_order_history.php';
     </script>";
 }
 ?>
