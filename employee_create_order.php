@@ -86,7 +86,7 @@ include_once('database_scripts/func_total_price_sale.php');
             ?>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
             <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
@@ -370,42 +370,53 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     var tableBody = document.getElementById("productBody");
                     var rows = tableBody.getElementsByTagName("tr");
-                    
+
                     var orderid = document.getElementById("s.orderid").value;
                     var orderdate = document.getElementById("s.orderdate").value;
                     var ordernote = document.getElementById("s.ordernote").value;
 
-                    console.log(rows);
+                    // Display a confirmation dialog
+                    var isConfirmed = window.confirm("Are you sure you want to confirm the order?");
 
-                    fetch('./database_scripts/create_order.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        customerInfo: customer,
-                        product: productJson,
-                        orderID: orderid,
-                        orderDate: orderdate,
-                        orderNote: ordernote,
-                        employeeID: userId,
-                    })
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Http error!');
-                        }
-                        return response.text(); // Convert response to JSON
-                    })
-                    .then(data => {
-                        console.log(data); // Log the response data
-                        // Now you can access the data, e.g., data.success, data.message
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-
+                    // Check the result of the confirmation dialog
+                    if (isConfirmed) {
+                        fetch('./database_scripts/create_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                customerInfo: customer,
+                                product: productJson,
+                                orderID: orderid,
+                                orderDate: orderdate,
+                                orderNote: ordernote,
+                                employeeID: userId,
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then(data => {
+                            if(data.success) {
+                                alert("Order confirmed successfully!");
+                                window.location.href = "./employee_order.php"; // Replace with your actual page URL
+                            } else {
+                                alert("Error confirming order: " + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                    } else {
+                        // If the user clicks "Cancel," do nothing (stay on the same page)
+                        // You can add more logic here if needed
+                    }
                 }
+
 
                 function confirmOrder() {
                     // Retrieve order information
@@ -442,9 +453,15 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
 
                 function cancelOrder() {
-                    // Implement your cancel order logic here
-                    // For now, let's just show an alert
-                    alert("Order canceled!");
+                    var isConfirmed = window.confirm("Are you sure you want to cancel the order?");
+                    // Check the result of the confirmation dialog
+                    if (isConfirmed) {
+                        // If the user clicks "OK," redirect to another page
+                        window.location.href = "./employee_order.php"; // Replace with your actual page URL
+                    } else {
+                        // If the user clicks "Cancel," do nothing (stay on the same page)
+                        // You can add more logic here if needed
+                    }
                 }
             </script>
         </div>

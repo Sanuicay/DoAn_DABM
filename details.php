@@ -1,20 +1,15 @@
 <?php
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","dabm_database");
-
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
-
+// Connect to your database
+include_once('connection.php');
 include_once('database_scripts/func_total_price_sale.php');
+
 
   // Get the orderId value from the URL parameter
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status
+  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status, img_path
   FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
   WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
   ";
@@ -92,16 +87,43 @@ include_once('database_scripts/func_total_price_sale.php');
 
     <!-- content -->
     <div class="content">
-        <div class="side-box">
+    <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
+            <?php
+            echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>{$row['sur_name']} {$row['last_name']}</p>";
+            echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: {$user['ID']}</p>";
+            if ($id == 00000001)
+            {
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+            }
+            else
+            {
+                //check if the ID exsist in the employee table
+                $query_ = "SELECT ID
+                          FROM employee
+                          WHERE ID = $id;";
+                $result_ = mysqli_query($con,$query_);
+                $row_ = mysqli_fetch_assoc($result_);
+                //check number of rows
+                $count = mysqli_num_rows($result_);
+                if ($count == 1)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                }
+                else
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                }
+            }
+            ?>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
         <?php   
@@ -182,7 +204,7 @@ while($item = mysqli_fetch_array($result)) {
                         }
                     ?>
                     <tbody id="productBody">
-                        <td><?php echo $item['book_name'] ?></td>
+                        <td><img src=<?php echo $item['img_path'] ?> alt='Product Image'></td>
                         <td><?php echo $item['book_name'] ?></td>
                         <td><?php echo $item['sale_price'] ?></td>
                         <td><?php echo $item['sale_quantity'] ?></td>
@@ -192,9 +214,9 @@ while($item = mysqli_fetch_array($result)) {
                     <?php } ?>  
                 </table>
                 <br>
-                <div class="total">
+                <!-- <div class="total">
                     <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
-                </div> 
+                </div>  -->
                 <br>
             <script>
                 // Lấy giá trị orderId từ tham số truyền vào URL
