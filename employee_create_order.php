@@ -1,13 +1,7 @@
 <?php
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","dabm_database");
-
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  exit();
-}
-
+include_once('connection.php');
+include_once('database_scripts/func_total_price_sale.php');
 ?>
 
 <!DOCTYPE html>
@@ -57,16 +51,43 @@ if (mysqli_connect_errno()) {
 
     <!-- content -->
     <div class="content">
-        <div class="side-box">
+    <div class="side-box">
             <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
+            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
+            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
+            <?php
+            echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>{$row['sur_name']} {$row['last_name']}</p>";
+            echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: {$user['ID']}</p>";
+            if ($id == 00000001)
+            {
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+            }
+            else
+            {
+                //check if the ID exsist in the employee table
+                $query_ = "SELECT ID
+                          FROM employee
+                          WHERE ID = $id;";
+                $result_ = mysqli_query($con,$query_);
+                $row_ = mysqli_fetch_assoc($result_);
+                //check number of rows
+                $count = mysqli_num_rows($result_);
+                if ($count == 1)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                }
+                else
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                }
+            }
+            ?>
             <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
@@ -147,11 +168,14 @@ if (mysqli_connect_errno()) {
             </div>
             <br>
             <div class = "bounding">
-                <button id="confirmOrderBtn" onclick="confirmOrder()">Xác nhận và in đơn hàng</button>
+                <button id="confirmOrderBtn" onclick="confirmOrderTest()">Xác nhận và in đơn hàng</button>
                 <button id="cancelOrderBtn" onclick="cancelOrder()">Hủy đơn hàng</button>
             </div>
            
             <script>
+                var customerData = {};
+                var productJson = {};
+                var userId = <?php echo json_encode($user['ID']); ?>;
                  function showForm() {
                     var formContainer = document.getElementById("formContainer");
                     formContainer.style.display = "block";
@@ -182,10 +206,21 @@ if (mysqli_connect_errno()) {
                     .then (data=>{
                         const userData = data.userData;
                         console.log(userData);
-                        var customerInfo = "<strong>Tên:</strong> " + userData.sur_name + " " + userData.last_name +  "<br><strong>Số điện thoại:</strong> " + phone + "<br><strong>Email:</strong> " + userData.email;
-
+                        customerData = {
+                            id: userData.ID,
+                            surName: userData.sur_name,
+                            lastName: userData.last_name,
+                            phone: phone,
+                            email: userData.email
+                        };
                         var customerDetails = document.getElementById("customerDetails");
-                        customerDetails.innerHTML = customerInfo;
+                        customerDetails.innerHTML = `
+                            <div id="customerDetails" class="some-custom-class">
+                                <strong>Tên:</strong> ${userData.sur_name} ${userData.last_name}<br>
+                                <strong>Số điện thoại:</strong> ${phone}<br>
+                                <strong>Email:</strong> ${userData.email}
+                            </div>
+                        `;
                     })
                     .catch(error => {
                         console.log(error);
@@ -281,6 +316,11 @@ if (mysqli_connect_errno()) {
                             cell4.innerHTML = quantity;
                             cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
                             updateTotal();
+                            productJson[productName] = {
+                                id: productName,
+                                name: bookData.book_name,
+                                quantity: quantity
+                        };
                         })
                         .catch(error => {
                             console.log(error);
@@ -300,6 +340,7 @@ if (mysqli_connect_errno()) {
                         productForm.style.display = "none";
                         document.getElementById("addProductBtn").style.display = "block";
                         // updateTotal();
+                        console.log("productJson:", productJson);
                     }
                 }
                 function cancelAddProduct() {
@@ -321,6 +362,51 @@ if (mysqli_connect_errno()) {
                         alert("Đã chọn: Chỉnh sửa số lượng hoặc xóa sản phẩm");
                     }
                 }
+
+                function confirmOrderTest() {
+                    // Assuming customerData is defined somewhere in your code
+                    var customer = customerData.id;
+                    console.log(customer);
+
+                    var tableBody = document.getElementById("productBody");
+                    var rows = tableBody.getElementsByTagName("tr");
+                    
+                    var orderid = document.getElementById("s.orderid").value;
+                    var orderdate = document.getElementById("s.orderdate").value;
+                    var ordernote = document.getElementById("s.ordernote").value;
+
+                    console.log(rows);
+
+                    fetch('./database_scripts/create_order.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customerInfo: customer,
+                        product: productJson,
+                        orderID: orderid,
+                        orderDate: orderdate,
+                        orderNote: ordernote,
+                        employeeID: userId,
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Http error!');
+                        }
+                        return response.text(); // Convert response to JSON
+                    })
+                    .then(data => {
+                        console.log(data); // Log the response data
+                        // Now you can access the data, e.g., data.success, data.message
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+                }
+
                 function confirmOrder() {
                     // Retrieve order information
                     var orderID = document.getElementById("s.orderid").value;
