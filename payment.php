@@ -65,6 +65,8 @@ if (isset($_POST['confirm'])){
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 <body>
     <!-- header -->
@@ -203,7 +205,21 @@ if (isset($_POST['confirm'])){
                     </div>
                     <div class="image" style="position: relative">
                         <img src="img/momo_logo.png" alt="Momo Logo" width="80px" height="80px" style="position: absolute; top: 15px; right: 15px;">
-                        <img src="img/payment_QR.png" alt="QR Code" width="230px" height="230px" style="margin-top: 100px;">
+                        <div id ="qrcode" style="margin-top: 100px;"></div>
+                        <script>
+                            // qr code link to payment_confirmation.php?id=$order_id
+                            var order_id = "<?php echo $order_id; ?>";
+                            var url = "http://localhost/DOAN_DABM/payment_confirmation.php?id=" + order_id;
+
+                            var qrcode = new QRCode("qrcode", {
+                                text: url,
+                                width: 230,
+                                height: 230,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                        </script>
                     </div>
                 </div>
             </form>
