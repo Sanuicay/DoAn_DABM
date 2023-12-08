@@ -38,6 +38,24 @@ $result = mysqli_query($con,$query);
 if (mysqli_num_rows($result) == 'Đã thanh toán'){
     echo "<script>window.location.href = 'cart.php';</script>";
 }
+
+//when click on the confirm button
+if (isset($_POST['confirm'])){
+    //update the payment_status in sale_order table
+    $query = "UPDATE sale_order
+              SET payment_status = 'Đã thanh toán'
+              WHERE sale_ID = '$order_id';";
+    $result = mysqli_query($con,$query);
+    if ($result){
+        echo "<script>alert('Thanh toán thành công!');</script>";
+        echo "<script>window.location.href = 'cart.php';</script>";
+    }
+}
+//when click on the cancel button
+if (isset($_POST['cancel'])){
+    //redirect to the cart page
+    echo "<script>window.location.href = 'cart.php';</script>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -192,6 +210,10 @@ if (mysqli_num_rows($result) == 'Đã thanh toán'){
                         <img src="img/momo_logo.png" alt="Momo Logo" width="80px" height="80px" style="position: absolute; top: 15px; right: 15px;">
                         <img src="img/payment_QR.png" alt="QR Code" width="230px" height="230px" style="margin-top: 100px;">
                     </div>
+                </div>
+                <div class="button-container">
+                    <input type="submit" name="confirm" value="Hoàn tất">
+                    <input type="submit" name="cancel" value="Hủy">
                 </div>
             </form>
         </div>

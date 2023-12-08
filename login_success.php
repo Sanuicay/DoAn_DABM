@@ -67,7 +67,7 @@ if (isset($_SESSION["user_id"])) {
 
 
     <!-- search bar -->
-    <<div id="hiddenElement" class="hidden">
+    <div id="hiddenElement" class="hidden">
             <div class="search-box">
                 <div class="row">
                 <input type="text" id="input-box" placeholder="Nhập tên sách cần tìm" autocomplete="off">
