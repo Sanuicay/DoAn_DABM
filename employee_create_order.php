@@ -87,8 +87,8 @@ if (mysqli_connect_errno()) {
                         <input type="text" id="s.ordernote" name="s.ordernote" placeholder="Ghi chú nếu có">
                     </div>
                 </div>
-                <div class="total">
-                    <span class="label">Tổng tiền thanh toán:</span> $100.00
+                <div class="total" id="totalPayment">
+                    <span class="label">Tổng tiền thanh toán:</span> 0 VNĐ
                 </div>
             </div>
             <div>
@@ -141,7 +141,7 @@ if (mysqli_connect_errno()) {
                 
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
-        
+                <div id="message"></div>
                 <button id="submitProductBtn" onclick="addProduct()">Thêm sản phẩm</button>
                 <button id="delProductBtn" onclick="cancelAddProduct()">Hủy bỏ</button>
             </div>
@@ -205,37 +205,102 @@ if (mysqli_connect_errno()) {
                     document.getElementById("addProductBtn").style.display = "none";
                     document.getElementById("delProductBtn").style.display = "inline-block";
                 }
+                function updateTotal() {
+                    var tableBody = document.getElementById("productBody");
+                    var rows = tableBody.getElementsByTagName("tr");
+                    var totalPayment = 0;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var cells = rows[i].getElementsByTagName("td");
+                        console.log("Cells:", cells);
+                        var sumText = cells[4].innerText;
+                        console.log("Sum: ",sumText);
+                        var sum = parseInt(sumText.replace(" VNĐ", "").trim());
+                        totalPayment+=sum;
+                    }
+                    // Update the total payment element with the new value
+                    var totalPaymentElement = document.getElementById("totalPayment");
+                    totalPaymentElement.innerHTML = "<span class='label'>Tổng tiền thanh toán:</span> " + totalPayment + " VNĐ";
+                }
                 function addProduct() {
                     var productName = document.getElementById("productName").value;
                     var quantity = document.getElementById("quantity").value;
+                    var messageElement = document.getElementById("message");
+                   
+                    messageElement.innerHTML = "";
+                    if (productName === null || productName === undefined || productName.trim() === "") {
+                    // Product name is null, undefined, or an empty string
+                        if(productName === null|| productName === undefined || productName.trim() === "" ) {
+                            messageElement.innerHTML = "Sản phẩm đang trống";
+                        }
+                        return;
+                        // You can alter the message or take other actions here
+                    }
 
-                    var tableBody = document.getElementById("productBody");
-                    var row = tableBody.insertRow();
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
+                    if (quantity === null || quantity === undefined || quantity.trim() === "") {
+                        // Quantity is null, undefined, or not a number
 
-                    cell1.innerHTML = "<img src='img/pic1.png' alt='Product Image'>";
-                    cell2.innerHTML = productName;
-                    cell3.innerHTML = "$10"; // Replace with actual price
-                    cell4.innerHTML = quantity;
-                    cell5.innerHTML = "$" + (10 * quantity); // Replace with actual calculation
+                        messageElement.innerHTML = "Số lượng đang trống";
+                        return;
+                        // You can alter the message or take other actions here
+                    }
 
-                    // Add an event listener to the newly added row
-                    row.addEventListener("click", function() {
-                        confirmAction(this);
-                    });
+                    // Add additional conditions and messages as needed
 
-                    // Clear the form fields
-                    document.getElementById("productName").value = "";
-                    document.getElementById("quantity").value = "";
+                    if (messageElement.innerHTML === "") {
+                        // If no error messages were set, proceed with adding the product
+                        var tableBody = document.getElementById("productBody");
+                        var row = tableBody.insertRow();
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        
+                        //Call API to get data of the book
+                        fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
+                        method: 'POST',
+                        headers: {  // <-- Corrected property name
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({bookID: productName})
+                        })
+                        .then(response => {
+                            if (!response.ok){
+                                throw new Error('Http error!');
+                            }
 
-                    // Hide the form after adding a product
-                    var productForm = document.getElementById("productForm");
-                    productForm.style.display = "none";
-                    document.getElementById("addProductBtn").style.display = "block";
+                            return response.json();
+                        })
+                        .then (data=>{
+                            const bookData = data.bookData;
+                            console.log(bookData);
+                            cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
+                            cell2.innerHTML = bookData.book_name;
+                            cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
+                            cell4.innerHTML = quantity;
+                            cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
+                            updateTotal();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                        
+
+                        // Add an event listener to the newly added row
+                        row.addEventListener("click", function () {
+                            confirmAction(this);
+                        });
+
+                        // Clear the form fields
+                        document.getElementById("productName").value = "";
+                        document.getElementById("quantity").value = "";
+                        // Hide the form after adding a product
+                        var productForm = document.getElementById("productForm");
+                        productForm.style.display = "none";
+                        document.getElementById("addProductBtn").style.display = "block";
+                        // updateTotal();
+                    }
                 }
                 function cancelAddProduct() {
                     document.getElementById("productForm").style.display = "none";
