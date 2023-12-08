@@ -8,29 +8,30 @@ if (mysqli_connect_errno()) {
 
 // When click on update button update the address in that row
 if (isset($_POST['update'])) {
-    if (isset($_POST['delete'])) {
-    if (!empty($_POST['address'])) {
-        $address = $_POST['address'];
-        // rest of your code
-    } else {
+    if (empty($_POST['new_address'])) {
         echo "<script>alert('Address field is empty!')</script>";
-    }
-}
-    $old_address = $_POST['old_address'];
-    $new_address = $_POST['new_address'];
-
-    // SQL query to update the address
-    $query = "UPDATE delivery_address
-              SET address = '$new_address'
-              WHERE address = '$old_address';";
-
-    // Execute the query
-    if (mysqli_query($con, $query)) {
-        echo "<script>alert('Cập nhật thành công!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     } else {
-        echo "<script>alert('Cập nhật thất bại!')</script>";
-        echo "<script>window.location.href='address.php'</script>";
+        $old_address = $_POST['old_address'];
+        $new_address = $_POST['new_address'];
+        if ($old_address != $new_address) {
+            // SQL query to update the address
+            $query = "UPDATE delivery_address
+                    SET address = '$new_address'
+                    WHERE address = '$old_address' AND ID = $id;";
+
+            // Execute the query
+            if (mysqli_query($con, $query)) {
+                echo "<script>alert('Cập nhật thành công!')</script>";
+                echo "<script>window.location.href='address.php'</script>";
+            } else {
+                echo "<script>alert('Cập nhật thất bại!')</script>";
+                echo "<script>window.location.href='address.php'</script>";
+            }
+        } else {
+            echo "<script>alert('Địa chỉ mới trùng với địa chỉ cũ!')</script>";
+            echo "<script>window.location.href='address.php'</script>";
+        }
     }
 }
 
@@ -41,7 +42,7 @@ if (isset($_POST['delete'])) {
             $address = $_POST['address'];
 
             // SQL query to delete the address
-            $query = "DELETE FROM `delivery_address` WHERE address = ?";
+            $query = "DELETE FROM `delivery_address` WHERE address = ? AND ID = $id;";
         
             // Prepare the statement
             $stmt = mysqli_prepare($con, $query);
@@ -53,7 +54,7 @@ if (isset($_POST['delete'])) {
             $result = mysqli_stmt_execute($stmt);
         
             if ($result) {
-                echo "<script>alert('Xóa thành công address: $address')</script>";
+                echo "<script>alert('Xóa thành công!')</script>";
                 echo "<script>window.location.href='address.php'</script>";
             } else {
                 echo "<script>alert('Xóa thất bại!')</script>";
@@ -102,19 +103,19 @@ if (isset($_POST['add_address'])) {
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="login_success.php">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
             <button class="header-login-button" onclick="redirectToLogout()">
                 Đăng xuất
             </button>
@@ -138,8 +139,8 @@ if (isset($_POST['add_address'])) {
     </div>
 
     <div class="content">
-    <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+        <div class="side-box">
+            <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
             <?php
                 echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
@@ -170,7 +171,7 @@ if (isset($_POST['add_address'])) {
             ?>
             <a href="user_copy.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="address.php"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button3"></a>
+            <a href="#"><img class="side-box-last-button" src="img/purchase_history_button.png" alt="Button3"></a>
         </div>
         
         <div class="banner">
@@ -179,6 +180,7 @@ if (isset($_POST['add_address'])) {
                 <form method="POST" id="addressForm" style="display: none;">
                     <input type="text" name="address" placeholder="Nhập địa chỉ mới">
                     <input type="submit" name="add_address" value="Thêm địa chỉ">
+                    <input type="submit" onclick="document.getElementById('addressForm').style.display = 'none';" value="Hủy">
                 </form>
                 <div style="display: flex; justify-content: space-between;">
                     <input type="button" onclick="openForm()" name="add address" value="Thêm địa chỉ">

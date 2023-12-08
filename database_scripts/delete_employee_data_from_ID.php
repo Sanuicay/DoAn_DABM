@@ -8,22 +8,22 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-// Get the ID from the GET request
 $id = $_GET['id'];
-
-// Sanitize the ID to prevent SQL injection
 $id = mysqli_real_escape_string($con, $id);
 
-// Run the DELETE query
-$query = "DELETE FROM employee WHERE ID = '$id'";
+//delete the employee from the database
+$query = "DELETE FROM employee WHERE id = '{$id}'";
+$result = mysqli_query($con, $query);
+
+//delete the user from the database
+$query = "DELETE FROM user WHERE id = '{$id}'";
 $result = mysqli_query($con, $query);
 
 if ($result) {
-    echo "Record deleted successfully";
+    echo "<script>alert('Xóa thành công!')</script>";
+    echo "<script>window.location.href = '../manager_employee.php';</script>";
 } else {
-    echo "Error deleting record: " . mysqli_error($con);
+    echo "<script>alert('Xóa thất bại!')</script>";
+    echo "<script>window.location.href = '../manager_employee.php';</script>";
 }
-
-
-mysqli_close($con);
 ?>

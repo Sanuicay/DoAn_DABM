@@ -9,17 +9,57 @@ if (mysqli_connect_errno()) {
 }
 
 $search = $_POST['search'];
-$query = "SELECT CONCAT(user.sur_name, ' ', user.last_name) AS 'Employee Name', employee.ID, employee.start_date, employee.employee_status FROM user, employee WHERE user.ID = employee.ID AND CONCAT(user.sur_name, ' ', user.last_name) LIKE '%$search%'";
-$result = mysqli_query($con, $query);
+$search = str_replace(' ', '', $search);
+$search = str_replace('(', '', $search);
+$search = str_replace(')', '', $search);
+$search = str_replace(';', '', $search);
+$search = strtolower($search);
+
+// SELECT CONCAT(user.sur_name, ' ', user.last_name) AS 'Employee Name', employee.ID, employee.start_date
+// FROM user, employee
+// WHERE user.ID = employee.ID;
+
+$sql = "SELECT CONCAT(user.sur_name, ' ', user.last_name) AS 'Employee Name', employee.ID, employee.start_date
+        FROM user, employee
+        WHERE user.ID = employee.ID
+        AND REPLACE(LOWER(CONCAT(user.sur_name, ' ', user.last_name)), ' ', '') LIKE '%{$search}%'
+        ORDER BY employee.start_date DESC;";
+$result = mysqli_query($con, $sql);
+
+//if not found any result search by ID
+if (mysqli_num_rows($result) <= 0) {
+    $sql = "SELECT CONCAT(user.sur_name, ' ', user.last_name) AS 'Employee Name', employee.ID, employee.start_date
+            FROM user, employee
+            WHERE user.ID = employee.ID
+            AND REPLACE(LOWER(employee.ID), ' ', '') LIKE '%{$search}%'
+            ORDER BY employee.start_date DESC;";
+    $result = mysqli_query($con, $sql);
+}
 
 if (mysqli_num_rows($result) > 0) {
-    echo "<table style='border-collapse: collapse; width: 100%;'>";
-    echo "<tr style='background-color: #f2f2f2;'><th style='padding: 8px; border: 1px solid #ddd;'>STT</th><th style='padding: 8px; border: 1px solid #ddd;'>Employee Name</th><th style='padding: 8px; border: 1px solid #ddd;'>ID</th><th style='padding: 8px; border: 1px solid #ddd;'>Start Date</th><th style='padding: 8px; border: 1px solid #ddd;'>Employee Status</th><th style='padding: 8px; border: 1px solid #ddd;'>Images</th></tr>";
-    $stt = 1;
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "<tr><td style='padding: 8px; border: 1px solid #ddd;'>" . $stt . "</td><td style='padding: 8px; border: 1px solid #ddd;'>" . $row["Employee Name"]. "</td><td style='padding: 8px; border: 1px solid #ddd;'>" . $row["ID"]. "</td><td style='padding: 8px; border: 1px solid #ddd;'>" . $row["start_date"]. "</td><td style='padding: 8px; border: 1px solid #ddd;'>" . $row["employee_status"]. "</td><td style='padding: 8px; border: 1px solid #ddd;'><a href='database_scripts/delete_employee_data_from_ID.php?id=" . $row["ID"] . "'><img src='image1_url' alt='Image 1' style='width: 50px; height: 50px;'></a> <a href='script/get_employee_data_from_id.php?id=" . $row["ID"] . "'><img src='image2_url' alt='Image 2' style='width: 50px; height: 50px;'></a></td></tr>";
-        $stt++;
+    echo "<table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên Nhân viên</th>
+                    <th>ID</th>
+                    <th>Ngày vào làm</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>";
+    $i = 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr onclick=\"redirectToDetailsPage('".$row['ID']."')\">
+                <td>".$i."</td>
+                <td>".$row['Employee Name']."</td>
+                <td>".$row['ID']."</td>
+                <td>".$row['start_date']."</td>
+                <td><a href=\"database_scripts/confirmation_2.php?id={$row['ID']}\">Xóa</a></td>
+            </tr>";
+        $i++;
     }
+    echo "</tbody>";
     echo "</table>";
 } else {
     echo "No results found";

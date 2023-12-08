@@ -87,14 +87,25 @@ label {
     width: 45%;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"], input[type="date"] {
     width: 100%;
+    background-color: #ffffff;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 40px;
     border: 1px solid #ddd;
 }
 
+select {
+    height: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-left: 17px;
+    margin-bottom: 20px;
+    border-radius: 40px;
+    border: 1px solid #ddd;
+}
 .button-container {
     display: flex;
     justify-content: space-between;
