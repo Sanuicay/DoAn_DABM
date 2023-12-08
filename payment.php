@@ -51,11 +51,6 @@ if (isset($_POST['confirm'])){
         echo "<script>window.location.href = 'cart.php';</script>";
     }
 }
-//when click on the cancel button
-if (isset($_POST['cancel'])){
-    //redirect to the cart page
-    echo "<script>window.location.href = 'cart.php';</script>";
-}
 ?>
 
 <!DOCTYPE html>
@@ -210,10 +205,6 @@ if (isset($_POST['cancel'])){
                         <img src="img/momo_logo.png" alt="Momo Logo" width="80px" height="80px" style="position: absolute; top: 15px; right: 15px;">
                         <img src="img/payment_QR.png" alt="QR Code" width="230px" height="230px" style="margin-top: 100px;">
                     </div>
-                </div>
-                <div class="button-container">
-                    <input type="submit" name="confirm" value="Hoàn tất">
-                    <input type="submit" name="cancel" value="Hủy">
                 </div>
             </form>
         </div>
