@@ -12,7 +12,7 @@
         $phoneNumber = $data->phoneNum;
 
         // Query the database for user information based on the phone number
-        $query = "SELECT sur_name, last_name, email FROM user WHERE phone_num = '$phoneNumber'";
+        $query = "SELECT sur_name, last_name, email, ID FROM user WHERE phone_num = '$phoneNumber'";
         
         $result = mysqli_query($con, $query);
 
