@@ -156,23 +156,29 @@ if (isset($_POST['purchase'])) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 $order_info_parts = explode(',', $row['order_info']);
                                 $info = trim($order_info_parts[1]); 
-                                echo "<tr>";
-                                echo "<td>" . $i . "</td>";
-                                echo "<td style='text-align: left;'>" . $row['book_name'] . "</td>";
-                                echo "<td>" . $row['sale_quantity'] . "</td>";
-                                echo "<td>" . $row['order_date'] . "</td>";
-                                echo "<td>" . $row['order_ID'] . "</td>";
-                                echo "<td>" . $row['sale_price'] * $row['sale_quantity'] . " VND</td>";
-                                echo "<td>" . $info . "</td>";
-                                echo "<td>" . $row['payment_status'] . "</td>";
-                                echo "<form method='POST'>";
-                                echo "<input type='hidden' name='order_ID' value='" . $row['order_ID'] . "'>";
-                                echo "<td> <input type='submit' name='purchase' value='Thanh toán'> </td>";
-                                echo "</form>";
-                                echo "</tr>";
+                                echo "<tr onclick=\"redirectToDetailsPage('".$row['order_ID']."')\">
+                                    <td>" . $i . "</td>
+                                    <td style='text-align: left;'>" . $row['book_name'] . "</td>
+                                    <td>" . $row['sale_quantity'] . "</td>
+                                    <td>" . $row['order_date'] . "</td>
+                                    <td>" . $row['order_ID'] . "</td>
+                                    <td>" . $row['sale_price'] * $row['sale_quantity'] . " VND</td>
+                                    <td>" . $info . "</td>
+                                    <td>" . $row['payment_status'] . "</td>
+                                    <form method='POST'>
+                                    <input type='hidden' name='order_ID' value='" . $row['order_ID'] . "'>
+                                    <td> <input type='submit' name='purchase' value='Thanh toán'> </td>
+                                    </form>
+                                    </tr>";
                                 $i++;
                             }
                         ?>
+                        <script>
+                            function redirectToDetailsPage(order_ID) {
+                                // Add code to redirect to the login page
+                                window.location.href = 'customer_order_details.php?id=' + order_ID;
+                            }
+                        </script>
                     </table>
                 </div>
             </form>
