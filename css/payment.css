@@ -82,3 +82,40 @@ p {
     border-right: 1px solid #000;
     position: relative;
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin: auto;
+}
+
+.button-container input[type="submit"] {
+    margin-top: 20px;
+    width: 300px;
+    height: 40px;
+    color: #000;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button-container input[name="confirm"] {
+    margin-right: 70px;
+    background-color: #E0FFD5;
+}
+
+.button-container input[name="confirm"]:hover {
+    background-color: #C1FFB8;
+}
+
+.button-container input[name="cancel"] {
+    background-color: #F8C2B1;
+}
+
+.button-container input[name="cancel"]:hover {
+    background-color: #F5A99A;
+}

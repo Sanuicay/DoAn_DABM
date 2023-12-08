@@ -31,25 +31,22 @@ if (mysqli_num_rows($result) == 0){
 }
 
 //check payment_status in sale_order table
-$query = "SELECT payment_status
+$query = "SELECT *
           FROM sale_order
-          WHERE sale_ID = '$order_id';";
+          WHERE sale_ID = '$order_id' AND payment_status = 'Đã thanh toán';";
 $result = mysqli_query($con,$query);
-if (mysqli_num_rows($result) == 'Đã thanh toán'){
+if (mysqli_num_rows($result) == 1){
     echo "<script>window.location.href = 'cart.php';</script>";
 }
 
-//when click on the confirm button
-if (isset($_POST['confirm'])){
-    //update the payment_status in sale_order table
-    $query = "UPDATE sale_order
-              SET payment_status = 'Đã thanh toán'
-              WHERE sale_ID = '$order_id';";
-    $result = mysqli_query($con,$query);
-    if ($result){
-        echo "<script>alert('Thanh toán thành công!');</script>";
-        echo "<script>window.location.href = 'cart.php';</script>";
-    }
+
+//when click on the confirm button reload the page
+if (isset($_POST['confirm'])) {
+    echo "<script>window.location.href = 'payment.php?id=$order_id';</script>";
+}
+//when click on the cancel button redirect to cart.php
+if (isset($_POST['cancel'])) {
+    echo "<script>window.location.href = 'cart.php';</script>";
 }
 ?>
 
@@ -221,6 +218,10 @@ if (isset($_POST['confirm'])){
                             });
                         </script>
                     </div>
+                </div>
+                <div class="button-container">
+                    <input type="submit" name="confirm" value="Hoàn tất">
+                    <input type="submit" name="cancel" value="Hủy">
                 </div>
             </form>
         </div>
