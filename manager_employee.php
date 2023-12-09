@@ -46,11 +46,6 @@ include("connection.php");
         </div>
     </div>
 
-    <div class="box"> <!--cover-box.css-->
-        <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Giỏ hàng</p>
-    </div>
-
     <!-- content -->
     <div class="content">
         <div class="side-box">
