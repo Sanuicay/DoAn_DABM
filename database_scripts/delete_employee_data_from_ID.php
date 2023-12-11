@@ -1,6 +1,7 @@
 <?php
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
+include_once("../connection.php");
 
 // Check connection
 if (mysqli_connect_errno()) {

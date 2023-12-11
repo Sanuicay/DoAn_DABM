@@ -1,55 +1,28 @@
 <?php
 include 'connection.php';
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
 }
-//get the id of the order from the url
-$order_id = $_GET['id'];
-//sanitize the id
-$order_id = mysqli_real_escape_string($con,$order_id);
 
-
-//check if the user id is in the sale_order table
-$user_id = $_SESSION['user_id'];
-$query = "SELECT *
-          FROM sale_order
-          WHERE sale_ID = '$order_id' AND member_ID = '$user_id';";
-$result = mysqli_query($con,$query);
-if (mysqli_num_rows($result) == 0){
-    echo "<script>window.location.href = 'cart.php';</script>";
-}
-
-//check if the id is in the order table
-$query = "SELECT *
-          FROM `order`
-          WHERE order_ID = '$order_id';";
-$result = mysqli_query($con,$query);
-if (mysqli_num_rows($result) == 0){
-    echo "<script>window.location.href = 'cart.php';</script>";
-}
-
-//check payment_status in sale_order table
-$query = "SELECT *
-          FROM sale_order
-          WHERE sale_ID = '$order_id' AND payment_status = 'Đã thanh toán';";
-$result = mysqli_query($con,$query);
-if (mysqli_num_rows($result) == 1){
-    echo "<script>window.location.href = 'cart.php';</script>";
-}
-
-
-//when click on the confirm button
-if (isset($_POST['confirm'])) {
-    echo "<script>window.location.href = 'customer_order_history.php';</script>";
-}
-//when click on the cancel button
-if (isset($_POST['cancel'])) {
-    echo "<script>window.location.href = 'customer_order_history.php';</script>";
+// when click on the purchase button
+if (isset($_POST['purchase'])) {
+    $order_ID = $_POST['order_ID'];
+    // check if the order is paid or not
+    $query = "  SELECT *
+                FROM sale_order
+                WHERE sale_ID = '$order_ID' AND payment_status = 'Đã thanh toán';";
+    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($result) == 1) {
+        echo "<script>alert('Đơn hàng đã được thanh toán trước đó!');</script>";
+    } else {
+        // redirect to the payment page
+        header("Location: payment.php?id=$order_ID");
+        exit();
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,13 +30,11 @@ if (isset($_POST['cancel'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>My website</title>
-    <link rel="stylesheet" href="css/payment.css">
+    <link rel="stylesheet" href="css/customer_order_history.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/cover-box.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 <body>
     <!-- header -->
@@ -97,7 +68,11 @@ if (isset($_POST['cancel'])) {
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thanh toán</p>
+        <p class="box-text">Lịch sử giao dịch</p>
+        <div>
+            <a href="user_member.php">Cá nhân</a>
+            <a href="customer_order_history.php">> Lịch sử giao dịch</a>
+        </div>
     </div>
 
     <div class="content">
@@ -138,90 +113,73 @@ if (isset($_POST['cancel'])) {
         
         <div class="banner">
             <form method="POST">
-                <div class="receipt">
-                    <div class="receipt-info">
-                        <div class="timer">
-                            <!-- make a timer 10 minute count down -->
-                            <p>Mã QR hết hạn sau:</p>
-                            <div style="display: flex; justify-content: center;">
-                                <p id="timer"></p>
-                            </div>
-                            <script>
-                                var countDownDate = new Date().getTime() + 600000;
-                                var x = setInterval(function() {
-                                    var now = new Date().getTime();
-                                    var distance = countDownDate - now;
-                                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                                    document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
-                                    if (distance < 0) {
-                                        clearInterval(x);
-                                        document.getElementById("timer").innerHTML = "EXPIRED";
-                                        location.reload();
-                                    }
-                                }, 1000);
-                            </script>
-                        </div>
-                        <div class="info">
-                            <p><img src="img/payment_icon_1.png" alt="Service" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Dịch vụ</p>
-                            <div style="display: flex; justify-content: center;">
-                                <p>DABM</p>
-                            </div>
-                            <p><img src="img/payment_icon_4.png" alt="Money" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Số tiền</p>
-                            <div style="display: flex; justify-content: center;">
-                                <?php
-                                    //get the book_ID and quantity from the sale_include table then get the price from the book table and calculate the price
-                                    $query = "SELECT book_ID, sale_quantity
-                                              FROM sale_include
-                                              WHERE sale_ID = '$order_id';";
-                                    $result = mysqli_query($con,$query);
-                                    $total = 0;
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $book_ID = $row['book_ID'];
-                                        $quantity = $row['sale_quantity'];
-                                        $query_ = "SELECT sale_price
-                                                   FROM book
-                                                   WHERE book_ID = '$book_ID';";
-                                        $result_ = mysqli_query($con,$query_);
-                                        $row_ = mysqli_fetch_assoc($result_);
-                                        $price = $row_['sale_price'];
-                                        $total += $price * $quantity;
-                                    }
-                                    echo "<p>$total VND</p>";
-                                ?>
-                            </div>
-                            <p><img src="img/payment_icon_2.png" alt="Infor" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Thông tin</p>
-                            <div style="display: flex; justify-content: center;">
-                                <p>Thanh toán cho DABM</p>
-                            </div>
-                            <p><img src="img/payment_icon_3.png" alt="Money" width="20px" height="20px" style="margin-bottom:5px; margin-right:5px">Mã đơn hàng</p>
-                            <div style="display: flex; justify-content: center;">
-                                <p><?php echo $order_id; ?></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="image" style="position: relative">
-                        <img src="img/momo_logo.png" alt="Momo Logo" width="80px" height="80px" style="position: absolute; top: 15px; right: 15px;">
-                        <div id ="qrcode" style="margin-top: 100px;"></div>
+                <div class="order-info">
+                    <table>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Ngày đặt hàng</th>
+                            <th>Mã hóa đơn</th>
+                            <th>Thành tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Tinh trạng thanh toán</th>
+                            <th>Hành động</th>
+                        </tr>
+                        <?php
+                            $user_ID = $_SESSION['user_id'];
+                            $query = "  SELECT 
+                                            o.order_ID, 
+                                            o.order_date, 
+                                            o.order_info, 
+                                            b.book_name, 
+                                            b.sale_price, 
+                                            so.payment_status,
+                                            si.sale_quantity
+                                        FROM 
+                                            `order` AS o
+                                        JOIN 
+                                            sale_order AS so ON o.order_ID = so.sale_ID
+                                        JOIN 
+                                            sale_include AS si ON so.sale_ID = si.sale_ID
+                                        JOIN 
+                                            book AS b ON si.book_ID = b.book_ID
+                                        WHERE 
+                                            so.member_ID = $user_ID AND
+                                            o.order_ID LIKE 'ONL%'
+                                        ORDER BY 
+                                            o.order_date DESC,
+                                            o.order_ID ASC;";
+                            $result = mysqli_query($con, $query);
+                            $count = mysqli_num_rows($result);
+                            $i = 1;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $order_info_parts = explode(',', $row['order_info']);
+                                $info = trim($order_info_parts[1]); 
+                                echo "<tr onclick=\"redirectToDetailsPage('".$row['order_ID']."')\">
+                                    <td>" . $i . "</td>
+                                    <td style='text-align: left;'>" . $row['book_name'] . "</td>
+                                    <td>" . $row['sale_quantity'] . "</td>
+                                    <td>" . $row['order_date'] . "</td>
+                                    <td>" . $row['order_ID'] . "</td>
+                                    <td>" . $row['sale_price'] * $row['sale_quantity'] . " VND</td>
+                                    <td>" . $info . "</td>
+                                    <td>" . $row['payment_status'] . "</td>
+                                    <form method='POST'>
+                                    <input type='hidden' name='order_ID' value='" . $row['order_ID'] . "'>
+                                    <td> <input type='submit' name='purchase' value='Thanh toán'> </td>
+                                    </form>
+                                    </tr>";
+                                $i++;
+                            }
+                        ?>
                         <script>
-                            // qr code link to payment_confirmation.php?id=$order_id
-                            var order_id = "<?php echo $order_id; ?>";
-                            var url = "http://localhost/DOAN_DABM/payment_confirmation.php?id=" + order_id;
-
-                            var qrcode = new QRCode("qrcode", {
-                                text: url,
-                                width: 230,
-                                height: 230,
-                                colorDark : "#000000",
-                                colorLight : "#ffffff",
-                                correctLevel : QRCode.CorrectLevel.H
-                            });
+                            function redirectToDetailsPage(order_ID) {
+                                // Add code to redirect to the login page
+                                window.location.href = 'customer_order_details.php?id=' + order_ID;
+                            }
                         </script>
-                    </div>
-                </div>
-                <div class="button-container">
-                    <input type="submit" name="confirm" value="Hoàn tất">
-                    <input type="submit" name="cancel" value="Hủy">
+                    </table>
                 </div>
             </form>
         </div>

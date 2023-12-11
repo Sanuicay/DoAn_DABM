@@ -234,6 +234,11 @@ if (isset($_POST['change2']))
                         echo "<label for='start_date'>Ngày vào làm:</label>";
                         echo "<input type='date' value='$row_employee[start_date]' id='start_date' name='start_date' readonly><br>";
                     ?>
+                    <!-- Thông tin thêm -->
+                    <?php
+                        echo "<label for='info'>Thông tin thêm:</label>";
+                        echo "<input type='info' value='$row_employee[user_info]' id='info' name='info'><br>";
+                    ?> 
 
                     <!-- Trạng thái -->
                     <?php
@@ -249,14 +254,10 @@ if (isset($_POST['change2']))
                             echo "<option value='Full-time'>Full-time</option>";
                             echo "<option value='Part-time' selected>Part-time</option>";
                         }
-                        echo "<input type='submit' name='change1' value='Thay Đổi'>;"
-                    ?>
-
-                    <!-- Thông tin thêm -->
-                    <?php
-                        echo "<label for='info'>Thông tin thêm:</label>";
-                        echo "<input type='info' value='$row_employee[user_info]' id='info' name='info'><br>";
-                    ?>                 
+                    ?>  
+                    
+                    <!-- Nút thay đổi -->
+                    <input type="submit" name="change1" value="Thay Đổi">
                 </form>
             </div>
             <div class="account-info" method="POST">

@@ -1,5 +1,7 @@
 <?php
-$con = mysqli_connect("localhost:3307", "root", "", "doan");
+// $con = mysqli_connect("localhost:3307", "root", "", "doan");
+include_once("../connection.php");
+
 
 if($_SERVER['REQUEST_METHOD'] == "POST") {
  //check null for all fields except ID and info

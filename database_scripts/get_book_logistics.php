@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!-- <!DOCTYPE HTML>
 <html>
 <head>  
 <script>
@@ -39,4 +39,4 @@ chart.render();
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 </body>
-</html>
+</html> -->

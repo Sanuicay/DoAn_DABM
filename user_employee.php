@@ -189,24 +189,24 @@ if (isset($_POST['change2']))
                         <div>
                             <?php
                                 echo "<label for='ho'>Họ:</label>";
-                                echo "<input type='text' value='$row[sur_name]' id='ho' name='ho'>";
+                                echo "<input type='text' placeholder='$row[sur_name]' id='ho' name='ho'>";
                             ?>
                         </div>
                         <div>
                             <?php
                                 echo "<label for='ten'>Tên:</label>";
-                                echo "<input type='text' value='$row[last_name]' id='ten' name='ten'>";
+                                echo "<input type='text' placeholder='$row[last_name]' id='ten' name='ten'>";
                             ?>
                         </div>
                     </div>
                     <br>
                     <?php
                         echo "<label for='email'>Email:</label>";
-                        echo "<input type='email' value='$row[email]' id='email' name='email'><br>";
+                        echo "<input type='email' placeholder='$row[email]' id='email' name='email'><br>";
                         echo "<label for='phone'>Số Điện Thoại:</label>";
-                        echo "<input type='tel' value='$row[phone_num]' id='phone' name='phone' patern='0[0-9]{9,10}'><br>";
+                        echo "<input type='tel' placeholder='$row[phone_num]' id='phone' name='phone'><br>";
                         echo "<label for='info'>Thông tin thêm:</label>";
-                        echo "<input type='info' value='$row[user_info]' id='info' name='info'><br>";
+                        echo "<input type='info' placeholder='$row[user_info]' id='info' name='info'><br>";
                         echo "<input type='submit' name='change1' value='Thay Đổi'>;"
                     ?>
                             <!-- <label for="ho">Họ:</label>

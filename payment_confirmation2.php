@@ -1,5 +1,6 @@
 <?php
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
+include_once("connection.php");
 //payment_confirmation2.php?id=4?flag=1
 //get order id
 $order_id = $_GET['id'];
@@ -12,12 +13,12 @@ $result = mysqli_query($con,$sql);
 if ($result) {
     echo "<script>
         alert('ĐÃ THANH TOÁN');
-        window.location.href = 'cart.php';
+        window.location.href = 'customer_order_history.php';
     </script>";
 } else {
     echo "<script>
         alert('THANH TOÁN THẤT BẠI');
-        window.location.href = 'cart.php';
+        window.location.href = 'customer_order_history.php';
     </script>";
 }
 ?>

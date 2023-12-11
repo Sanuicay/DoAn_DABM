@@ -54,27 +54,31 @@ if(isset($_POST['add_to_cart'])){
             $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
             $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
-                // If the book is already in the cart, update the quantity
+                // If the book is already in the cart, update the quantity then minus the remaining_quantity in book table
                 $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
+                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
+                $result = mysqli_query($con,$query);
+                // thông báo thêm vào giỏ hàng thành công
                 if ($result) {
                     echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
                     echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-                }
-                else{
+                } else {
                     echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
                 }
-            }
-            else{
-                // If the book is not in the cart, insert the book into the cart
-                $query = "INSERT INTO cart_include (ID, book_ID, cart_quantity) VALUES ('$user_id', '$book_id', '$quantity');";
+            } else {
+                // If the book is not in the cart, insert the book to the cart then minus the remaining_quantity in book table
+                $query = "INSERT INTO cart_include VALUES ('$user_id', '$book_id', '$quantity');";
+                $result = mysqli_query($con,$query);
+                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
                 if ($result) {
                     echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
                     echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-                }
-                else{
+                } else {
                     echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
                 }
             }
         }
@@ -101,13 +105,13 @@ if(isset($_POST['add_to_cart'])){
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="login_success.php">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_member.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -149,7 +153,7 @@ if(isset($_POST['add_to_cart'])){
         }
     ?>
     <form method="POST">
-        <input type="hidden" name="quantity" id="hiddenQuantity">
+        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
         <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
         <button type="submit" name="buy_now">Mua ngay</button>
     </form>

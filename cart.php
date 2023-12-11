@@ -2,12 +2,12 @@
 include 'connection.php';
 
 // Connect to database
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
 // Check connection
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}   
+// if (mysqli_connect_errno()) {
+//     echo "Failed to connect to MySQL: " . mysqli_connect_error();
+//     exit();
+// }   
 
 // When click on the 'Mua hang' button
 
@@ -41,7 +41,7 @@ if (mysqli_connect_errno()) {
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_member.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
