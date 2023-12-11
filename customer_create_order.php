@@ -343,7 +343,7 @@ if (isset($_POST['cancel'])) {
                 </div>
                 <div class="button-container">
                     <input type="submit" name="confirm" value="Đặt hàng">
-                    <input type="submit" name="cancel" value="Hủy đơn hàng">
+                    <input type="submit" name="cancel" value="Hủy">
                 </div>
             </form>
         </div>

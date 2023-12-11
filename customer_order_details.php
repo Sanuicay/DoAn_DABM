@@ -13,82 +13,18 @@ $product_id = mysqli_real_escape_string($con, $product_id);
 //when click on the confirm button -> insert data into order table
 if (isset($_POST['confirm'])) {
     $order_ID = $_POST['order_ID'];
-    $order_date = date("Y-m-d");
-    $payment = $_POST['payment'];
-    $order_status = $_POST['order_status'];
-    $note = $_POST['note'];
-    //check if the order_ID exsist in the order table
-    $query = "SELECT order_ID
-            FROM `order`
-            WHERE order_ID = '$order_ID';";
-    $result = mysqli_query($con,$query);
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
-        echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
-    }
-    else {
-        // order_info = $payment + $order_status + $note
-        $sql = "INSERT INTO `order` (order_ID, order_date, order_info)
-                VALUES ('$order_ID', '$order_date', '$payment, $order_status, $note');";
-        $result = mysqli_query($con, $sql);
-        if ($result) {
-            //set order_ID flag to true
-            $order_ID_flag = true;
-        } else {
-            echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
-            echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
-        }
-    }
-    //check if the order_ID_flag is true
-    if ($order_ID_flag) {
-        $user_ID = $_SESSION['user_id'];
-        //insert data into sale_order table include sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID = 20010101
-        $delivery_address = $_POST['address'];
-        $payment_status = $_POST['payment_status'];
-        $query = "INSERT INTO sale_order (sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID)
-                VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
-        $result = mysqli_query($con, $query);
-        if ($result) {
-            // set sale_ID flag to true
-            $sale_ID_flag = true;
-        } else {
-            echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
-            echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
-        }
-    }
-
-    //check if the sale_ID_flag is true
-    if ($sale_ID_flag) {
-        //insert data into sale_include table include sale_ID, book_ID, sale_quantity
-        $user_ID = $_SESSION['user_id'];
-        $sql = "SELECT book_ID, cart_quantity
-                FROM cart_include
-                WHERE ID = $user_ID AND book_ID = $product_id;";
-        $result = mysqli_query($con, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-            $book_ID = $row['book_ID'];
-            $sale_quantity = $row['cart_quantity'];
-            $query = "INSERT INTO sale_include (sale_ID, book_ID, sale_quantity)
-                    VALUES ('$order_ID', '$book_ID', '$sale_quantity');";
-            $result = mysqli_query($con, $query);
-            if ($result) {
-                //delete data from cart_include table
-                $sql = "DELETE FROM cart_include
-                        WHERE ID = $user_ID AND book_ID = $product_id;";
-                $result = mysqli_query($con, $sql);
-                // if payment = shipCOD
-                if ($payment == 'shipCOD') {                 
-                    echo "<script>alert('Đặt hàng thành công!');</script>";
-                    echo "<script>window.location.href='cart.php';</script>";
-                } else {
-                    // redirect to payment.php?id=$order_ID
-                    echo "<script>window.location.href='payment.php?id=$order_ID';</script>";
-                }
-            } else {
-                echo "<script>alert('Đặt hàng thất bại! Vui lòng thử lại.');</script>";
-                echo "<script>window.location.href='customer_create_order.php?id=$product_id';</script>";
-            }
-        }
+    // check if the order is paid or not
+    $query = "  SELECT *
+                FROM sale_order
+                WHERE sale_ID = '$order_ID' AND payment_status = 'Đã thanh toán';";
+    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($result) == 1) {
+        echo "<script>alert('Đơn hàng đã được thanh toán trước đó!');</script>";
+        echo "<script>window.location.href = 'customer_order_history.php';</script>";
+    } else {
+        // redirect to the payment page
+        header("Location: payment.php?id=$order_ID");
+        exit();
     }
 }
 
@@ -255,7 +191,7 @@ if (isset($_POST['cancel'])) {
                             $user_ID = $_SESSION['user_id'];
                             $sql = "SELECT book_name, sale_price, sale_quantity
                             FROM book, sale_include
-                            WHERE book.book_ID = sale_include.book_ID AND sale_include.sale_ID = $product_id" ;
+                            WHERE book.book_ID = sale_include.book_ID AND sale_include.sale_ID ='$product_id'" ;
                             $result = mysqli_query($con, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -264,9 +200,6 @@ if (isset($_POST['cancel'])) {
                                     echo "<td>" . $subtotal . " VND</td>";
                                     echo "</tr>";
                                 }
-                            } else {
-                                //redirect to cart.php
-                                echo "<script>window.location.href='cart.php';</script>";
                             }
                         ?>
                         <?php
@@ -304,15 +237,25 @@ if (isset($_POST['cancel'])) {
                                 echo "<td></td>";
                                 echo "<td></td>";
                                 echo "</tr>";
-                                echo "<tr>";
-                                echo "<th>Ghi chú</th>";
-                                echo "<td><input type='text' name='note' id='note'></td>";
-                                echo "<td></td>";
-                                echo "<td></td>";
-                                echo "<td></td>";
-                                echo "</tr>";
                             }
                         ?>
+                        <?php
+                            // get the order_info from the order table
+                            $query = "SELECT order_info
+                                    FROM `order`
+                                    WHERE order_ID = '$product_id';";
+                            $result = mysqli_query($con,$query);
+                            $row = mysqli_fetch_assoc($result);
+                            $order_info = $row['order_info'];
+                            $note = explode(',', $order_info)[2];
+                            echo "<tr>";
+                            echo "<th>Ghi chú</th>";
+                            echo "<td><input type='text' name='note' id='note' value='$note' readonly></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "</tr>";
+                        ?>                            
                     </table>
                 </div>
                 <div class="title">
@@ -322,13 +265,6 @@ if (isset($_POST['cancel'])) {
                         </tr>
                     </table>
                 </div>
-                <?php
-                    $user_ID = $_SESSION['user_id'];
-                    $sql = "SELECT book_name, sale_price, cart_quantity
-                    FROM book, cart_include
-                    WHERE book.book_ID = cart_include.book_ID AND cart_include.book_ID = $product_id AND cart_include.ID = $user_ID" ;
-                    $result = mysqli_query($con, $sql);
-                ?>
                 <div class="product">
                     <table>
                         <tr>
@@ -338,20 +274,27 @@ if (isset($_POST['cancel'])) {
                             <th>Tổng phụ</th>
                         </tr>
                         <?php
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $subtotal = $row['sale_price'] * $row['cart_quantity'];
-                                echo "<tr>";
-                                echo "<td>" . $row['book_name'] . "</td>";
-                                echo "<td>" . $row['sale_price'] . " VND</td>";
-                                echo "<td>" . $row['cart_quantity'] . "</td>";
-                                echo "<td>" . $subtotal . " VND</td>";
-                                echo "</tr>";
+                            $user_ID = $_SESSION['user_id'];
+                            $sql = "SELECT book_name, sale_price, sale_quantity
+                            FROM book, sale_include
+                            WHERE book.book_ID = sale_include.book_ID AND sale_include.sale_ID ='$product_id'" ;
+                            $result = mysqli_query($con, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $subtotal = $row['sale_price'] * $row['sale_quantity'];
+                                    echo "<tr>";
+                                    echo "<td>" . $row['book_name'] . "</td>";
+                                    echo "<td>" . $row['sale_price'] . " VND</td>";
+                                    echo "<td>" . $row['sale_quantity'] . "</td>";
+                                    echo "<td>" . $subtotal . " VND</td>";
+                                    echo "</tr>";
+                                }
                             }
                         ?>
                     </table>
                 </div>
                 <div class="button-container">
-                    <input type="submit" name="confirm" value="Đặt hàng">
+                    <input type="submit" name="confirm" value="Thanh toán">
                     <input type="submit" name="cancel" value="Hủy đơn hàng">
                 </div>
             </form>
