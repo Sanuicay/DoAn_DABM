@@ -78,7 +78,7 @@ if (isset($_POST['cancel'])) {
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user_copy.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_member.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -131,9 +131,9 @@ if (isset($_POST['cancel'])) {
                     }
                 }
             ?>
-            <a href="user_copy.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="user_member.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
             <a href="address.php"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
-            <a href="#"><img class="side-box-last-button" src="img/purchase_history_button.png" alt="Button3"></a>
+            <a href="customer_order_history.php"><img class="side-box-last-button" src="img/purchase_history_button.png" alt="Button3"></a>
         </div>
         
         <div class="banner">
