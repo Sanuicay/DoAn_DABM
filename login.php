@@ -23,8 +23,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_regenerate_id();
             
             $_SESSION["user_id"] = $user["ID"];
-            
-            header("Location: login_success.php");
+
+            //check if user_id is 00000001
+            if ($_SESSION["user_id"] == "00000001") {
+                header("Location: user_manager.php");
+            }
+            else {
+                //check if user_id is in the employee table
+                $sql = sprintf("SELECT * FROM employee
+                                WHERE ID = '%s'",
+                $mysqli->real_escape_string($_SESSION["user_id"]));
+                $result = $mysqli->query($sql);
+                if ($result->fetch_assoc()) {
+                    header("Location: user_employee.php");
+                }
+                else {
+                    header("Location: user_member.php");
+                }
+            };
         }
     }
     
