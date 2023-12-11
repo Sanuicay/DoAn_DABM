@@ -28,11 +28,52 @@ if (isset($_POST['confirm'])) {
     }
 }
 
-    
-//when click on the cancel button -> redirect to cart.php
+//when click on the cancel button -> delete the order from sale_include table then sale_order table then order table then add the quantity back to the book table
 if (isset($_POST['cancel'])) {
-    header('Location: cart.php');
+    $order_ID = $_POST['order_ID'];
+    // check if the order is paid or not
+    $query = "  SELECT *
+                FROM sale_order
+                WHERE sale_ID = '$order_ID' AND payment_status = 'Đã thanh toán';";
+    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($result) == 1) {
+        echo "<script>alert('Đơn hàng đã được thanh toán! Không thể hủy.');</script>";
+        echo "<script>window.location.href = 'customer_order_history.php';</script>";
+    } else {
+        // get the book_ID and sale_quantity from sale_include table
+        $query = "  SELECT book_ID, sale_quantity
+                    FROM sale_include
+                    WHERE sale_ID = '$order_ID';";
+        $result = mysqli_query($con, $query);
+        $book_ID = $row['book_ID'];
+        $sale_quantity = $row['sale_quantity'];
+        // add the quantity back to the book table
+        $query = "  UPDATE book
+                    SET remaining_quantity = remaining_quantity + '$sale_quantity'
+                    WHERE book_ID = '$book_ID';";
+        $result = mysqli_query($con, $query);
+        // delete the order from sale_include table
+        $query = "  DELETE FROM sale_include
+                    WHERE sale_ID = '$order_ID';";
+        $result = mysqli_query($con, $query);
+        // delete the order from sale_order table
+        $query = "  DELETE FROM sale_order
+                    WHERE sale_ID = '$order_ID';";
+        $result = mysqli_query($con, $query);
+        // delete the order from order table
+        $query = "  DELETE FROM `order`
+                    WHERE order_ID = '$order_ID';";
+        $result = mysqli_query($con, $query);
+        if ($result) {
+            echo "<script>alert('Đơn hàng đã được hủy!');</script>";
+            echo "<script>window.location.href = 'customer_order_history.php';</script>";
+        } else {
+            echo "<script>alert('Đơn hàng chưa được hủy!');</script>";
+            echo "<script>window.location.href = 'customer_order_history.php';</script>";
+        }
+    }
 }
+    
 ?>
 
 <!DOCTYPE html>
@@ -207,17 +248,14 @@ if (isset($_POST['cancel'])) {
                             echo "<th>Địa chỉ</th>";
                         ?>
                         <?php
-                            // <select name="address" id="address">
-                            echo "<td><select name='address' id='address'>";
-                            $user_ID = $_SESSION['user_id'];
-                            $sql = "SELECT address
-                                    FROM delivery_address
-                                    WHERE ID = $user_ID" ;
-                            $result = mysqli_query($con, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<option value='{$row['address']}'>{$row['address']}</option>";
-                            }
-                            echo "</select><br>"
+                            // get the address from the sale_order table
+                            $query = "SELECT delivery_address
+                                    FROM sale_order
+                                    WHERE sale_ID = '$product_id';";
+                            $result = mysqli_query($con,$query);
+                            $row = mysqli_fetch_assoc($result);
+                            $delivery_address = $row['delivery_address'];
+                            echo "<td>" . $delivery_address . "</td>";
                         ?>
                         <?php
                             $user_ID = $_SESSION['user_id'];
