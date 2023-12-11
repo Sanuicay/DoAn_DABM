@@ -143,11 +143,9 @@
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
                         window.location.href = 'employee_create_order.php';
-                        alert("Tạo đơn bán hàng!");
                     } else if (orderType === 'buy') {
                         // Logic for creating a buy order
-                        alert("Tạo đơn nhập hàng!");
-                        window.location.href = 'employee_create_order.php';
+                        window.location.href = 'employee_order_import.php';
                     }
                 }
             </script>
