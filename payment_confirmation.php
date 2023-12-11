@@ -1,5 +1,6 @@
 <?php
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
+include_once("connection.php");
 $order_id = $_GET['id'];
 $order_id = mysqli_real_escape_string($con,$order_id);
 

@@ -1,5 +1,6 @@
 <?php
-$con = mysqli_connect("localhost:3307","root","","doan");
+// $con = mysqli_connect("localhost:3307","root","","doan");
+include_once("connection.php");
 //payment_confirmation2.php?id=4?flag=1
 //get order id
 $order_id = $_GET['id'];
