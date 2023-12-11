@@ -45,32 +45,35 @@ if (isset($_POST['cancel'])) {
                     FROM sale_include
                     WHERE sale_ID = '$order_ID';";
         $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_assoc($result);
         $book_ID = $row['book_ID'];
         $sale_quantity = $row['sale_quantity'];
-        // add the quantity back to the book table
+        // add the remaining_quantity back to the book table
         $query = "  UPDATE book
                     SET remaining_quantity = remaining_quantity + '$sale_quantity'
                     WHERE book_ID = '$book_ID';";
         $result = mysqli_query($con, $query);
+
         // delete the order from sale_include table
         $query = "  DELETE FROM sale_include
-                    WHERE sale_ID = '$order_ID';";
+        WHERE sale_ID = '$order_ID';";
         $result = mysqli_query($con, $query);
         // delete the order from sale_order table
         $query = "  DELETE FROM sale_order
-                    WHERE sale_ID = '$order_ID';";
+                WHERE sale_ID = '$order_ID';";
         $result = mysqli_query($con, $query);
         // delete the order from order table
         $query = "  DELETE FROM `order`
-                    WHERE order_ID = '$order_ID';";
+                WHERE order_ID = '$order_ID';";
         $result = mysqli_query($con, $query);
         if ($result) {
-            echo "<script>alert('Đơn hàng đã được hủy!');</script>";
-            echo "<script>window.location.href = 'customer_order_history.php';</script>";
+        echo "<script>alert('Đơn hàng đã được hủy!');</script>";
+        echo "<script>window.location.href = 'customer_order_history.php';</script>";
         } else {
-            echo "<script>alert('Đơn hàng chưa được hủy!');</script>";
-            echo "<script>window.location.href = 'customer_order_history.php';</script>";
+        echo "<script>alert('Đơn hàng chưa được hủy!');</script>";
+        echo "<script>window.location.href = 'customer_order_history.php';</script>";
         }
+
     }
 }
     
