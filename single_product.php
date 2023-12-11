@@ -153,7 +153,7 @@ if(isset($_POST['add_to_cart'])){
         }
     ?>
     <form method="POST">
-        <input type="hidden" name="quantity" id="hiddenQuantity">
+        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
         <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
         <button type="submit" name="buy_now">Mua ngay</button>
     </form>

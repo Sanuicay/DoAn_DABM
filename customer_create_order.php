@@ -17,6 +17,16 @@ if (isset($_POST['confirm'])) {
     $payment = $_POST['payment'];
     $order_status = $_POST['order_status'];
     $note = $_POST['note'];
+    
+    //take a random employee_ID
+    $sql = "SELECT ID
+            FROM employee
+            ORDER BY RAND()
+            LIMIT 1;";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $employeeID = $row['ID'];
+
     //check if the order_ID exsist in the order table
     $query = "SELECT order_ID
             FROM `order`
@@ -46,7 +56,7 @@ if (isset($_POST['confirm'])) {
         $delivery_address = $_POST['address'];
         $payment_status = $_POST['payment_status'];
         $query = "INSERT INTO sale_order (sale_ID, delivery_date, delivery_address, payment_status, member_ID, employee_ID)
-                VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', 20010101);";
+                VALUES ('$order_ID', '$order_date', '$delivery_address', '$payment_status', '$user_ID', '$employeeID');";
         $result = mysqli_query($con, $query);
         if ($result) {
             // set sale_ID flag to true
