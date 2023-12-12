@@ -1,4 +1,6 @@
-
+<?php
+    include_once('connection.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +30,7 @@
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -40,22 +42,71 @@
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thống kê sách</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="book_statistic.html">> Thống kê sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="book_statistic.php">> Thống kê sách</a>
         </div>
     </div>
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="book_statistic.html"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <?php
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
+                }
+            ?>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
 
         <!-- content-box -->
@@ -82,7 +133,7 @@
             </div>
 
             <?php
-                include_once('./database_scripts/get_book_statistic.php');
+                include_once('./database_scripts/statistic_total_sale.php');
 
                 // Validate and get the dates
                 $from_date = isset($_POST['from_time']) ? $_POST['from_time'] : '';
@@ -92,7 +143,7 @@
                 // ...
 
                 // Call the function from the query file
-                $bookStatistics = getBookStatistics($mysqli, $from_date, $to_date);
+                $bookStatistics = getTotalSale($mysqli, $from_date, $to_date);
                 ?>
 
                 <canvas id="myChart"></canvas>
