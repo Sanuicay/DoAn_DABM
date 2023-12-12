@@ -1,6 +1,5 @@
 <?php
     include_once('connection.php');
-    include_once('database_scripts/func_total_price_sale.php');
 ?>
 
 <!DOCTYPE html>
@@ -73,22 +72,28 @@
             <br>
             <div class="search-input-box">
                 <label for="search_book">Tìm kiếm sách:</label>
-                <input type="text" id="search_book" name="search_book" placeholder="Nhập sách">
+                <input type="text" id="search_book" name="search_book" placeholder="Tìm kiếm sách">
                 <!-- Thêm icon filter-->
             </div>
 
             <?php
             $count = 1;
             $countt = 1;
-            $sql_test_show = mysqli_query($mysqli, 'SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
-                FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = "Available"
-                GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status');
 
-            $sql_test_hide = mysqli_query($mysqli, 'SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
+            $search_query = isset($_GET['search']) ? $_GET['search'] : '';
+
+            $sql_test_show = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = "Unavailable"
-                GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status');
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available'
+                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
+
+            $sql_test_hide = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
+                FROM `book` as A, `belongs_to` as B, `genre` as C
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable'
+                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
+
 
             ?>
 
@@ -161,77 +166,112 @@
                 </table>
             </div>
             
+
+            <script>
+                document.getElementById('search_book').addEventListener('keyup', function(event) {
+                    if (event.key === 'Enter') {
+                        searchBooks();
+                    }
+                });
+
+                function searchBooks() {
+                    var searchQuery = document.getElementById('search_book').value;
+
+                    // You can use AJAX to dynamically update the table content based on the search query
+                    // For simplicity, let's assume you reload the page with the search query as a parameter
+                    window.location.href = 'manage_homepage.php?search=' + encodeURIComponent(searchQuery);
+                }
+            </script>
+
             <!-- Add this function in your script tag or external JS file -->
             <script>
                 function SelectToHideBook() {
                     var selectedRow = document.querySelector('#shown-book-table-body tr.selected');
                     if (selectedRow) {
-                        var bookId = selectedRow.dataset.bookId;
+                        var choice = prompt("Choose an action:\n1. View detail\n2. Hide the book");
 
-                        var data = {bookId: bookId, status: 'Unavailable'};
+                        if (choice === '1') {
+                            var bookId = selectedRow.dataset.bookId;
+                            window.location.href = 'update_book.php?id=' + bookId;
+                        } else if (choice === '2') {
+                            // Hide the book
+                            var bookId = selectedRow.dataset.bookId;
+                            var data = { bookId: bookId, status: 'Unavailable' };
 
-                        // Create XHR object
-                        var xhr = new XMLHttpRequest();
+                            // Create XHR object
+                            var xhr = new XMLHttpRequest();
 
-                        // Configure it: POST-request for the given URL
-                        xhr.open("POST", "./database_scripts/update_status_book.php", true);
+                            // Configure it: POST-request for the given URL
+                            xhr.open("POST", "./database_scripts/update_status_book.php", true);
 
-                        // Set up the request headers
-                        xhr.setRequestHeader("Content-Type", "application/json");
+                            // Set up the request headers
+                            xhr.setRequestHeader("Content-Type", "application/json");
 
-                        // Set up a callback function to handle the response
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4) { // Request is complete
-                                if (xhr.status === 200) { // Successful response
-                                    // Handle success (e.g., update the UI)
-                                    selectedRow.remove();
-                                    alert("Book is now hidden!");
-                                } else {
-                                    alert("Error hiding the book!");
+                            // Set up a callback function to handle the response
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4) { // Request is complete
+                                    if (xhr.status === 200) { // Successful response
+                                        // Handle success (e.g., update the UI)
+                                        selectedRow.remove();
+                                        alert("Book is now hidden!");
+                                    } else {
+                                        alert("Error hiding the book!");
+                                    }
                                 }
-                            }
-                        };
+                            };
 
-                        // Send the request with the bookId and status as POST parameters
-                        xhr.send(JSON.stringify(data));
+                            // Send the request with the bookId and status as POST parameters
+                            xhr.send(JSON.stringify(data));
+                        } else {
+                            alert("Invalid choice. Please choose 1 or 2.");
+                        }
                     } else {
-                        alert("Please select a book to hide.");
+                        alert("Please select a book to perform an action.");
                     }
                 }
-
                 function SelectToShowBook() {
                     var selectedRow = document.querySelector('#unshown-book-table-body tr.selected');
 
                     if (selectedRow) {
-                        var bookId = selectedRow.dataset.bookId;
-                        var data = {bookId: bookId, status: 'Available'};
+                        var choice = prompt("Choose an action:\n1. View detail\n2. Show the book");
 
-                        // Create XHR object
-                        var xhr = new XMLHttpRequest();
+                        if (choice === '1') {
+                            var bookId = selectedRow.dataset.bookId;
+                            window.location.href = 'update_book.php?id=' + bookId;
+                        } else if (choice === '2') {
+                            // Hide the book
+                            var bookId = selectedRow.dataset.bookId;
+                            var data = { bookId: bookId, status: 'Available' };
 
-                        // Configure it: POST-request for the given URL
-                        xhr.open("POST", "./database_scripts/update_status_book.php", true);
+                            // Create XHR object
+                            var xhr = new XMLHttpRequest();
 
-                        // Set up the request headers
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        
-                        // Set up a callback function to handle the response
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4) { // Request is complete
-                                if (xhr.status === 200) { // Successful response
-                                    // Handle success (e.g., update the UI)
-                                    selectedRow.remove();
-                                    alert("Book is now available!");
-                                } else {
-                                    alert("Error making the book available!");
+                            // Configure it: POST-request for the given URL
+                            xhr.open("POST", "./database_scripts/update_status_book.php", true);
+
+                            // Set up the request headers
+                            xhr.setRequestHeader("Content-Type", "application/json");
+                            
+                            // Set up a callback function to handle the response
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4) { // Request is complete
+                                    if (xhr.status === 200) { // Successful response
+                                        // Handle success (e.g., update the UI)
+                                        selectedRow.remove();
+                                        alert("Book is now available!");
+                                    } else {
+                                        alert("Error making the book available!");
+                                    }
                                 }
-                            }
-                        };
+                            };
 
-                        // Send the request with the bookId and status as POST parameters
-                        xhr.send(JSON.stringify(data));
+                            // Send the request with the bookId and status as POST parameters
+                            xhr.send(JSON.stringify(data));
+                        } else {
+                            alert("Invalid choice. Please choose 1 or 2.");
+                        }
                     } else {
-                        alert("Please select a book to show.");
+                        alert("Please select a book to perform an action.");
                     }
                 }
 
@@ -346,3 +386,4 @@
         </footer>
     </div>  
 </body>
+</html>
