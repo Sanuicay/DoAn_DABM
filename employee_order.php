@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/checkbox.css">
 </head>
 <body>
     <!-- header -->
@@ -48,7 +49,6 @@
             <a href="#">Quản lý đơn hàng</a>
         </div>
     </div>
-
     <!-- content -->
     <div class="content">
         <div class="side-box">
@@ -109,10 +109,31 @@
                     <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button>
                 </div>                 
             </div>       
+            <div class="checkbox-container">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" id = "sale_order" onchange="handleCheckboxChange(this)">
+                    Đơn bán hàng
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input" id = "purchase_order" onchange="handleCheckboxChange(this)">
+                    Đơn nhập hàng
+                </label>
+            </div>
+            <div id="saleOrderContent" class="order-content" style="display: none;">
+                <!-- Sale Order Content -->
+                <!-- Add your sale_order content here -->
+                <h2>Sale Order Content</h2>
+                
+            </div>
+
+            <div id="purchaseOrderContent" class="order-content" style="display: none;">
+                <!-- Purchase Order Content -->
+                <!-- Add your purchase_order content here -->
+                <h2>Purchase Order Content</h2>
+            </div>
+            
             <div id="filter-box" class="filter-box">
                 <ul>
-                    <li>Đơn nhập hàng</li>
-                    <li>Đơn bán hàng</li>
                     <li>Ngày gần nhất</li>
                     <li>Ngày xa nhất</li>
                     <li>Sắp xếp theo giá tiền tăng dần</li>
@@ -120,6 +141,15 @@
                 </ul>
             </div>
             <script>
+                 function handleCheckboxChange(checkbox) {
+                    if (checkbox.checked) {
+                        // Checkbox is checked, perform your action here
+                        console.log('Checkbox checked:', checkbox.value, checkbox.id);
+                    } else {
+                        // Checkbox is unchecked, perform your action here
+                        console.log('Checkbox unchecked:', checkbox.value, checkbox.id);
+                    }
+                }
                 function handleFilterClick() {
                     // Add your filter action here
                     var filterBox = document.getElementById("filter-box");
@@ -143,15 +173,179 @@
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
                         window.location.href = 'employee_create_order.php';
-                        alert("Tạo đơn bán hàng!");
                     } else if (orderType === 'buy') {
                         // Logic for creating a buy order
-                        alert("Tạo đơn nhập hàng!");
-                        window.location.href = 'employee_create_order.php';
+                        window.location.href = 'employee_order_import.php';
                     }
                 }
+                function updateSaleOrderContent(data) {
+                    // Assuming data is an array of orders
+                    var saleOrderContent = document.getElementById("saleOrderContent");
+                    saleOrderContent.innerHTML = '';
+
+                    // Create a table element
+                    const table = document.createElement('table');
+                    table.classList.add('table-container'); // Add a custom class to the table
+                    // Create table headers
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    const headers = [
+                        'STT', 'Mã đơn', 'Thời gian', 'Khách hàng', 'Nhân viên', 'Tổng tiền', 'Tình trạng thanh toán', 'Trạng thái', 'Địa chỉ'
+                    ];
+                    headers.forEach((header) => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    // Create table body
+                    const tbody = document.createElement('tbody');
+                    data.forEach((order, index) => {
+                        const row = document.createElement('tr');
+                        const values = [
+                            index + 1,
+                            order.order_ID,
+                            order.order_date,
+                            order.sur + ' ' + order.last_n,
+                            order.sur_name + ' ' + order.last_name,
+                            order.total_price,
+                            order.payment_status,
+                            'Shipped',  // You can replace this with the actual status value
+                            order.delivery_address
+                        ];
+                        values.forEach((value, i) => {
+                            const td = document.createElement('td');
+                            td.textContent = value;
+                            // Add a click event listener to each cell in the row
+                            if (i === 1) {
+                                td.addEventListener('click', function () {
+                                    redirectToDetailsPage(order.order_ID);
+                                });
+                            }
+                            row.appendChild(td);
+                        });
+                        tbody.appendChild(row);
+                    });
+                    table.appendChild(tbody);
+
+                    // Append the table to the saleOrderContent div
+                    saleOrderContent.appendChild(table);
+                }
+
+                function updatePurchaseOrderContent(data) {
+                    console.log(data);
+
+                    // Assuming purchaseOrderContent is the div where you want to display the table
+                    const purchaseOrderContent = document.getElementById("purchaseOrderContent");
+                    purchaseOrderContent.innerHTML = ''; // Clear previous content
+
+                    // Create a table element
+                    const table = document.createElement('table');
+                    table.classList.add('table-container'); // Add a custom class to the table
+
+                    // Create table headers
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    const headers = ['Order ID', 'Order Date', 'Total Price'];
+                    headers.forEach((header) => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    // Create table body
+                    const tbody = document.createElement('tbody');
+                    data.forEach((order) => {
+                        const row = document.createElement('tr');
+                        const values = [
+                            order.order_ID,
+                            order.order_date,
+                            order.total_price
+                        ];
+                        values.forEach((value,i) => {
+                            const td = document.createElement('td');
+                            td.textContent = value;
+                            if (i === 1) {
+                                td.addEventListener('click', function () {
+                                    redirectToDetailsPagePurchase(order.order_ID);
+                                });
+                            }
+                            row.appendChild(td);
+                        });
+                        tbody.appendChild(row);
+                    });
+                    table.appendChild(tbody);
+
+                    // Append the table to the purchaseOrderContent div
+                    purchaseOrderContent.appendChild(table);
+                }
+
+                function handleCheckboxChange(checkbox) {
+                    // Get the content sections
+                    var saleOrderContent = document.getElementById("saleOrderContent");
+                    var purchaseOrderContent = document.getElementById("purchaseOrderContent");
+
+                    if (checkbox.id === "sale_order") {
+                        // If sale_order checkbox is checked, show sale_order content
+                        saleOrderContent.style.display = checkbox.checked ? "block" : "none";
+                        fetch('./database_scripts/fetch_sale_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    } else if (checkbox.id === "purchase_order") {
+                        // If purchase_order checkbox is checked, show purchase_order content
+                        purchaseOrderContent.style.display = checkbox.checked ? "block" : "none";
+                        fetch('./database_scripts/fetch_purchase_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    }
+
+                    // Check both checkboxes and show both content sections if both are checked
+                    if (document.getElementById("sale_order").checked && document.getElementById("purchase_order").checked) {
+                        saleOrderContent.style.display = "block";
+                        purchaseOrderContent.style.display = "block";
+                    }
+                }
+
             </script>
+            <!-- Add these content sections -->
             
+
             <!-- Result display area (optional) -->
             <div id="searchResults"></div>
             <?php
@@ -163,50 +357,15 @@
                 GROUP BY order_ID, E.sur_name, E.last_name, sur, last_n, order_date, payment_status');
 
             ?>
-            <h2>Danh sách hóa đơn</h2>
-            <div class="table-container">                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã đơn</th>
-                            <th>Thời gian</th>
-                            <th>Khách hàng</th>
-                            <th>Nhân viên</th>
-                            <th>Tổng tiền</th>
-                            <th>Tình trạng thanh toán</th>
-                            <th>Trạng thái</th>
-                            <th>Địa chỉ</th>
-                        </tr>
-                    </thead>
-                   
-                    <tbody>
-                        <?php
-                            while($item = mysqli_fetch_array($sql_test)) {
-                                $tmp = $item['order_ID'];
-                        ?>
-                        <tr onclick="redirectToDetailsPage('<?php echo $item['order_ID'] ?>')">
-                            <td><?php echo $count++ ?></td>
-                            <td><?php echo $item['order_ID'] ?></td>
-                            <td><?php echo $item['order_date'] ?></td>
-                            <td><?php echo $item['sur'];echo " "; echo $item['last_n'] ?></td>
-                            <td><?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?></td>
-                            <td><?php echo total_price_sales($mysqli, $item['order_ID']); ?></td>
-                            <td><?php echo $item['payment_status'] ?></td>
-                            <td>Shipped</td>
-                            <td><?php echo $item['delivery_address'] ?></td></td>
-                        </tr>
-                        <?php
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
 
             <script>
                 function redirectToDetailsPage(orderId) {
                     // Thực hiện chuyển hướng đến trang chi tiết với orderId là tham số
                     window.location.href = 'details.php?orderId=' + orderId;
+                }
+                function redirectToDetailsPagePurchase(orderId) {
+                    // Thực hiện chuyển hướng đến trang chi tiết với orderId là tham số
+                    window.location.href = 'details_purchase.php?orderId=' + orderId;
                 }
                 function redirectToCreateOrder() {
                     // Thực hiện chuyển hướng đến trang tạo mới đơn hàng

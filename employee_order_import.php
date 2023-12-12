@@ -92,7 +92,7 @@ include_once('database_scripts/func_total_price_sale.php');
         <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
             <br>
-            <div class="center"><h1>Thông tin đơn hàng</h1></div>
+            <div class="center"><h1>Đơn nhập hàng</h1></div>
             <div class="order-info-container">
                 <div class="order-info">
                     <div>
@@ -112,28 +112,18 @@ include_once('database_scripts/func_total_price_sale.php');
                     <span class="label">Tổng tiền thanh toán:</span> 0 VNĐ
                 </div>
             </div>
-            <div>
-                <div id="customerForm">
-                <h2>Thông tin khách hàng</h2>
-                <button id="addCustomerBtn" class = "format-button" onclick="showForm()">Thêm khách hàng mới</button>
-                <div id="formContainer" style="display: none;">
-                    <label for="name">Tên:</label>
-                    <input type="text" id="name" placeholder="Nhập tên">
-        
-                    <label for="phone">Số điện thoại:</label>
-                    <input type="text" id="phone" placeholder="Nhập số điện thoại">
-        
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" placeholder="Nhập email">
-        
-                    <button class = "format-button" onclick="addCustomer()">Thêm khách hàng</button>
-                    </div>
-                </div>
-                <div id="customerInfo">
-                    <div id="customerDetails"></div>
-                </div>
-            </div>
-            
+            <style>
+                #addNewProductBtn {
+                    background-color: #B88E2F;
+                    color: white;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    margin-left: 60%;
+                }
+
+            </style>
             <h2>Danh sách sản phẩm</h2>
             <!-- Result display area (optional) -->
                 <table id="productTable">
@@ -166,7 +156,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
                 <div id="message"></div>
                 <button id="submitProductBtn" onclick="addProduct()">Thêm sản phẩm</button>
-                <button id="delProductBtn" onclick="cancelAddProduct()">Hủy bỏ</button>
+                <button id="delProductBtn" onclick="cancelAddProduct()">Hủy bỏ</button>          
+                <button id="addNewProductBtn" onclick="window.open('./add_new_book.php')">Tạo sách mới</button>
+                
             </div>
             <br>
             <div class = "bounding">
@@ -178,6 +170,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 var customerData = {};
                 var productJson = {};
                 var userId = <?php echo json_encode($user['ID']); ?>;
+                function addNewBook() {
+
+                }
                  function showForm() {
                     var formContainer = document.getElementById("formContainer");
                     formContainer.style.display = "block";
@@ -337,10 +332,6 @@ include_once('database_scripts/func_total_price_sale.php');
                         });
                         var cell6 = row.insertCell(6);
                         cell6.appendChild(deleteButton);
-                        // Add an event listener to the newly added row
-                        // row.addEventListener("click", function () {
-                        //     confirmAction(this);
-                        // });
 
                         // Clear the form fields
                         document.getElementById("productName").value = "";
@@ -373,12 +364,23 @@ include_once('database_scripts/func_total_price_sale.php');
                     document.getElementById("addProductBtn").style.display = "inline-block";
                     document.getElementById("delProductBtn").style.display = "none";
                 }
+                // function confirmAction(row) {
+                //     var productName = row.cells[1].textContent;
+                //     var quantity = row.cells[3].textContent;
 
+                //     var confirmation = confirm("Bạn muốn chỉnh sửa số lượng hay xóa sản phẩm?\n\n" +
+                //                             "Tên sản phẩm: " + productName + "\n" +
+                //                             "Số lượng: " + quantity);
+
+                //     if (confirmation) {
+                //         // Perform the desired action (edit or delete) here
+                //         // For now, let's just show an alert
+                //         alert("Đã chọn: Chỉnh sửa số lượng hoặc xóa sản phẩm");
+                //     }
+                // }
 
                 function confirmOrderTest() {
                     // Assuming customerData is defined somewhere in your code
-                    var customer = customerData.id;
-                    console.log(customer);
 
                     var tableBody = document.getElementById("productBody");
                     var rows = tableBody.getElementsByTagName("tr");
@@ -392,13 +394,12 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     // Check the result of the confirmation dialog
                     if (isConfirmed) {
-                        fetch('./database_scripts/create_order.php', {
+                        fetch('./database_scripts/create_order_import.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                customerInfo: customer,
                                 product: productJson,
                                 orderID: orderid,
                                 orderDate: orderdate,
@@ -421,6 +422,7 @@ include_once('database_scripts/func_total_price_sale.php');
                             }
                         })
                         .catch(error => {
+                            alert("Something wrong");
                             console.log(error);
                         });
                     } else {

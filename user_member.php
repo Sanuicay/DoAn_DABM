@@ -107,19 +107,19 @@ if (isset($_POST['change2']))
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
+            <a href="login_success.php">Trang chủ</a>
             <a href="#">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_member.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <a href="cart.php"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
             <button class="header-login-button" onclick="redirectToLogout()">
                 Đăng xuất
             </button>
@@ -137,18 +137,15 @@ if (isset($_POST['change2']))
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thông tin cá nhân</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
+            <a href="user_member.php">Cá nhân</a>
+            <a href="user_member.php">> Thông tin cá nhân</a>
         </div>
     </div>
 
     <div class="content">
-    <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+        <div class="side-box">
+            <img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar">
             <br>
-            <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p> -->
-            <!-- <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p> -->
             <?php
                 echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
                 echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
@@ -176,10 +173,9 @@ if (isset($_POST['change2']))
                     }
                 }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="user_member.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="address.php"><img class="side-box-button" src="img/button_my_address.png" alt="Button2"></a>
+            <a href="customer_order_history.php"><img class="side-box-last-button" src="img/purchase_history_button.png" alt="Button3"></a>
         </div>
         <div class="body-container">
             <div class="profile">
