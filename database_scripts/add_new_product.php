@@ -1,11 +1,6 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
-
-        if (mysqli_connect_errno()) {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-            exit();
-        }
+        $con = require_once __DIR__ . "/connect.php";
         // Get the phone number from the POST data
         
         $data = json_decode(file_get_contents("php://input"));

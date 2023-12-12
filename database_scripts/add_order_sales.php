@@ -3,13 +3,7 @@
 $data = json_decode(file_get_contents("php://input"));
 
 // Connect to the database
-$con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
-
-// Check connection
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
+$con = require_once __DIR__ . "/connect.php";
 
 // Insert order data into the 'order' table
 $sql = "INSERT INTO `order` (order_ID, order_date, order_info) VALUES (?, ?, ?)";

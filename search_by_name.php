@@ -14,7 +14,7 @@ if (isset($_SESSION["user_id"])) {
     $user = $result->fetch_assoc();
 }
 
-$sql = 'SELECT book_name, img_path, sale_price, publisher_name 
+$sql = 'SELECT book_name, img_path, sale_price, publisher_name, display_status, book_ID
         FROM book, publisher
         WHERE book.publisher_ID = publisher.publisher_ID AND book.book_name LIKE "%'.$_GET['search'].'%"';
 
@@ -46,21 +46,37 @@ $flag = 0;
         <!-- header  -->
         <div class="header">
         <div class="header-left-section">
-            <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="homepage.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="homepage_nologin.html">Trang chủ</a>
+            <a href="homepage.php">Trang chủ</a>
             <a href="features_product_nologin.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+          <!-- <a href="user.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a> -->
+            <?php
+            if (isset($user)) {
+                //forward to user.php?id=" . $user["ID"]
+                echo "<a href=\"user_copy.php\"><img class=\"header-icon\" src=\"img/icon_user.png\" alt=\"Icon 1\"></a>";
+            } else {
+                echo "<a href=\"login.php\"><img class=\"header-icon\" src=\"img/icon_user.png\" alt=\"Icon 1\"></a>";
+            }
+            ?>
             <button id="toggleBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
+            
+                <?php if (isset($user)): ?>
+                <p>Xin chào <?= htmlspecialchars($user["last_name"]) ?></p>
+                <p><a href="logout.php">Log out</a></p>
+                <?php endif; ?>
         </div>
 
-        <button class="header-login-button" onclick="redirectToLoginPage()">
+        <?php
+        if (!isset($user)) {
+            ?>
+            <button class="header-login-button" onclick="redirectToLoginPage()">
             Đăng nhập
         </button>
         <script>
@@ -69,6 +85,9 @@ $flag = 0;
             window.location.href = 'login.php'; // Replace 'login.html' with the actual URL of your login page
             }
         </script>
+        <?php  
+        }
+        ?>
         </div>
 
 
@@ -103,8 +122,9 @@ $flag = 0;
                 <div class="row">
                     <?php
                         while($row = mysqli_fetch_assoc($book) and $flag < 4){
+                            if ($row['display_status'] == "Available") {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="col-4">
                         <div class="description">
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
@@ -115,6 +135,7 @@ $flag = 0;
                     <?php
                             $flag = $flag + 1;
                         }
+                    }
                     ?>
                 </div>
 

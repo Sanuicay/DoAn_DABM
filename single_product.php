@@ -16,7 +16,7 @@ else{
 }
 
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","doan");
+$con = mysqli_connect("localhost","root","Danh@mysql@23","dabm_database");
 
 // Check connection
 if (mysqli_connect_errno()) {
@@ -29,7 +29,7 @@ $book_id = $_GET['id'];
 //sanitize the id before using in the query
 $book_id = mysqli_real_escape_string($con, $book_id);
 
-$query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
+$query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status, book.img_path
           FROM book, author, publisher, genre, written_by, belongs_to
           WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$book_id';";
 $result = mysqli_query($con,$query);
@@ -126,14 +126,14 @@ if(isset($_POST['add_to_cart'])){
             <img src="img/pic3.png" alt="Image 3"><br>
             <img src="img/pic4.png" alt="Image 4"><br>
         </div>
-        <img src="img/pic1.png" alt="Large Image" class="large-image">
+        <?php $row = $result->fetch_assoc() ?>
+        <img src="<?php echo $row['img_path'] ?>" alt="Large Image" class="large-image">
         <main>
         <!-- SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
         FROM book, author, publisher, genre, written_by, belongs_to
         WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
             <?php
             if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
                     echo "<h1>" . $row["book_name"]. "</h1>";
                     echo "<p>Tác giả: " . $row["author_name"]. "</p>";
                     echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
@@ -147,7 +147,6 @@ if(isset($_POST['add_to_cart'])){
                     echo "<input type='number' id='quantity' name='quantity' value='1' min='1' max='" . $row["remaining_quantity"]. "' oninput='updateQuantity()'>";
                     echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
                 echo "</div><br>";
-            }
         } else {
             echo "0 results";
         }

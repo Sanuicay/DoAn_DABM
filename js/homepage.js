@@ -38,7 +38,7 @@ inputBox.onkeyup = function(){
     const bookNames = bookArray.map(book => book.book_name);
     if (input.length) {
         result = bookNames.filter((keyword)=>{
-            return keyword.toLowerCase().includes(input.toLowerCase());
+            return (keyword.toLowerCase().replace(/\s+/g, ' ').trim()).includes(input.toLowerCase().replace(/\s+/g, ' ').trim());
         });
         console.log(result);
     }
@@ -70,7 +70,12 @@ function selectInput(bookName) {
 }
 
 function searchButton() {
-    let searchTerm = inputBox.value;
+    let searchTerm = inputBox.value.replace(/\s+/g, ' ').trim();
     const url = 'search_by_name.php?search=' + searchTerm;
+    window.location.href = url;
+}
+
+function selectProduct(bookID) {
+    const url = 'single_product.php?id=' + bookID;
     window.location.href = url;
 }

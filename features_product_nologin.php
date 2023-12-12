@@ -6,21 +6,18 @@ session_start();
 
 if (isset($_SESSION["user_id"])) {
     
-    $sql = "SELECT * FROM user
-            WHERE ID = {$_SESSION["user_id"]}";
-            
-    $result = $mysqli->query($sql);
-    
-    $user = $result->fetch_assoc();
+    header("Location: features_product_login.php");
 }
 
-$sql = "SELECT book_name, img_path, sale_price, publisher_name 
+$sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book_ID
             FROM book, publisher
             WHERE book.publisher_ID = publisher.publisher_ID";
 
     $book = mysqli_query($mysqli, $sql);
 
 $flag = 0;
+$flag2 = 0;
+$flag3 = 0;
 
 ?>
 
@@ -45,10 +42,10 @@ $flag = 0;
         <!-- header  -->
         <div class="header">
         <div class="header-left-section">
-            <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="homepage.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="homepage_nologin.html">Trang chủ</a>
+            <a href="homepage.php">Trang chủ</a>
             <a href="features_product_nologin.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
@@ -101,12 +98,13 @@ $flag = 0;
 
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 4){
+                        while($flag < 4 and $row = mysqli_fetch_assoc($book)){
+                            if ($row['display_status'] == "Available") {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="col-4">
                         <div class="description">
-                            <img src="<?php echo $row["img_path"];?>" alt="">
-                            <h2><?php echo $row["book_name"];?></h2>
+                            <img src="<?php echo $row["img_path"]; ?>" alt="">
+                            <h2><?php echo $row["book_name"];  ?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
                             <h4><?php echo $row["sale_price"]; ?>đ</h4>
                         </div>
@@ -114,6 +112,7 @@ $flag = 0;
                     <?php
                             $flag = $flag + 1;
                         }
+                    }
                     ?>
                     
                     <a href="#">Xem thêm</a>
@@ -129,9 +128,10 @@ $flag = 0;
                 </div>
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 8){
+                        while($flag2 < 4 and $row = mysqli_fetch_assoc($book)){
+                            if ($row['display_status'] == "Available") {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="col-4">
                         <div class="description">
                             <img src="<?php echo $row["img_path"]; ?>" alt="">
                             <h2><?php echo $row["book_name"];  ?></h2>
@@ -140,8 +140,9 @@ $flag = 0;
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                            $flag2 = $flag2 + 1;
                         }
+                    }
                     ?>
                     
                     <a href="#">Xem thêm</a>
@@ -157,9 +158,10 @@ $flag = 0;
                 </div>
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 12){
+                        while($flag3 < 4 and $row = mysqli_fetch_assoc($book)){
+                            if ($row['display_status'] == "Available") {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="col-4">
                         <div class="description">
                             <img src="<?php echo $row["img_path"]; ?>" alt="">
                             <h2><?php echo $row["book_name"];  ?></h2>
@@ -168,8 +170,9 @@ $flag = 0;
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                            $flag3 = $flag3 + 1;
                         }
+                    }
                     ?>
                     
                     <a href="#">Xem thêm</a>

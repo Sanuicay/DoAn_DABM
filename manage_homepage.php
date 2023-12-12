@@ -29,7 +29,7 @@
         </div>
         <div class="header-nav-links">
             <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="features_product_nologin.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
