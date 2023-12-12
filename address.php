@@ -1,10 +1,10 @@
 <?php
 include 'connection.php';
-$con = mysqli_connect("localhost:3307","root","","doan");
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
+// $con = mysqli_connect("localhost:3307","root","","doan");
+// if (mysqli_connect_errno()) {
+//     echo "Failed to connect to MySQL: " . mysqli_connect_error();
+//     exit();
+// }
 
 // When click on update button update the address in that row
 if (isset($_POST['update'])) {

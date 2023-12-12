@@ -125,7 +125,7 @@ CONSTRAINT `FK_14` FOREIGN KEY `FK_2` (`book_ID`) REFERENCES `book` (`book_ID`)
 
 CREATE TABLE `delivery_address`
 (
- `address` mediumtext NOT NULL ,
+ `address` varchar(255) NOT NULL ,
  `ID`      varchar(45) NOT NULL ,
 
 PRIMARY KEY (`address`, `ID`),
@@ -306,3 +306,9 @@ INSERT INTO `book` VALUES ('8', 'Mắt Biếc', '2017', '2020-01-01', 189, 30000
 INSERT INTO `book` VALUES ('9', 'Thám Tử Lừng Danh Conan', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/conan.jpeg');
 INSERT INTO `book` VALUES ('10', 'Shin - Cậu Bé Bút Chì', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/shin.jpeg');
 INSERT INTO `book` VALUES ('11', 'Vũ Trụ Trong Vỏ Hạt Dẻ', '2017', '2020-01-01', 189, 30000, 41000, 125, 'Available', '001', 'img/Books_Images/VuTruTrongVoHatDe.jpeg');
+
+
+-- need to create a graph for sale quantity and purchase quantity for each book and date
+SELECT sale_include.sale_quantity, sale_order.delivery_date, book.book_name, genre.genre_name
+FROM sale_include, sale_order, book, belongs_to, genre
+WHERE sale_include.sale_ID = sale_order.sale_ID AND sale_include.book_ID = book.book_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID;
