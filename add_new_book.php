@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 
-if(isset($_POST['confirm'])){
+if (isset($_POST['confirm'])) {
     $tensach = $_POST['tensach'];
     $nhaxuatbanID = $_POST['nhaxuatbanID'];
     $masach = $_POST['masach'];
@@ -12,34 +12,76 @@ if(isset($_POST['confirm'])){
     $theloaiID = $_POST['theloaiID'];
     $soluong = $_POST['soluong'];
     $giatien = $_POST['giatien'];
+    $gianhap = $_POST['gianhap'];
+    $bookstatus = $_POST['bookstatus'];
 
-    //check null
-    if ($tensach == "" || $nhaxuatbanID == "" || $masach == "" || $sotrang == "" || $ngayphathanh == "" || $tentacgiaID == "" || $namxuatban == "" || $theloaiID == "" || $soluong == "" || $giatien == "")
-    {
-        echo "<script>alert('Vui lòng nhập đầy đủ thông tin!')</script>";
+    // Handle file upload
+    $img_path = ''; // Initialize the variable
+    if (isset($_FILES['img_file']) && $_FILES['img_file']['error'] == 0) {
+        $target_dir = "img/Books_Images"; // Specify the directory where you want to store uploaded images
+        $target_file = $target_dir . basename($_FILES['img_file']['name']);
+
+        // Move the uploaded file to the specified directory
+        if (move_uploaded_file($_FILES['img_file']['tmp_name'], $target_file)) {
+            // File upload was successful, save the file path to the img_path variable
+            $img_path = $target_file;
+            echo "<script>alert('File uploaded successfully!')</script>";
+        } else {
+            echo "<script>alert('Sorry, there was an error uploading your file.')</script>";
+        }
     }
-    //check if sotrang, soluong, gia tien is a number and is larger than 0
-    else if (!is_numeric($sotrang) || !is_numeric($soluong) || !is_numeric($giatien) || $sotrang < 0 || $soluong < 0 || $giatien < 0)
-    {
-        echo "<script>alert('Vui lòng nhập số lượng, số trang, giá tiền hợp lệ!')</script>";
+
+    // Check null and numeric validations
+    if (
+        $tensach == "" || $nhaxuatbanID == "" || $masach == "" || $sotrang == "" || $ngayphathanh == "" ||
+        $tentacgiaID == "" || $namxuatban == "" || $theloaiID == "" || $soluong == "" || $giatien == "" ||
+        $gianhap == "" || $bookstatus == "" || !is_numeric($sotrang) || !is_numeric($soluong) ||
+        !is_numeric($giatien) || !is_numeric($gianhap) || $sotrang < 0 || $soluong < 0 || $giatien < 0 || $gianhap < 0
+    ) {
+        echo "<script>alert('Vui lòng nhập đầy đủ thông tin và thông tin hợp lệ!')</script>";
+    } else {
+        // Use prepared statements to prevent SQL injection
+        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`, `purchase_price`, `display_status`, `img_path`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query2 = "INSERT INTO `written_by` VALUES (?, ?)";
+        $query3 = "INSERT INTO `belongs_to` VALUES (?, ?)";
+
+        // Use prepared statements to insert data into the database
+        $stmt1 = mysqli_prepare($con, $query1);
+        $stmt2 = mysqli_prepare($con, $query2);
+        $stmt3 = mysqli_prepare($con, $query3);
+
+        if ($stmt1 && $stmt2 && $stmt3) {
+            // Bind parameters to the placeholders
+            mysqli_stmt_bind_param($stmt1, "sssssiidiis", $masach, $tensach, $nhaxuatbanID, $namxuatban, $ngayphathanh, $sotrang, $giatien, $soluong, $gianhap, $bookstatus, $img_path);
+            mysqli_stmt_bind_param($stmt2, "ss", $masach, $tentacgiaID);
+            mysqli_stmt_bind_param($stmt3, "ss", $masach, $theloaiID);
+
+            // Execute the statements
+            $result1 = mysqli_stmt_execute($stmt1);
+            $result2 = mysqli_stmt_execute($stmt2);
+            $result3 = mysqli_stmt_execute($stmt3);
+
+            // Check if the queries were successful
+            if ($result1 && $result2 && $result3) {
+                echo "<script>alert('Book added successfully!')</script>";
+                header('location:list_of_book.php');
+            } else {
+                echo "<script>alert('Error adding book to the database.')</script>";
+            }
+
+            // Close the statements
+            mysqli_stmt_close($stmt1);
+            mysqli_stmt_close($stmt2);
+            mysqli_stmt_close($stmt3);
+        } else {
+            echo "<script>alert('Error preparing statements.')</script>";
+        }
     }
-    else
-    {
-        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`) VALUES ('$masach', '$tensach', '$nhaxuatbanID', '$namxuatban', '$ngayphathanh', '$sotrang', '$giatien', '$soluong')";
-        $query2 = "INSERT INTO `written_by` VALUES ('$masach', '$tentacgiaID')";
-        $query3 = "INSERT INTO `belongs_to` VALUES ('$masach', '$theloaiID')";
-        $result = mysqli_query($con,$query1);
-        $result2 = mysqli_query($con,$query2);
-        $result3 = mysqli_query($con,$query3);
-        //redirect to list_of_book.php
-        header('location:list_of_book.php');    
-    }
-}
-else if(isset($_POST['cancel'])){
+} else if (isset($_POST['cancel'])) {
     header('location:list_of_book.php');
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -60,7 +102,7 @@ else if(isset($_POST['cancel'])){
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="user_employee.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
             <a href="index.html">Trang chủ</a>
@@ -69,7 +111,7 @@ else if(isset($_POST['cancel'])){
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -81,8 +123,8 @@ else if(isset($_POST['cancel'])){
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Nhập hàng mới</p>
         <div>
-            <a href="#">Cá nhân</a>
-            <a href="#">> Quản lý sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="list_of_book.php">> Quản lý sách</a>
             <a href="#">> Nhập hàng mới</a>
         </div>
     </div>
@@ -121,15 +163,40 @@ else if(isset($_POST['cancel'])){
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
         <div class="body-container">
             <div class="profile">
                 <h2>Thông tin sách</h2>
-                <form method="POST">
+                <form method="POST"  enctype="multipart/form-data">
                     <div class="name">
                         <div>
                             <!-- tensach -->
@@ -153,15 +220,29 @@ else if(isset($_POST['cancel'])){
 
                             <!-- masach -->                   
                             <?php
-                            //masach will be the highest number in book_ID + 1 and cannot be changed
-                            $query = "SELECT MAX(book_ID) AS max_book_ID
-                                      FROM book;";
-                            $result = mysqli_query($con,$query);
-                            $row = mysqli_fetch_assoc($result);
-                            $masach = $row['max_book_ID'] + 1;
-                            echo "<label for='masach'>Mã sách</label><br>";
-                            echo "<input type='text' id='masach' name='masach' value='$masach' readonly><br>";
+                                echo "<label for='masach'>Mã sách:</label>";
+                                // a randomly generated ID that is 8 digits long, starts with 2 and does not match any other ID in the database
+                                $query_id = "SELECT book_ID FROM book";
+                                $result_id = mysqli_query($con,$query_id);
+
+                                // Generate a 7-digit random number (to end up with an 8-digit number including the leading 2)
+                                $randomNumber = rand(1000000,9999999);
+                                $bookID = "2" . $randomNumber;
+
+                                // Fetch all existing IDs into an array
+                                $existing_ids = array();
+                                while ($row_id = mysqli_fetch_assoc($result_id)) {
+                                    $existing_ids[] = $row_id['book_ID'];
+                                }
+
+                                // Generate a new ID until we find one that doesn't exist in the database
+                                while (in_array($bookID, $existing_ids)) {
+                                    $randomNumber = rand(1000000,9999999);
+                                    $bookID = "2" . $randomNumber;
+                                }
+                                echo "<input type='text' id='masach' name='masach' value='$bookID' readonly><br>";
                             ?>
+
 
                             <!-- sotrang -->
                             <label for='sotrang'>Số trang</label><br>
@@ -170,6 +251,13 @@ else if(isset($_POST['cancel'])){
                             <!-- ngayphathanh -->
                             <label for='ngayphathanh'>Ngày phát hành</label><br>
                             <input type='date' id='ngayphathanh' name='ngayphathanh'><br>
+
+                            <!-- trangthaihienthi -->
+                            <label for='bookstatus'>Trạng thái hiển thị</label><br>
+                            <select id='bookstatus' name='bookstatus'>
+                                <option value='Available'>Available</option>
+                                <option value='Unavailable'>Unavailable</option>
+                            </select><br>
                             </div>
                         <div>
                             <!-- tentacgiaID -->
@@ -218,24 +306,28 @@ else if(isset($_POST['cancel'])){
                             <!-- giatien -->
                             <label for='giatien'>Giá tiền</label><br>
                             <input type='number' id='giatien' name='giatien'><br>
+
+                            <!-- gianhap -->
+                            <label for="gianhap">Giá nhập</label><br>
+                            <input type="number" id="gianhap" name="gianhap">
                         </div>
                     </div>
                     <div class="description">
-                        <label for="info">Mô tả thêm</label><br>
-                        <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="XÁC NHẬN">
                         <input type="submit" name="cancel" value="HỦY">
                     </div>
-                </form>
+                
             </div>
             <div class="image">
                 <div class="image-container">
-                    +
+                    <label for="img_file"></label>
+                    <input type="file" name="img_file" id="img_file">
                 </div>
                 <div class="upload-text">Thêm ảnh minh họa</div>
             </div>
+            </form>
         </div>
 
     </div>

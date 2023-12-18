@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 $bookID = $_GET['id'];
-$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price
+$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price, book.purchase_price, book.display_status, book.img_path
           FROM book, written_by, belongs_to
           WHERE book.book_ID = written_by.book_ID AND book.book_ID = belongs_to.book_ID AND book.book_ID = '$bookID'";
 $result = mysqli_query($con,$query);
@@ -58,6 +58,32 @@ if(isset($_POST['confirm'])){
         $query = "UPDATE `book` SET `sale_price` = '$giatien' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
+    if (!empty($_POST['gianhap'])){
+        $gianhap = $_POST['gianhap'];
+        $query = "UPDATE `book` SET `purchase_price` = '$gianhap' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    if (!empty($_POST['bookstatus'])){
+        $bookstatus = $_POST['bookstatus'];
+        $query = "UPDATE `book` SET `display_status` = '$bookstatus' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    // Handle file upload
+    if (isset($_FILES['img_file']) && $_FILES['img_file']['error'] == 0) {
+        $target_dir = "img/Books_Images/";
+        $target_file = $target_dir . basename($_FILES['img_file']['name']);
+        
+        // Move the uploaded file to the specified directory
+        if (move_uploaded_file($_FILES['img_file']['tmp_name'], $target_file)) {
+            // File upload was successful, save the file path to the img_path attribute
+            $img_path = $target_file;
+            $query_update_img_path = "UPDATE `book` SET `img_path` = '$img_path' WHERE `book_ID` = '$bookID';";
+            mysqli_query($con, $query_update_img_path);
+            echo "<script>alert('File uploaded successfully!')</script>";
+        } else {
+            echo "<script>alert('Sorry, there was an error uploading your file.')</script>";
+        }
+    }
     header("Location: list_of_book.php");
 }
 else if(isset($_POST['cancel'])){
@@ -71,6 +97,8 @@ else if(isset($_POST['cancel'])){
     $theloaiID = "";
     $soluong = "";
     $giatien = "";
+    $gianhap = "";
+    $bookstatus = "";
     header("Refresh:0");
 }
 
@@ -103,7 +131,7 @@ else if(isset($_POST['cancel'])){
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -115,15 +143,15 @@ else if(isset($_POST['cancel'])){
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Cập nhật thông tin sách</p>
         <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="list_of_book.html">> Quản lý sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="list_of_book.php">> Quản lý sách</a>
             <a>> Chi tiết sách</a>
         </div>
     </div>
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -155,15 +183,40 @@ else if(isset($_POST['cancel'])){
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
         <div class="body-container">
             <div class="profile">
                 <h2>Thông tin sách</h2>
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     <div class="name">
                         <div>
                             <!-- using base from add_new_book.php but with placeholder -->
@@ -212,6 +265,14 @@ else if(isset($_POST['cancel'])){
                             });
                             });
                             </script>
+
+                            <!-- trạng thái hiển thị -->
+                            <label for='bookstatus'>Trạng thái hiển thị</label><br>
+                            <select id='bookstatus' name='bookstatus'>
+                                <option value='Available' <?php echo ($row_book['display_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                <option value='Unavailable' <?php echo ($row_book['display_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                            </select><br>
+
                             
                             </div>
                         <div>
@@ -260,24 +321,29 @@ else if(isset($_POST['cancel'])){
                             <!-- giá tiền -->
                             <label for="giatien">Giá tiền</label><br>
                             <input type="number" id="giatien" name="giatien" placeholder="<?php echo $row_book['sale_price']; ?>"><br>
+
+                            <!-- giá nhập -->
+                            <label for="gianhap">Giá nhập</label><br>
+                            <input type="number" id="gianhap" name="gianhap" placeholder="<?php echo $row_book['purchase_price']; ?>"readonly><br>
                         </div>
                     </div>
                     <div class="description">
-                        <label for="info">Mô tả thêm</label><br>
-                        <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="CẬP NHẬT">
                         <input type="submit" name="cancel" value="HỦY">
                     </div>
-                </form>
+                
             </div>
             <div class="image">
+                <!-- Image upload -->
                 <div class="image-container">
-                    +
+                    <label for="img_file"></label>
+                    <input type="file" name="img_file" id="img_file">
                 </div>
-                <div class="upload-text">Thêm ảnh minh họa</div>
+                <div class="upload-text">Chỉnh sửa ảnh minh họa</div>
             </div>
+            </form>
         </div>
     </div>
     <!-- content goes here -->
