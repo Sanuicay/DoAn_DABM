@@ -179,60 +179,63 @@
                     }
                 }
                 function updateSaleOrderContent(data) {
-                    // Assuming data is an array of orders
-                    var saleOrderContent = document.getElementById("saleOrderContent");
-                    saleOrderContent.innerHTML = '';
+    // Assuming data is an array of orders
+    var saleOrderContent = document.getElementById("saleOrderContent");
+    saleOrderContent.innerHTML = '';
 
-                    // Create a table element
-                    const table = document.createElement('table');
-                    table.classList.add('table-container'); // Add a custom class to the table
-                    // Create table headers
-                    const thead = document.createElement('thead');
-                    const headerRow = document.createElement('tr');
-                    const headers = [
-                        'STT', 'Mã đơn', 'Thời gian', 'Khách hàng', 'Nhân viên', 'Tổng tiền', 'Tình trạng thanh toán', 'Trạng thái', 'Địa chỉ'
-                    ];
-                    headers.forEach((header) => {
-                        const th = document.createElement('th');
-                        th.textContent = header;
-                        headerRow.appendChild(th);
-                    });
-                    thead.appendChild(headerRow);
-                    table.appendChild(thead);
+    // Create a table element
+    const table = document.createElement('table');
+    table.classList.add('table-container'); // Add a custom class to the table
 
-                    // Create table body
-                    const tbody = document.createElement('tbody');
-                    data.forEach((order, index) => {
-                        const row = document.createElement('tr');
-                        const values = [
-                            index + 1,
-                            order.order_ID,
-                            order.order_date,
-                            order.sur + ' ' + order.last_n,
-                            order.sur_name + ' ' + order.last_name,
-                            order.total_price,
-                            order.payment_status,
-                            'Shipped',  // You can replace this with the actual status value
-                            order.delivery_address
-                        ];
-                        values.forEach((value, i) => {
-                            const td = document.createElement('td');
-                            td.textContent = value;
-                            // Add a click event listener to each cell in the row
-                            if (i === 1) {
-                                td.addEventListener('click', function () {
-                                    redirectToDetailsPage(order.order_ID);
-                                });
-                            }
-                            row.appendChild(td);
-                        });
-                        tbody.appendChild(row);
-                    });
-                    table.appendChild(tbody);
+    // Create table headers
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headers = [
+        'STT', 'Mã đơn', 'Thời gian', 'Khách hàng', 'Nhân viên', 'Tổng tiền', 'Tình trạng thanh toán', 'Trạng thái', 'Địa chỉ'
+    ];
+    headers.forEach((header) => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
-                    // Append the table to the saleOrderContent div
-                    saleOrderContent.appendChild(table);
-                }
+    // Create table body
+    const tbody = document.createElement('tbody');
+    data.forEach((order, index) => {
+        const row = document.createElement('tr');
+        row.addEventListener('click', function () {
+            redirectToDetailsPage(order.order_ID);
+        });
+
+        const values = [
+            index + 1,
+            order.order_ID,
+            order.order_date,
+            order.sur + ' ' + order.last_n,
+            order.sur_name + ' ' + order.last_name,
+            order.total_price,
+            order.payment_status,
+            'Shipped',  // You can replace this with the actual status value
+            order.delivery_address
+        ];
+
+        values.forEach((value) => {
+            const td = document.createElement('td');
+            td.textContent = value;
+            row.appendChild(td);
+        });
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+
+    // Append the table to the saleOrderContent div
+    saleOrderContent.appendChild(table);
+}
+
 
                 function updatePurchaseOrderContent(data) {
                     console.log(data);
