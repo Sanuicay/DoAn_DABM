@@ -2,6 +2,7 @@
 // Connect to your database
 include_once('connection.php');
 include_once('database_scripts/func_total_price_sale.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +98,17 @@ include_once('database_scripts/func_total_price_sale.php');
                 <div class="order-info">
                     <div>
                         <span class="label">Mã đơn hàng:</span> 
-                        <input type="text" id="s.orderid" name="s.orderid" placeholder="Nhập mã đơn hàng">
+                        <?php 
+                        $query = "SELECT MAX(order_ID) AS max_order_ID
+                        FROM `order`;";
+                        $result = mysqli_query($con,$query);
+                        $row = mysqli_fetch_assoc($result);
+                        if ($row['max_order_ID']==0) {
+                            $orderID=1000000;
+                        } else {$orderID = $row['max_order_ID'] + 1;}
+                        
+                        ?>
+                        <input type="text" id="s.orderid" name="s.orderid" value="<?php echo $orderID;?>" placeholder="Nhập mã đơn hàng" readonly>
                     </div>
                     <div>
                         <span class="label">Thời gian:</span> 
@@ -117,14 +128,15 @@ include_once('database_scripts/func_total_price_sale.php');
                 <h2>Thông tin khách hàng</h2>
                 <button id="addCustomerBtn" class = "format-button" onclick="showForm()">Thêm khách hàng mới</button>
                 <div id="formContainer" style="display: none;">
-                    <label for="name">Tên:</label>
-                    <input type="text" id="name" placeholder="Nhập tên">
-        
                     <label for="phone">Số điện thoại:</label>
                     <input type="text" id="phone" placeholder="Nhập số điện thoại">
+                    <!-- <label for="name">Tên:</label>
+                    <input type="text" id="name" placeholder="Tên khách hàng">
+        
+                    
         
                     <label for="email">Email:</label>
-                    <input type="text" id="email" placeholder="Nhập email">
+                    <input type="text" id="email" placeholder="Nhập email"> -->
         
                     <button class = "format-button" onclick="addCustomer()">Thêm khách hàng</button>
                     </div>
@@ -160,8 +172,9 @@ include_once('database_scripts/func_total_price_sale.php');
             
             <div id="productForm">
                 <label for="productName">Tên/Mã sản phẩm:</label>
+                <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
                 <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm">
-                
+                <div id="productSuggestions"></div>
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
                 <div id="message"></div>
@@ -178,6 +191,49 @@ include_once('database_scripts/func_total_price_sale.php');
                 var customerData = {};
                 var productJson = {};
                 var userId = <?php echo json_encode($user['ID']); ?>;
+                // function displayMatchingProducts() {
+                //     var products = {};
+                //     var input = document.getElementById('productName').value.toLowerCase();
+                //     var productSuggestionsContainer = document.getElementById('productSuggestions');
+                //     productSuggestionsContainer.innerHTML = '';
+                //     fetch('http://localhost:8012/DoAn_DABM/database_scripts/find_book_in_order.php',{
+                //         method: 'POST',
+                //         headers: {  // <-- Corrected property name
+                //             'Content-Type': 'application/json',
+                //         },
+                //         body: JSON.stringify({bookID: productName})
+                //     })
+                //     .then(response => {
+                //         if (!response.ok){
+                //             throw new Error('Http error!');
+                //         }
+
+                //         return response.json();
+                //     })
+                //     .then (data=>{
+                //         const userData = data.userData;
+                //         console.log(userData);
+                //         products = userData;
+                //         console.log(products);
+                //     })
+                //     .catch(error => {
+                //         console.log(error);
+                //     })
+                // }
+                // Get the current date in the format YYYY-MM-DD
+                function getCurrentDate() {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                    const day = now.getDate().toString().padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+
+                // Set the current date to the "Thời gian" input field
+                document.getElementById('s.orderdate').value = getCurrentDate();
+                // Disable the "Thời gian" input field
+                document.getElementById('s.orderdate').disabled = true;
+
                  function showForm() {
                     var formContainer = document.getElementById("formContainer");
                     formContainer.style.display = "block";
@@ -185,9 +241,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
 
                 function addCustomer() {
-                    var name = document.getElementById("name").value;
+                    // var name = document.getElementById("name").value;
                     var phone = document.getElementById("phone").value;
-                    var email = document.getElementById("email").value;
+                    // var email = document.getElementById("email").value;
 
                     
                     console.log(phone);
@@ -208,6 +264,11 @@ include_once('database_scripts/func_total_price_sale.php');
                     .then (data=>{
                         const userData = data.userData;
                         console.log(userData);
+                        if (userData === null) {
+                            // Handle the case where userData is null
+                            var customerDetails = document.getElementById("customerDetails");
+                            customerDetails.innerHTML = "<strong style='color: red;'>Khách hàng chưa là thành viên</strong>";
+                        } else {
                         customerData = {
                             id: userData.ID,
                             surName: userData.sur_name,
@@ -223,6 +284,9 @@ include_once('database_scripts/func_total_price_sale.php');
                                 <strong>Email:</strong> ${userData.email}
                             </div>
                         `;
+                        var formContainer = document.getElementById("formContainer");
+                        formContainer.style.display = "none";
+                    }
                     })
                     .catch(error => {
                         console.log(error);
@@ -234,8 +298,7 @@ include_once('database_scripts/func_total_price_sale.php');
                     document.getElementById("email").value = "";
 
                     // Hide the form after adding a customer
-                    var formContainer = document.getElementById("formContainer");
-                    formContainer.style.display = "none";
+                   
                 }
                 function showProductForm() {
                     document.getElementById("productForm").style.display = "block";
