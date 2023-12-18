@@ -15,12 +15,54 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/cover-box.css">
-    <link rel="stylesheet" href="css/table.css">
-    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/table.css">    
     <link rel="stylesheet" href="css/logo.css">
     <link rel="stylesheet" href="css/checkbox.css">
+    <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
+    <style>
+        #filterOptions {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #FFECD5;
+            color: #B88E2F;
+            cursor: pointer;
+        }
+
+        #filterOptions:hover {
+            background-color: #B88E2F;
+            color: white;
+        }
+
+        .filter-box {
+            position: fixed;
+            top: 100%;
+            left: 0;
+            background-color: #FFECD5;
+            border: 1px solid #B88E2F;
+            border-radius: 4px;
+            display: none; /* Hide the filter box by default */
+        }
+
+        .filter-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .filter-box ul li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #B88E2F;
+        }
+
+        .filter-box ul li:last-child {
+            border-bottom: none;
+        }
+
+    </style>
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
@@ -93,17 +135,27 @@
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
             <br>
             <div class = "main-container">
+                <!-- <div class="search-container">
+                    <div class="search-icons">
+                        <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>                    
+                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">
+                    </div>
+                </div>  -->
                 <div class="search-container">
                     <div class="search-icons">
-                        <div class="search-icon">
-                            <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        </div>
+                        <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
                         <input type="text" class="search-input" placeholder="Tìm đơn hàng">
-                        <div class="filter-icon" onclick="handleFilterClick()">
-                            <img class="side-box-image" src="img/icon_filter.png" alt="Icon"/>
-                        </div>
-                    </div>
-                </div> 
+                        <select id="filterOptions">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <li>Ngày gần nhất</li>
+                    <li>Ngày xa nhất</li>
+                    <li>Sắp xếp theo giá tiền tăng dần</li>
+                    <li>Sắp xếp theo giá tiền giảm dần</li>
+                        </select>
+                    </div>       
+                </div>
+
                 <div class ="button-container">
                     <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
                     <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button>
