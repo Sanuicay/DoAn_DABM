@@ -18,7 +18,8 @@ $search = strtolower($search);
 
 $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
           FROM book, author, publisher, genre, written_by, belongs_to 
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
+          ORDER BY book.book_ID";
 $result = mysqli_query($con, $query);
 
 if (mysqli_num_rows($result) == 0) {

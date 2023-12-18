@@ -1,4 +1,6 @@
-
+<?php
+    include_once('connection.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +30,7 @@
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -40,22 +42,71 @@
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thống kê sách</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="book_statistic.html">> Thống kê sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="book_statistic.php">> Thống kê sách</a>
         </div>
     </div>
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="book_statistic.html"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <?php
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
+                }
+            ?>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
 
         <!-- content-box -->
@@ -66,7 +117,7 @@
             <br>
             <div class="select-box">
                 <div class="date-input">
-                    <form method="post" action="">
+                    <form method="post" action="" id="statisticForm">
                         <label for="from_time">Từ:</label>
                         <input type="date" id="from_time" name="from_time">
                         <label for="to_time">Đến:</label>
@@ -75,14 +126,51 @@
                         <button type="submit" name="submit">Xác nhận thống kê</button>
                     </form>
                 </div>
-                <!-- 
-                <div class="button-container">
-                    <button class="create-order-button" onclick="Statistic_Book()">Xác nhận thống kê</button>
-                </div>-->
             </div>
+            <br>
+            <?php
+                include_once('./database_scripts/get_date.php');
+
+                // Validate and get the dates
+                $from_date = isset($_POST['from_time']) ? $_POST['from_time'] : '';
+                $to_date = isset($_POST['to_time']) ? $_POST['to_time'] : '';
+
+                // Perform additional date validation if needed
+                // ...
+
+                // Call the renamed function from the query file
+                $bookStatistics_date = getDateRange($mysqli, $from_date, $to_date);
+            ?>
+            
+            <a style="font-size:30px; color:#B88E2F; font-weight: bold; text-align: center; display: block; margin: 0 auto;" id="dateRangeText">THỐNG KÊ SÁCH TỪ NGÀY A ĐẾN B</a>
+            <script>
+                var date_statistic = <?php echo json_encode($bookStatistics_date); ?>;
+
+                // Format date to "dd-mm-yyyy"
+                function formatDate(dateString) {
+                    var date = new Date(dateString);
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1; // Months are zero-based
+                    var year = date.getFullYear();
+
+                    // Add leading zero if needed
+                    day = day < 10 ? '0' + day : day;
+                    month = month < 10 ? '0' + month : month;
+
+                    return day + '-' + month + '-' + year;
+                }
+
+                // Update the text of the <a> tag with the formatted date range
+                var fromTime = formatDate(date_statistic[0]['from_date']);
+                var toTime = formatDate(date_statistic[0]['to_date']);
+                var dateRangeText = "THỐNG KÊ SÁCH TỪ NGÀY " + fromTime + " ĐẾN " + toTime;
+                document.getElementById("dateRangeText").innerText = dateRangeText;
+            </script>
+
+            <br><br>
 
             <?php
-                include_once('./database_scripts/get_book_statistic.php');
+                include_once('./database_scripts/statistic_total_sale.php');
 
                 // Validate and get the dates
                 $from_date = isset($_POST['from_time']) ? $_POST['from_time'] : '';
@@ -92,55 +180,102 @@
                 // ...
 
                 // Call the function from the query file
-                $bookStatistics = getBookStatistics($mysqli, $from_date, $to_date);
-                ?>
+                $bookStatistics_sale = getTotalSale($mysqli, $from_date, $to_date);
+            ?>
+            <?php
+                include_once('./database_scripts/statistic_total_purchase.php');
 
-                <canvas id="myChart"></canvas>
+                // Validate and get the dates
+                $from_date = isset($_POST['from_time']) ? $_POST['from_time'] : '';
+                $to_date = isset($_POST['to_time']) ? $_POST['to_time'] : '';
 
-                <script>
-                    // Convert PHP array to JavaScript array
-                    var bookData = <?php echo json_encode($bookStatistics); ?>;
+                // Perform additional date validation if needed
+                // ...
 
-                    // Extract labels and data for the chart
-                    var labels = bookData.map(function (item) {
-                        return item['type_book'];
-                    });
+                // Call the function from the query file
+                $bookStatistics_purchase = getTotalPurchase($mysqli, $from_date, $to_date);
+            ?>
+            <?php
+                include_once('./database_scripts/statistic_remainning.php');
 
-                    var data = bookData.map(function (item) {
-                        return item['total_book_sold'];
-                    });
+                // Call the function from the query file
+                $bookStatistics_remaining = getTotalRemaining($mysqli);
+            ?>
 
-                    // Create a bar chart
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
+                <!-- Add new canvas for the chart -->
+            <canvas id="myChart"></canvas>
+
+            <script>
+                // Convert PHP arrays to JavaScript arrays
+                var bookDataSale = <?php echo json_encode($bookStatistics_sale); ?>;
+                var bookDataPurchase = <?php echo json_encode($bookStatistics_purchase); ?>;
+                var bookDataRemaining = <?php echo json_encode($bookStatistics_remaining); ?>;
+
+                // Extract labels and data for the chart
+                var labels = bookDataSale.map(function (item) {
+                    return item['type_book'];
+                });
+
+                var dataSale = bookDataSale.map(function (item) {
+                    return item['total_book_sold'];
+                });
+
+                var dataPurchase = bookDataPurchase.map(function (item) {
+                    return item['total_book_purchased'];
+                });
+
+                var dataRemaining = bookDataRemaining.map(function (item) {
+                    return item['total_book_remaining'];
+                });
+
+                // Create a bar chart
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
                                 label: 'Total Books Sold',
-                                data: data,
+                                data: dataSale,
                                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                                 borderColor: 'rgba(75, 192, 192, 1)',
                                 borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        fontSize: 20 // Adjust the font size for the y-axis labels
-                                    }
-                                },
-                                x: {
-                                    ticks: {
-                                        fontSize: 20 // Adjust the font size for the x-axis labels
-                                    }
-                }
+                            },
+                            {
+                                label: 'Total Books Purchased',
+                                data: dataPurchase,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Total Books Remained',
+                                data: dataRemaining,
+                                backgroundColor: 'rgba(255, 205, 86, 0.2)',
+                                borderColor: 'rgba(255, 205, 86, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    fontSize: 20 // Adjust the font size for the y-axis labels
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    fontSize: 20 // Adjust the font size for the x-axis labels
+                                }
                             }
                         }
-                    });
-                </script>
+                    }
+                });
+            </script>
+            
                 <br><br>
         </div>
     </div>

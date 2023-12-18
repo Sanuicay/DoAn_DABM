@@ -142,3 +142,11 @@ select {
 .button-container input[name="cancel"]:hover {
     background-color: #F5A99A;
 }
+#bookImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This property ensures the image covers the entire container */
+}
+#img_file {
+    display: none;
+}
