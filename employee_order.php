@@ -332,7 +332,7 @@
                     // Create table headers
                     const thead = document.createElement('thead');
                     const headerRow = document.createElement('tr');
-                    const headers = ['Order ID', 'Order Date', 'Total Price'];
+                    const headers = ['STT', 'Mã đơn', 'Thời gian', 'Tổng tiền'];
                     headers.forEach((header) => {
                         const th = document.createElement('th');
                         th.textContent = header;
@@ -343,23 +343,25 @@
 
                     // Create table body
                     const tbody = document.createElement('tbody');
-                    data.forEach((order) => {
+                    data.forEach((order, index) => {
                         const row = document.createElement('tr');
+                        row.addEventListener('click', function () {
+                            redirectToDetailsPagePurchase(order.order_ID);
+                        });
+
                         const values = [
+                            index + 1,
                             order.order_ID,
                             order.order_date,
-                            order.total_price
+                            order.total_price,
                         ];
-                        values.forEach((value,i) => {
+
+                        values.forEach((value) => {
                             const td = document.createElement('td');
                             td.textContent = value;
-                            if (i === 1) {
-                                td.addEventListener('click', function () {
-                                    redirectToDetailsPagePurchase(order.order_ID);
-                                });
-                            }
                             row.appendChild(td);
                         });
+
                         tbody.appendChild(row);
                     });
                     table.appendChild(tbody);

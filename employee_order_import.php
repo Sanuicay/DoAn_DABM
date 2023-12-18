@@ -121,7 +121,17 @@ include_once('database_scripts/func_total_price_sale.php');
                 <div class="order-info">
                     <div>
                         <span class="label">Mã đơn hàng:</span> 
-                        <input type="text" id="s.orderid" name="s.orderid" placeholder="Nhập mã đơn hàng">
+                        <?php 
+                        $query = "SELECT MAX(order_ID) AS max_order_ID
+                        FROM `order`;";
+                        $result = mysqli_query($con,$query);
+                        $row = mysqli_fetch_assoc($result);
+                        if ($row['max_order_ID']==0) {
+                            $orderID=1000000;
+                        } else {$orderID = $row['max_order_ID'] + 1;}
+                        
+                        ?>
+                        <input type="text" id="s.orderid" name="s.orderid" value="<?php echo $orderID;?>" placeholder="Nhập mã đơn hàng" readonly>
                     </div>
                     <div>
                         <span class="label">Thời gian:</span> 
@@ -194,6 +204,18 @@ include_once('database_scripts/func_total_price_sale.php');
                 var customerData = {};
                 var productJson = {};
                 var userId = <?php echo json_encode($user['ID']); ?>;
+                function getCurrentDate() {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                    const day = now.getDate().toString().padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+
+                // Set the current date to the "Thời gian" input field
+                document.getElementById('s.orderdate').value = getCurrentDate();
+                // Disable the "Thời gian" input field
+                document.getElementById('s.orderdate').disabled = true;
                 function addNewBook() {
 
                 }
@@ -334,9 +356,9 @@ include_once('database_scripts/func_total_price_sale.php');
                             console.log(bookData);
                             cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
                             cell2.innerHTML = bookData.book_name;
-                            cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
+                            cell3.innerHTML = bookData.purchase_price + " VNĐ"; // Replace with actual price
                             cell4.innerHTML = quantity;
-                            cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
+                            cell5.innerHTML = bookData.purchase_price*quantity + " VNĐ"; // Replace with actual calculation
                             updateTotal();
                             productJson[productName] = {
                                 id: productName,

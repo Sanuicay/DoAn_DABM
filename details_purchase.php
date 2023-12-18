@@ -9,12 +9,11 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price
+  $sql = "SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price, img_path, book_name, purchase_price,purchase_quantity
   FROM `order` AS o
   JOIN purchase_order AS po ON o.order_ID = po.purchase_ID
   JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
   JOIN book AS b ON b.book_ID = pi.book_ID
-  GROUP BY order_ID;
   ";
 
  $stmt = $con->prepare($sql);
@@ -27,8 +26,7 @@ include_once('database_scripts/func_total_price_sale.php');
  $stmt_->execute();
  $tmp = $stmt_->get_result();
  $small_sum = 0;
- $sum = total_price_sales($con, $orderId);
- 
+ $sum = total_price_purchase($con, $orderId);
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +89,7 @@ include_once('database_scripts/func_total_price_sale.php');
     <!-- content -->
     <div class="content">
     <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -123,10 +121,35 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
         <div class="content-box">
         <?php   
@@ -186,17 +209,15 @@ while($item = mysqli_fetch_array($result)) {
                     <tbody id="productBody">
                         <td><img src=<?php echo $item['img_path'] ?> alt='Product Image'></td>
                         <td><?php echo $item['book_name'] ?></td>
-                        <td><?php echo $item['sale_price'] ?></td>
-                        <td><?php echo $item['sale_quantity'] ?></td>
-                        <td><?php echo  $item['sale_price'] * $item['sale_quantity']; $small_sum+=$item['sale_price'] * $item['sale_quantity']?></td>
+                        <td><?php echo $item['purchase_price'] ?></td>
+                        <td><?php echo $item['purchase_quantity'] ?></td>
+                        <td><?php echo  $item['purchase_price'] * $item['purchase_quantity']; $small_sum+=$item['purchase_price'] * $item['purchase_quantity']?></td>
                         <!-- Product information will be added here -->
                     </tbody>
                     <?php } ?>  
                 </table>
                 <br>
-                <!-- <div class="total">
-                    <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
-                </div>  -->
+                
                 <br>
             <script>
                 // Lấy giá trị orderId từ tham số truyền vào URL
