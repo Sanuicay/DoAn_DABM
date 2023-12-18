@@ -25,7 +25,7 @@
         #filterOptions {
             padding: 10px;
             border-radius: 5px;
-            border: none;
+            border: 1px solid;
             background-color: #FFECD5;
             color: #B88E2F;
             cursor: pointer;
@@ -61,7 +61,15 @@
         .filter-box ul li:last-child {
             border-bottom: none;
         }
-
+        .search-container {
+    background-color: #FFECD5;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    width: 35%;
+    border-radius: 100px;
+    margin-bottom: 10px;
+}
     </style>
     <!-- header -->
     <div class="header">
@@ -166,18 +174,15 @@
                     </div>
                 </div>  -->
                 <div class="search-container">
-                    <div class="search-icons">
                         <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">
+                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">   
                         <select id="filterOptions">
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <li>Ngày gần nhất</li>
-                    <li>Ngày xa nhất</li>
-                    <li>Sắp xếp theo giá tiền tăng dần</li>
-                    <li>Sắp xếp theo giá tiền giảm dần</li>
-                        </select>
-                    </div>       
+                                <option value="option1">ID</option>
+                                <option value="option2">Ngày gần nhất</option>
+                                <option value="option3">Ngày xa nhất</option>
+                                <option value="option4">Giá tiền tăng dần</option>
+                                <option value="option5">Giá tiền giảm dần</option>
+                        </select>  
                 </div>
 
                 <div class ="button-container">
