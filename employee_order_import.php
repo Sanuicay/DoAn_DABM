@@ -144,16 +144,13 @@ include_once('database_scripts/func_total_price_sale.php');
                 <div class="order-info">
                     <div>
                         <span class="label">Mã đơn hàng:</span> 
-                        <?php 
-                        $query = "SELECT MAX(order_ID) AS max_order_ID
-                        FROM `order`;";
-                        $result = mysqli_query($con,$query);
-                        $row = mysqli_fetch_assoc($result);
-                        if ($row['max_order_ID']==0) {
-                            $orderID=1000000;
-                        } else {$orderID = $row['max_order_ID'] + 1;}
-                        
-                        ?>
+                        <?php
+                                $sql = "SELECT MAX(CAST(SUBSTRING(order_ID, 4) AS UNSIGNED)) AS max_order_ID
+                                        FROM `order`;";
+                                $result = mysqli_query($con, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $orderID = 'PCH' . ($row['max_order_ID'] + 1);
+                            ?>
                         <input type="text" id="s.orderid" name="s.orderid" value="<?php echo $orderID;?>" placeholder="Nhập mã đơn hàng" readonly>
                     </div>
                     <div>
