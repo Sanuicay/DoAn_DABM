@@ -339,6 +339,7 @@
                             console.log(error);
                         })
                 }
+                
                 function needConfirmed() {
                     fetch('./database_scripts/fetch_sale_order_6.php', {
                             method: 'POST',
