@@ -305,6 +305,7 @@
                         tbody.appendChild(row);
                     });
                 }
+                
                 function confirmAction(orderId,order_info) {
                     // Implement your confirmation logic or perform the delete action here
                     var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
