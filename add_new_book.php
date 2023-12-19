@@ -303,7 +303,7 @@ if (isset($_POST['confirm'])) {
 
                             <!-- soluong -->
                             <label for='soluong'>Số lượng</label><br>
-                            <input type='number' id='soluong' name='soluong' min='0'><br>
+                            <input type='number' id='soluong' name='soluong' min='0' value='0' readonly><br>
 
                             <!-- giatien -->
                             <label for='giatien'>Giá tiền</label><br>
@@ -373,7 +373,7 @@ if (isset($_POST['confirm'])) {
                 }
             </style>
             <div class="image">
-            <label for="img_file" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 50px; margin-bottom:20px">Thêm ảnh minh họa</label>
+            <label for="img_file" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 50px; margin-bottom:20px; color: #B88E2F; border: 1px solid #B88E2F;">Thêm ảnh minh họa</label>
                 <input type="file" name="img_file" id="img_file" onchange="previewImage(this)">
                 <!-- Image preview container -->
                 <div class="image-preview-container" style="display: flex;">

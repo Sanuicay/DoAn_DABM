@@ -115,6 +115,9 @@
             <img class="logo_DABM" src="img/logo_DABM.png" alt="Logo">
             <br>
             <br>
+            <style>
+
+            </style>
             <div class="select-box">
                 <div class="date-input">
                     <form method="post" action="" id="statisticForm">
@@ -122,12 +125,11 @@
                         <input type="date" id="from_time" name="from_time">
                         <label for="to_time">Đến:</label>
                         <input type="date" id="to_time" name="to_time">
-                        <br>
-                        <button type="submit" name="submit">Xác nhận thống kê</button>
+                        <button type="submit" name="submit" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 40px; color: #B88E2F; border: 1px solid #B88E2F; margin: 0 auto;">Xác nhận thống kê</button>
                     </form>
                 </div>
             </div>
-            <br>
+            <br><br>
             <?php
                 include_once('./database_scripts/get_date.php');
 
