@@ -362,18 +362,7 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     if (messageElement.innerHTML === "") {
                         // If no error messages were set, proceed with adding the product
-                        var tableBody = document.getElementById("productBody");
-                        var row = tableBody.insertRow();
-                        var cell0 = row.insertCell(0);
-                        var cell1 = row.insertCell(1);
-                        var cell2 = row.insertCell(2);
-                        var cell3 = row.insertCell(3);
-                        var cell4 = row.insertCell(4);
-                        var cell5 = row.insertCell(5);
-                        cell0.innerHTML = productName;
-                        row.addEventListener("click", function () {
-                            modifyContent(this);
-                        });
+                        
                         //Call API to get data of the book
                         fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
                         method: 'POST',
@@ -392,6 +381,25 @@ include_once('database_scripts/func_total_price_sale.php');
                         .then (data=>{
                             const bookData = data.bookData;
                             console.log(bookData);
+                            if(bookData==null) {
+                                messageElement.innerHTML = "Sản phẩm không tồn tại!";
+                            } else {
+                                if (productJson.hasOwnProperty(productName)) {
+                                    messageElement.innerHTML = "Sản phẩm đã được nhập!";
+                                    return;
+                                }
+                                var tableBody = document.getElementById("productBody");
+                                var row = tableBody.insertRow();
+                                var cell0 = row.insertCell(0);
+                                var cell1 = row.insertCell(1);
+                                var cell2 = row.insertCell(2);
+                                var cell3 = row.insertCell(3);
+                                var cell4 = row.insertCell(4);
+                                var cell5 = row.insertCell(5);
+                                cell0.innerHTML = productName;
+                                row.addEventListener("click", function () {
+                                    modifyContent(this);
+                                });
                             cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
                             cell2.innerHTML = bookData.book_name;
                             cell3.innerHTML = bookData.purchase_price + " VNĐ"; // Replace with actual price
@@ -403,11 +411,6 @@ include_once('database_scripts/func_total_price_sale.php');
                                 name: bookData.book_name,
                                 quantity: quantity
                         };
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                        
                         var deleteButton = document.createElement("button");
                             deleteButton.innerHTML = "Xóa";
                             deleteButton.addEventListener("click", function (event) {
@@ -426,6 +429,12 @@ include_once('database_scripts/func_total_price_sale.php');
                         document.getElementById("addProductBtn").style.display = "block";
                         // updateTotal();
                         console.log("productJson:", productJson);
+                        }})
+                        .catch(error => {
+                            console.log(error);
+                        })
+                        
+                        
                     }
                 }
                 function modifyContent(clickedRow) {
