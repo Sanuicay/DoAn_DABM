@@ -41,7 +41,7 @@ if (isset($_POST['confirm'])) {
         echo "<script>alert('Vui lòng nhập đầy đủ thông tin và thông tin hợp lệ!')</script>";
     } else {
         // Use prepared statements to prevent SQL injection
-        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`, `purchase_price`, `display_status`, `img_path`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`, `purchase_price`, `display_status`, `img_path`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CONVERT(?, BINARY), ?)";
         $query2 = "INSERT INTO `written_by` VALUES (?, ?)";
         $query3 = "INSERT INTO `belongs_to` VALUES (?, ?)";
 
@@ -52,7 +52,7 @@ if (isset($_POST['confirm'])) {
 
         if ($stmt1 && $stmt2 && $stmt3) {
             // Bind parameters to the placeholders
-            mysqli_stmt_bind_param($stmt1, "sssssiidiis", $masach, $tensach, $nhaxuatbanID, $namxuatban, $ngayphathanh, $sotrang, $giatien, $soluong, $gianhap, $bookstatus, $img_path);
+            mysqli_stmt_bind_param($stmt1, "sssssiidiss", $masach, $tensach, $nhaxuatbanID, $namxuatban, $ngayphathanh, $sotrang, $giatien, $soluong, $gianhap, $bookstatus, $img_path);
             mysqli_stmt_bind_param($stmt2, "ss", $masach, $tentacgiaID);
             mysqli_stmt_bind_param($stmt3, "ss", $masach, $theloaiID);
 
@@ -246,7 +246,7 @@ if (isset($_POST['confirm'])) {
 
                             <!-- sotrang -->
                             <label for='sotrang'>Số trang</label><br>
-                            <input type='number' id='sotrang' name='sotrang'><br>
+                            <input type='number' id='sotrang' name='sotrang' min='0'><br>
 
                             <!-- ngayphathanh -->
                             <label for='ngayphathanh'>Ngày phát hành</label><br>
@@ -255,6 +255,8 @@ if (isset($_POST['confirm'])) {
                             <!-- trangthaihienthi -->
                             <label for='bookstatus'>Trạng thái hiển thị</label><br>
                             <select id='bookstatus' name='bookstatus'>
+                                <!--<option value='Available' <?php echo ($row_book['display_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                <option value='Unavailable' <?php echo ($row_book['display_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>-->
                                 <option value='Available'>Available</option>
                                 <option value='Unavailable'>Unavailable</option>
                             </select><br>
@@ -301,35 +303,67 @@ if (isset($_POST['confirm'])) {
 
                             <!-- soluong -->
                             <label for='soluong'>Số lượng</label><br>
-                            <input type='number' id='soluong' name='soluong'><br>
+                            <input type='number' id='soluong' name='soluong' min='0'><br>
 
                             <!-- giatien -->
                             <label for='giatien'>Giá tiền</label><br>
-                            <input type='number' id='giatien' name='giatien'><br>
+                            <input type='number' id='giatien' name='giatien' min='0'><br>
 
                             <!-- gianhap -->
                             <label for="gianhap">Giá nhập</label><br>
-                            <input type="number" id="gianhap" name="gianhap">
+                            <input type="number" id="gianhap" name="gianhap" min='0'>
                         </div>
                     </div>
                     <div class="description">
+                        <label for="info">Mô tả thêm</label><br>
+                        <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="XÁC NHẬN">
                         <input type="submit" name="cancel" value="HỦY">
                     </div>
-                
             </div>
+            <style>
+                #uploaded_image {
+                    max-width: 140%;
+                    max-height: 350%;
+                }
+                .image{
+                    padding: 50px;
+                    align-items: center;
+                    margin-top: 200px;
+                    display: flex;
+                    flex-direction: column;
+                }
+            </style>
             <div class="image">
-                <div class="image-container">
-                    <label for="img_file"></label>
-                    <input type="file" name="img_file" id="img_file">
+            <label for="img_file" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 50px; margin-bottom:20px">Thêm ảnh minh họa</label>
+                <input type="file" name="img_file" id="img_file" onchange="previewImage(this)">
+                <!-- Image preview container -->
+                <div class="image-preview-container" style="display: flex;">
+                    <img src="<?php echo $img_path; ?>" alt="Book Image" id="uploaded_image">
                 </div>
-                <div class="upload-text">Thêm ảnh minh họa</div>
             </div>
+
+            <script>
+                document.getElementById('uploaded_image').src = "<?php echo $img_path; ?>";
+            </script>
             </form>
         </div>
+        <script>
+            function previewImage(input) {
+                var uploadedImage = document.getElementById('uploaded_image');
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                };
+
+                if (input.files && input.files[0]) {
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
     </div>
     <!-- content goes here -->
 
