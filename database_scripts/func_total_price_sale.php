@@ -24,7 +24,7 @@ function total_price_purchase($mysqli, $id_order) {
 
     $total = 0;
 
-    $query = "SELECT SUM(pi.purchase_quantity * b.sale_price) AS total
+    $query = "SELECT SUM(pi.purchase_quantity * b.purchase_price) AS total
               FROM purchase_include pi
               JOIN book b ON pi.book_ID = b.book_ID
               WHERE pi.purchase_ID = '$id_order'";

@@ -9,7 +9,7 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price, img_path, book_name, purchase_price,purchase_quantity
+  $sql = "SELECT order_ID, order_date, order_info, img_path, book_name, purchase_price,purchase_quantity
   FROM `order` AS o
   JOIN purchase_order AS po ON o.order_ID = po.purchase_ID
   JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
@@ -38,7 +38,7 @@ include_once('database_scripts/func_total_price_sale.php');
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/employee.css">
+    <!-- <link rel="stylesheet" href="css/employee.css"> -->
     <link rel="stylesheet" href="css/logo.css">
     <link rel="stylesheet" href="css/order.css">
     <link rel="stylesheet" href="css/search.css">
@@ -47,7 +47,7 @@ include_once('database_scripts/func_total_price_sale.php');
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>My website</title>
+	<title>Xem chi tiết hóa đơn</title>
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -172,7 +172,9 @@ while($item = mysqli_fetch_array($result)) {
             <div class="order-info-container">
                 <div class="order-info">
                     <div>
-                        <span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?>
+                        <div><span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?></div>
+                        <div><span class="label">Ngày tạo đơn:</span> <?php echo $item['order_date'] ?></div>
+                        <div><span class="label">Ghi chú:</span> <?php echo $item['order_info'] ?></div>
                     </div>
                 </div>
                 <div class="total">
