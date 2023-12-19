@@ -21,6 +21,29 @@ include_once('database_scripts/func_total_price_sale.php');
     <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
+<style>        #productFormModify {
+    display: none;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px auto; /* Center the table horizontally */
+}
+
+#productFormModify label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#productFormModify input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}</style>
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
@@ -153,15 +176,7 @@ include_once('database_scripts/func_total_price_sale.php');
                 <button id="addCustomerBtn" class = "format-button" onclick="showForm()">Thêm khách hàng mới</button>
                 <div id="formContainer" style="display: none;">
                     <label for="phone">Số điện thoại:</label>
-                    <input type="text" id="phone" placeholder="Nhập số điện thoại">
-                    <!-- <label for="name">Tên:</label>
-                    <input type="text" id="name" placeholder="Tên khách hàng">
-        
-                    
-        
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" placeholder="Nhập email"> -->
-        
+                    <input type="text" id="phone" placeholder="Nhập số điện thoại">        
                     <button class = "format-button" onclick="addCustomer()">Thêm khách hàng</button>
                     </div>
                 </div>
@@ -171,6 +186,7 @@ include_once('database_scripts/func_total_price_sale.php');
             </div>
             
             <h2>Danh sách sản phẩm</h2>
+            <div id="messageForOrder"></div>
             <!-- Result display area (optional) -->
                 <table id="productTable">
                     <thead>
@@ -205,6 +221,17 @@ include_once('database_scripts/func_total_price_sale.php');
                 <button id="submitProductBtn" onclick="addProduct()">Thêm sản phẩm</button>
                 <button id="delProductBtn" onclick="cancelAddProduct()">Hủy bỏ</button>
             </div>
+            <div id="productFormModify">
+                <label for="product_name">Tên/Mã sản phẩm:</label>
+                <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
+                <input type="text" id="product_name" placeholder="Nhập tên/mã sản phẩm">
+                <div id="productSuggestions"></div>
+                <label for="curquantity">Số lượng:</label>
+                <input type="number" id="curquantity" placeholder="Nhập số lượng">
+                <div id="message"></div>
+                <button id="modifyProductBtn" onclick="confirmModifyProduct()">Xác nhận</button>
+                <button id="delProductBtn" onclick="cancelModifyProduct()">Hủy bỏ</button>
+            </div>
             <br>
             <div class = "bounding">
                 <button id="confirmOrderBtn" onclick="confirmOrderTest()">Xác nhận và in đơn hàng</button>
@@ -214,37 +241,10 @@ include_once('database_scripts/func_total_price_sale.php');
             <script>
                 var customerData = {};
                 var productJson = {};
+                
                 var userId = <?php echo json_encode($user['ID']); ?>;
-                // function displayMatchingProducts() {
-                //     var products = {};
-                //     var input = document.getElementById('productName').value.toLowerCase();
-                //     var productSuggestionsContainer = document.getElementById('productSuggestions');
-                //     productSuggestionsContainer.innerHTML = '';
-                //     fetch('http://localhost:8012/DoAn_DABM/database_scripts/find_book_in_order.php',{
-                //         method: 'POST',
-                //         headers: {  // <-- Corrected property name
-                //             'Content-Type': 'application/json',
-                //         },
-                //         body: JSON.stringify({bookID: productName})
-                //     })
-                //     .then(response => {
-                //         if (!response.ok){
-                //             throw new Error('Http error!');
-                //         }
-
-                //         return response.json();
-                //     })
-                //     .then (data=>{
-                //         const userData = data.userData;
-                //         console.log(userData);
-                //         products = userData;
-                //         console.log(products);
-                //     })
-                //     .catch(error => {
-                //         console.log(error);
-                //     })
-                // }
                 // Get the current date in the format YYYY-MM-DD
+                document.getElementById("productFormModify").style.display = "none";
                 function getCurrentDate() {
                     const now = new Date();
                     const year = now.getFullYear();
@@ -291,6 +291,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         if (userData === null) {
                             // Handle the case where userData is null
                             var customerDetails = document.getElementById("customerDetails");
+                            customerDetails.innerHTML =""
                             customerDetails.innerHTML = "<strong style='color: red;'>Khách hàng chưa là thành viên</strong>";
                         } else {
                         customerData = {
@@ -382,6 +383,9 @@ include_once('database_scripts/func_total_price_sale.php');
                         var cell4 = row.insertCell(4);
                         var cell5 = row.insertCell(5);
                         cell0.innerHTML = productName;
+                        row.addEventListener("click", function () {
+                            modifyContent(this);
+                        });
                         //Call API to get data of the book
                         fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
                         method: 'POST',
@@ -424,10 +428,6 @@ include_once('database_scripts/func_total_price_sale.php');
                         });
                         var cell6 = row.insertCell(6);
                         cell6.appendChild(deleteButton);
-                        // Add an event listener to the newly added row
-                        // row.addEventListener("click", function () {
-                        //     confirmAction(this);
-                        // });
 
                         // Clear the form fields
                         document.getElementById("productName").value = "";
@@ -439,6 +439,54 @@ include_once('database_scripts/func_total_price_sale.php');
                         // updateTotal();
                         console.log("productJson:", productJson);
                     }
+                }
+                function modifyContent(clickedRow) {
+                    // You can modify content based on the clicked row
+                    // For example, you can access the cells in the row using clickedRow.cells
+                    var productName = clickedRow.cells[0].innerHTML;
+                    var bookName = clickedRow.cells[2].innerHTML;
+                    var currentQuantity = parseInt(clickedRow.cells[4].innerHTML, 10); // Assuming the quantity is in the 5th cell
+                    // Perform actions based on the clicked row's content
+                    console.log("Clicked on row with product name:", productName);
+                    console.log("Book name:", bookName, currentQuantity);
+                    document.getElementById("productFormModify").style.display = "block";
+                    var productFormModify = document.getElementById("productFormModify");
+                    
+                    // Set values in the form
+                    var productNameInput = document.getElementById("product_name");
+                    productNameInput.value = bookName;
+
+                    // Make the productName input field readonly
+                    productNameInput.readOnly = true;
+                    document.getElementById("curquantity").value = currentQuantity;
+                    document.getElementById("modifyProductBtn").addEventListener("click", function () {
+                        // Handle the modification confirmation logic here, passing productName as a parameter
+                        clickedRow.cells[4].innerHTML =  document.getElementById("curquantity").value ;
+                        var priceText =  clickedRow.cells[3].innerText;
+                        console.log("Sum: ",priceText);
+                        var price = parseInt(priceText.replace(" VNĐ", "").trim());
+                        clickedRow.cells[5].innerHTML =  document.getElementById("curquantity").value*price;
+                        confirmModifyProduct(productName,  document.getElementById("curquantity").value);
+                        updateTotal();
+                        document.getElementById("productFormModify").style.display = "none";
+                        console.log(productJson);
+                    });
+
+                    document.getElementById("delProductBtn").addEventListener("click", function () {
+                        // Handle the cancellation logic here
+                        cancelModifyProduct();
+                    });
+
+                    
+                }
+                function cancelModifyProduct() {
+                    document.getElementById("productFormModify").style.display = "none";
+                }
+                function confirmModifyProduct(productID, newQuantity) {
+                    if (productJson.hasOwnProperty(productID)) {
+                        productJson[productID].quantity = newQuantity;
+                    }
+                    console.log(productJson[productID], newQuantity);
                 }
                 function confirmAction(row) {
                     var confirmDelete = confirm("Are you sure you want to delete this product?");
@@ -464,9 +512,17 @@ include_once('database_scripts/func_total_price_sale.php');
 
                 function confirmOrderTest() {
                     // Assuming customerData is defined somewhere in your code
+                    if (Object.keys(customerData).length === 0) {
+                        var customerDetails = document.getElementById("customerDetails");
+                        customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập khách hàng</strong>";
+                    } 
+                    else {
+                        if (Object.keys(productJson).length === 0) {
+                        var customerDetails = document.getElementById("messageForOrder");
+                        customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập sản phẩm</strong>";
+                    } else {
                     var customer = customerData.id;
                     console.log(customer);
-
                     var tableBody = document.getElementById("productBody");
                     var rows = tableBody.getElementsByTagName("tr");
 
@@ -513,7 +569,7 @@ include_once('database_scripts/func_total_price_sale.php');
                     } else {
                         // If the user clicks "Cancel," do nothing (stay on the same page)
                         // You can add more logic here if needed
-                    }
+                    }}}
                 }
 
 
