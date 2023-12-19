@@ -190,6 +190,7 @@
                                 <option value="option3">Ngày xa nhất</option>
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
+                                <option value="option6">Đang chờ duyệt</option>
                         </select>  
                 </div>
 
@@ -200,7 +201,7 @@
             </div>      
             <a href="employee_purchase_order.php">Quản lý đơn nhập hàng</a>
             <h2>Danh sách hóa đơn</h2>
-            <div class="table-container">                
+            <div class="table-container" id="saleOrderTable">                
                 <table>
                     <thead>
                         <tr>
@@ -220,6 +221,145 @@
             </div>
             
             <script>
+                 document.getElementById('filterOptions').addEventListener('change', function () {
+                    // Get the selected filter option
+                    var selectedOption = this.value;
+
+                    // Call a function to apply the filter based on the selected option
+                    applyFilter(selectedOption);
+                });
+
+                function applyFilter(selectedOption) {
+                    // Get the table body
+                    var tbody = document.querySelector('#saleOrderTable tbody');
+
+                    // Get all rows in the table
+                    var rows = tbody.querySelectorAll('tr');
+
+                    // Convert the NodeList to an array for easier manipulation
+                    var rowsArray = Array.from(rows);
+
+                    // Implement your filtering logic based on the selected option
+                    switch (selectedOption) {
+                    case 'option1':
+                        loadData();
+                        console.log("Option 1");
+                        break;
+                    case 'option2':
+                        loadData();
+                        console.log("Option 2");
+                        break;
+                    case 'option3':
+                        handleDateDec()
+                        console.log("Option 3");
+                        break;
+                    case 'option4':
+                        handleSumInc()
+                        console.log("Option 4");
+                        break;
+                    case 'option5':
+                        handleSumDec()
+                        console.log("Option 5");
+                        break;
+                    case 'option6':
+                        needConfirmed();
+                        console.log("Option 1");
+                        break;
+                    // Add cases for other options as needed
+                    }
+
+                    // Clear the existing table rows
+                    tbody.innerHTML = '';
+
+                    // Append the sorted rows back to the table
+                    rowsArray.forEach(row => {
+                    tbody.appendChild(row);
+                    });
+                }
+                function handleSumInc() {
+                    fetch('./database_scripts/fetch_sale_order_4.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleDateDec() {
+                    fetch('./database_scripts/fetch_sale_order_3.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleSumDec() {
+                    fetch('./database_scripts/fetch_sale_order_5.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function needConfirmed() {
+                    fetch('./database_scripts/fetch_sale_order_6.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
                 loadData();
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
@@ -305,7 +445,7 @@
                         tbody.appendChild(row);
                     });
                 }
-                
+
                 function confirmAction(orderId,order_info) {
                     // Implement your confirmation logic or perform the delete action here
                     var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
