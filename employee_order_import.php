@@ -144,16 +144,13 @@ include_once('database_scripts/func_total_price_sale.php');
                 <div class="order-info">
                     <div>
                         <span class="label">Mã đơn hàng:</span> 
-                        <?php 
-                        $query = "SELECT MAX(order_ID) AS max_order_ID
-                        FROM `order`;";
-                        $result = mysqli_query($con,$query);
-                        $row = mysqli_fetch_assoc($result);
-                        if ($row['max_order_ID']==0) {
-                            $orderID=1000000;
-                        } else {$orderID = $row['max_order_ID'] + 1;}
-                        
-                        ?>
+                        <?php
+                                $sql = "SELECT MAX(CAST(SUBSTRING(order_ID, 4) AS UNSIGNED)) AS max_order_ID
+                                        FROM `order`;";
+                                $result = mysqli_query($con, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $orderID = 'PCH' . ($row['max_order_ID'] + 1);
+                            ?>
                         <input type="text" id="s.orderid" name="s.orderid" value="<?php echo $orderID;?>" placeholder="Nhập mã đơn hàng" readonly>
                     </div>
                     <div>
@@ -344,7 +341,7 @@ include_once('database_scripts/func_total_price_sale.php');
                     if (productName === null || productName === undefined || productName.trim() === "") {
                     // Product name is null, undefined, or an empty string
                         if(productName === null|| productName === undefined || productName.trim() === "" ) {
-                            messageElement.innerHTML = "Sản phẩm đang trống";
+                            messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm đang trống</strong>";
                         }
                         return;
                         // You can alter the message or take other actions here
@@ -353,11 +350,15 @@ include_once('database_scripts/func_total_price_sale.php');
                     if (quantity === null || quantity === undefined || quantity.trim() === "") {
                         // Quantity is null, undefined, or not a number
 
-                        messageElement.innerHTML = "Số lượng đang trống";
+                        messageElement.innerHTML = "<strong style='color: red;'>Số lượng đang trống</strong>";
                         return;
                         // You can alter the message or take other actions here
                     }
-
+                    if (quantity <= 0) {
+                        messageElement.innerHTML = "";
+                        messageElement.innerHTML = "<strong style='color: red;'>Số lượng không hợp lệ</strong>";
+                        return;
+                    }
                     // Add additional conditions and messages as needed
 
                     if (messageElement.innerHTML === "") {
@@ -382,10 +383,10 @@ include_once('database_scripts/func_total_price_sale.php');
                             const bookData = data.bookData;
                             console.log(bookData);
                             if(bookData==null) {
-                                messageElement.innerHTML = "Sản phẩm không tồn tại!";
+                                messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm không tồn tại!</strong>";
                             } else {
                                 if (productJson.hasOwnProperty(productName)) {
-                                    messageElement.innerHTML = "Sản phẩm đã được nhập!";
+                                    messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm đã được nhập!</strong>";
                                     return;
                                 }
                                 var tableBody = document.getElementById("productBody");

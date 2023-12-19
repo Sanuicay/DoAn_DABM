@@ -10,18 +10,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
-    <!-- jQuery UI CSS -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-
-    <!-- jQuery UI JavaScript -->
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-1.12.4.min.js">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/jquery-ui.js">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 	<title>My website</title>
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
@@ -178,232 +170,40 @@
         <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
             <br>
-            
             <div class = "main-container">
-                
                 <div class="search-container">
                         <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        <input type="text" class="search-input" placeholder="Tìm đơn hàng" id = "searchInput">   
+                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">   
                         <select id="filterOptions">
                                 <option value="option1">ID</option>
                                 <option value="option2">Ngày gần nhất</option>
                                 <option value="option3">Ngày xa nhất</option>
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
-                                <option value="option6">Đang chờ duyệt</option>
-                                <option value="option7">Khách hàng</option>
                         </select>  
                 </div>
 
                 <div class ="button-container">
-                    <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
-                    <!-- <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button> -->
+                    <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button>
                 </div>                 
-            </div>      
-            <a href="employee_purchase_order.php">Quản lý đơn nhập hàng</a>
+            </div>    
             <h2>Danh sách hóa đơn</h2>
-            <div class="table-container" id="saleOrderTable">                
+            <div class="table-container">                
                 <table>
                     <thead>
                         <tr>
                             <th>STT</th>
                             <th>Mã đơn</th>
                             <th>Thời gian</th>
-                            <th>Khách hàng</th>
                             <th>Nhân viên</th>
                             <th>Tổng tiền</th>
-                            <th>Tình trạng thanh toán</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="contentSale"></tbody>
                 </table>
-            </div>
-            
+            </div>   
             <script>
-                
-                 document.getElementById('filterOptions').addEventListener('change', function () {
-                    // Get the selected filter option
-                    var selectedOption = this.value;
-
-                    // Call a function to apply the filter based on the selected option
-                    applyFilter(selectedOption);
-                });
-                
-                function applyFilter(selectedOption) {
-                    // Get the table body
-                    const searchInput = document.getElementById('searchInput');
-                    searchInput.value = "";  // Set the value to an empty string
-                    var tbody = document.querySelector('#saleOrderTable tbody');
-                    // Get all rows in the table
-                    var rows = tbody.querySelectorAll('tr');
-
-                    // Convert the NodeList to an array for easier manipulation
-                    var rowsArray = Array.from(rows);
-
-                    // Implement your filtering logic based on the selected option
-                    switch (selectedOption) {
-                    case 'option1':
-                        loadData();
-                        console.log("Option 1");
-                        break;
-                    case 'option2':
-                        loadData();
-                        console.log("Option 2");
-                        break;
-                    case 'option3':
-                        handleDateDec()
-                        console.log("Option 3");
-                        break;
-                    case 'option4':
-                        handleSumInc()
-                        console.log("Option 4");
-                        break;
-                    case 'option5':
-                        handleSumDec()
-                        console.log("Option 5");
-                        break;
-                    case 'option6':
-                        needConfirmed();
-                        console.log("Option 1");
-                        break;
-                    // Add cases for other options as needed
-                    }
-
-                    // Clear the existing table rows
-                    tbody.innerHTML = '';
-
-                    // Append the sorted rows back to the table
-                    rowsArray.forEach(row => {
-                    tbody.appendChild(row);
-                    });
-                }
-                function handleSumInc() {
-                    fetch('./database_scripts/fetch_sale_order_4.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Http error!');
-                            }
-                            return response.json(); // Convert response to JSON
-                        })
-                        .then (data=>{
-                            console.log(data.userData);
-                            updateSaleOrderContent(data.userData);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
-                function handleDateDec() {
-                    fetch('./database_scripts/fetch_sale_order_3.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Http error!');
-                            }
-                            return response.json(); // Convert response to JSON
-                        })
-                        .then (data=>{
-                            console.log(data.userData);
-                            updateSaleOrderContent(data.userData);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
-                function handleSumDec() {
-                    fetch('./database_scripts/fetch_sale_order_5.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Http error!');
-                            }
-                            return response.json(); // Convert response to JSON
-                        })
-                        .then (data=>{
-                            console.log(data.userData);
-                            updateSaleOrderContent(data.userData);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
-            
-                function needConfirmed() {
-                    fetch('./database_scripts/fetch_sale_order_6.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Http error!');
-                            }
-                            return response.json(); // Convert response to JSON
-                        })
-                        .then (data=>{
-                            console.log(data.userData);
-                            updateSaleOrderContent(data.userData);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
                 loadData();
-                console.log('Script is running!');
-                const searchInput = document.getElementById('searchInput');
-                console.log('searchInput:', searchInput);
-
-                // Add an event listener if searchInput is not null
-                if (searchInput) {
-                    searchInput.addEventListener('input', applySearch);
-                } else {
-                    console.error('searchInput not found.');
-                }
-
-                function applySearch() {
-                    const searchTerm = searchInput.value.trim().toLowerCase();
-                    const filterOption = filterOptions.value;
-                    const rows = document.querySelectorAll('.table-container table tbody tr');
-
-                    rows.forEach((row) => {
-                        const dataCellValue = row.cells[4].textContent.trim().toLowerCase();
-
-                        const shouldDisplay =
-                            (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
-                            (filterOption === 'option6' && dataCellValue === 'đang chờ duyệt');
-
-                        row.style.display = shouldDisplay ? 'table-row' : 'none';
-                    });
-                }
-
-
-                function getDataCellIndex(filterOption) {
-                    switch (filterOption) {
-                        case 'option1':
-                            return 1; // Assuming ID is in the second column
-                        case 'option2':
-                            return 2; // Assuming Ngày gần nhất is in the third column
-                        // Add cases for other options as needed
-                        default:
-                            return 0; // Default to the first column
-                    }
-                }
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
@@ -414,7 +214,67 @@
                     }
                 }
                 function loadData() {
-                    fetch('./database_scripts/fetch_sale_order.php', {
+                    fetch('./database_scripts/fetch_purchase_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function updatePurchaseOrderContent(data) {
+                    // Get the existing table body
+                    const tbody = document.querySelector('.table-container table tbody');
+
+                    // Clear existing rows
+                    tbody.innerHTML = '';
+
+                    // Insert new rows based on the provided data
+                    data.forEach((order, index) => {
+                        const row = document.createElement('tr');
+                        row.addEventListener('click', function () {
+                            redirectToDetailsPage(order.order_ID);
+                        });
+
+                        const values = [
+                            index + 1,
+                            order.order_ID,
+                            order.order_date,
+                            "TEST",
+                            order.total_price,
+                        ];
+
+                        values.forEach((value) => {
+                            const td = document.createElement('td');
+                            td.textContent = value;
+                            row.appendChild(td);
+                        });
+
+                        tbody.appendChild(row);
+                    });
+                }
+
+                function handleCheckboxChange(checkbox) {
+                    // Get the content sections
+                    var saleOrderContent = document.getElementById("saleOrderContent");
+                    var purchaseOrderContent = document.getElementById("purchaseOrderContent");
+
+                    if (checkbox.id === "sale_order") {
+                        // If sale_order checkbox is checked, show sale_order content
+                        saleOrderContent.style.display = checkbox.checked ? "block" : "none";
+                        fetch('./database_scripts/fetch_sale_order.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -433,79 +293,14 @@
                         .catch(error => {
                             console.log(error);
                         })
-                }
-                function extractSecondString(orderInfo) {
-                    // Split the order_info string by commas and return the second element
-                    const infoArray = orderInfo.split(',');
-                    return infoArray.length >= 2 ? infoArray[1].trim() : ''; // Return the second string (trimmed) or an empty string if not available
-                }
-                function updateSaleOrderContent(data) {
-                    // Get the existing table body
-                    const tbody = document.querySelector('.table-container table tbody');
-
-                    // Clear existing rows
-                    tbody.innerHTML = '';
-
-                    // Insert new rows based on the provided data
-                    data.forEach((order, index) => {
-                        const row = document.createElement('tr');
-                        row.setAttribute('data-order-id', order.order_ID); 
-                        row.addEventListener('click', function () {
-                            redirectToDetailsPage(order.order_ID);
-                        });
-                        const status = extractSecondString(order.order_info);
-                        const values = [
-                            index + 1,
-                            order.order_ID,
-                            order.order_date,
-                            order.sur + ' ' + order.last_n,
-                            order.sur_name + ' ' + order.last_name,
-                            order.total_price,
-                            order.payment_status,
-                            status,
-                        ];
-
-                        values.forEach((value) => {
-                            const td = document.createElement('td');
-                            td.textContent = value;
-                            row.appendChild(td);
-                        });
-                        var deleteButton = document.createElement("button");
-                        if (order.payment_status === "Đã thanh toán" && status === "Đang chờ duyệt") {
-                            
-                            deleteButton.innerHTML = "Duyệt";
-                            deleteButton.style.backgroundColor = "green"; // Set the background color to blue
-                            deleteButton.style.color = "white"; // Set the text color to white
-                            deleteButton.addEventListener("click", function (event) {
-                                event.stopPropagation(); // Prevent row click event from triggering
-                                confirmAction(order.order_ID, order.order_info); // Pass order_ID or any identifier you need for deletion
-                            });
-                        }
-                        var cellIndex = row.cells.length; // Get the index of the last cell
-                        var cell = row.insertCell(cellIndex);
-                        cell.appendChild(deleteButton);
-
-                        tbody.appendChild(row);
-                    });
-                }
-
-                function confirmAction(orderId,order_info) {
-                    // Implement your confirmation logic or perform the delete action here
-                    var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
-                    var order_info_array = order_info.split(',');
-
-                    // Update the second element (index 1) to "Đã duyệt"
-                    order_info_array[1] = "Đã duyệt";
-
-                    // Join the array back into a string using ','
-                    var status = order_info_array.join(',');
-                    if (confirmed) {
-                        fetch('./database_scripts/confirm_sale_order.php', {
+                    } else if (checkbox.id === "purchase_order") {
+                        // If purchase_order checkbox is checked, show purchase_order content
+                        purchaseOrderContent.style.display = checkbox.checked ? "block" : "none";
+                        fetch('./database_scripts/fetch_purchase_order.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({orderID: orderId, status: status})
                         })
                         .then(response => {
                             if (!response.ok) {
@@ -514,34 +309,18 @@
                             return response.json(); // Convert response to JSON
                         })
                         .then (data=>{
-                            console.log('A');
-                            console.log(data.success);
-                            // TODO: Update the row appearance or content
-                            updateRowAppearance(orderId);
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
                         })
                         .catch(error => {
-                            console.log('B');
                             console.log(error);
                         })
-                        
                     }
-                }
-                function updateRowAppearance(orderId) {
-                    // Get the row by order ID and update its appearance or content
-                    const row = document.querySelector(`tr[data-order-id="${orderId}"]`);
-                    console.log('AA');
-                    // Example: Change the background color
-                    if (row) {
-                        row.style.backgroundColor = 'lightgreen';
-                        // Remove the delete button or update its visibility
-                        const statusColumn = row.querySelector('td:nth-child(8)'); // Assuming it's the 8th column
-                        if (statusColumn) {
-                            statusColumn.innerHTML = "Đã duyệt";
-                        }
-                        const deleteButton = row.querySelector('button');
-                        if (deleteButton) {
-                            deleteButton.remove();
-                        }
+
+                    // Check both checkboxes and show both content sections if both are checked
+                    if (document.getElementById("sale_order").checked && document.getElementById("purchase_order").checked) {
+                        saleOrderContent.style.display = "block";
+                        purchaseOrderContent.style.display = "block";
                     }
                 }
 
