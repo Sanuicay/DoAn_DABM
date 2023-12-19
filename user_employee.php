@@ -209,7 +209,7 @@ if (isset($_POST['change2']))
         <div class="body-container">
             <div class="profile">
                 <h2>Hồ Sơ Của Tôi</h2>
-                <form method="POST">
+                <form method="POST" onsubmit="return confirmSubmit()" >
                     <div class="name">
                         <div>
                             <?php
@@ -229,11 +229,29 @@ if (isset($_POST['change2']))
                         echo "<label for='email'>Email:</label>";
                         echo "<input type='email' value='$row[email]' id='email' name='email'><br>";
                         echo "<label for='phone'>Số Điện Thoại:</label>";
-                        echo "<input type='tel' value='$row[phone_num]' id='phone' name='phone' patern='0[0-9]{9,10}'><br>";
+                        echo "<input type='tel' value='$row[phone_num]' id='phone' name='phone' pattern='0[0-9]{9,10}' title='Enter a valid phone number starting with 0 and followed by 9 to 10 digits' required><br>";
                         echo "<label for='info'>Thông tin thêm:</label>";
                         echo "<input type='info' value='$row[user_info]' id='info' name='info'><br>";
                         echo "<input type='submit' name='change1' value='Thay Đổi'>;"
                     ?>
+                    <script>
+                        function confirmSubmit() {
+                            // Display a confirmation dialog
+                            var confirmAction = confirm("Are you sure you want to update your information?");
+
+                            if (!confirmAction) {
+                                // Reset the form values to the original values
+                                document.getElementById('ho').value = '<?php echo $row['sur_name']; ?>';
+                                document.getElementById('ten').value = '<?php echo $row['last_name']; ?>';
+                                document.getElementById('email').value = '<?php echo $row['email']; ?>';
+                                document.getElementById('phone').value = '<?php echo $row['phone_num']; ?>';
+                                document.getElementById('info').value = '<?php echo $row['user_info']; ?>';
+                            }
+
+                            // Return true if the user clicks OK, false otherwise
+                            return confirmAction;
+                        }
+                    </script>
                             <!-- <label for="ho">Họ:</label>
                             <input type="text" id="ho" name="ho">
                         </div>
