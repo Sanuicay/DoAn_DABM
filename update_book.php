@@ -79,6 +79,11 @@ if(isset($_POST['confirm'])){
             $img_path = $target_file;
             $query_update_img_path = "UPDATE `book` SET `img_path` = '$img_path' WHERE `book_ID` = '$bookID';";
             mysqli_query($con, $query_update_img_path);
+            // Retrieve the updated img_path
+            $query_retrieve_img_path = "SELECT img_path FROM `book` WHERE `book_ID` = '$bookID'";
+            $result_img_path = mysqli_query($con, $query_retrieve_img_path);
+            $row_img_path = mysqli_fetch_assoc($result_img_path);
+            $updated_img_path = $row_img_path['img_path'];
             echo "<script>alert('File uploaded successfully!')</script>";
         } else {
             echo "<script>alert('Sorry, there was an error uploading your file.')</script>";
@@ -328,23 +333,55 @@ else if(isset($_POST['cancel'])){
                         </div>
                     </div>
                     <div class="description">
+                        <label for="info">Mô tả thêm</label><br>
+                        <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="CẬP NHẬT">
                         <input type="submit" name="cancel" value="HỦY">
                     </div>
-                
             </div>
+            <style>
+                #uploaded_image {
+                    max-width: 140%;
+                    max-height: 350%;
+                }
+                .image{
+                    padding: 50px;
+                    align-items: center;
+                    margin-top: 200px;
+                    display: flex;
+                    flex-direction: column;
+                }
+            </style>
             <div class="image">
                 <!-- Image upload -->
-                <div class="image-container">
-                    <label for="img_file"></label>
-                    <input type="file" name="img_file" id="img_file">
+                <label for="img_file" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 50px; margin-bottom:20px">Chỉnh sửa ảnh</label>
+                <input type="file" name="img_file" id="img_file" onchange="previewImage(this)">
+                <div class="image-preview-container">
+                    <img src="<?php echo $row_book['img_path']; ?>" alt="Book Image" id="uploaded_image">
                 </div>
-                <div class="upload-text">Chỉnh sửa ảnh minh họa</div>
             </div>
+            <script>
+                // Update the image source
+                document.getElementById('uploaded_image').src = "<?php echo $row_book['img_path']; ?>";
+            </script>
             </form>
         </div>
+        <script>
+            function previewImage(input) {
+                var uploadedImage = document.getElementById('uploaded_image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                };
+
+                if (input.files && input.files[0]) {
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
     </div>
     <!-- content goes here -->
 
