@@ -183,7 +183,7 @@
                 
                 <div class="search-container">
                         <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">   
+                        <input type="text" class="search-input" placeholder="Tìm đơn hàng" id = "searchInput">   
                         <select id="filterOptions">
                                 <option value="option1">ID</option>
                                 <option value="option2">Ngày gần nhất</option>
@@ -191,6 +191,7 @@
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
+                                <option value="option7">Khách hàng</option>
                         </select>  
                 </div>
 
@@ -221,6 +222,7 @@
             </div>
             
             <script>
+                
                  document.getElementById('filterOptions').addEventListener('change', function () {
                     // Get the selected filter option
                     var selectedOption = this.value;
@@ -228,11 +230,12 @@
                     // Call a function to apply the filter based on the selected option
                     applyFilter(selectedOption);
                 });
-
+                
                 function applyFilter(selectedOption) {
                     // Get the table body
+                    const searchInput = document.getElementById('searchInput');
+                    searchInput.value = "";  // Set the value to an empty string
                     var tbody = document.querySelector('#saleOrderTable tbody');
-
                     // Get all rows in the table
                     var rows = tbody.querySelectorAll('tr');
 
@@ -362,6 +365,45 @@
                         })
                 }
                 loadData();
+                console.log('Script is running!');
+                const searchInput = document.getElementById('searchInput');
+                console.log('searchInput:', searchInput);
+
+                // Add an event listener if searchInput is not null
+                if (searchInput) {
+                    searchInput.addEventListener('input', applySearch);
+                } else {
+                    console.error('searchInput not found.');
+                }
+
+                function applySearch() {
+                    const searchTerm = searchInput.value.trim().toLowerCase();
+                    const filterOption = filterOptions.value;
+                    const rows = document.querySelectorAll('.table-container table tbody tr');
+
+                    rows.forEach((row) => {
+                        const dataCellValue = row.cells[4].textContent.trim().toLowerCase();
+
+                        const shouldDisplay =
+                            (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
+                            (filterOption === 'option6' && dataCellValue === 'đang chờ duyệt');
+
+                        row.style.display = shouldDisplay ? 'table-row' : 'none';
+                    });
+                }
+
+
+                function getDataCellIndex(filterOption) {
+                    switch (filterOption) {
+                        case 'option1':
+                            return 1; // Assuming ID is in the second column
+                        case 'option2':
+                            return 2; // Assuming Ngày gần nhất is in the third column
+                        // Add cases for other options as needed
+                        default:
+                            return 0; // Default to the first column
+                    }
+                }
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
