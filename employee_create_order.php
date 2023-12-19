@@ -374,18 +374,7 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     if (messageElement.innerHTML === "") {
                         // If no error messages were set, proceed with adding the product
-                        var tableBody = document.getElementById("productBody");
-                        var row = tableBody.insertRow();
-                        var cell0 = row.insertCell(0);
-                        var cell1 = row.insertCell(1);
-                        var cell2 = row.insertCell(2);
-                        var cell3 = row.insertCell(3);
-                        var cell4 = row.insertCell(4);
-                        var cell5 = row.insertCell(5);
-                        cell0.innerHTML = productName;
-                        row.addEventListener("click", function () {
-                            modifyContent(this);
-                        });
+                        
                         //Call API to get data of the book
                         fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
                         method: 'POST',
@@ -404,40 +393,61 @@ include_once('database_scripts/func_total_price_sale.php');
                         .then (data=>{
                             const bookData = data.bookData;
                             console.log(bookData);
-                            cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
-                            cell2.innerHTML = bookData.book_name;
-                            cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
-                            cell4.innerHTML = quantity;
-                            cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
-                            updateTotal();
-                            productJson[productName] = {
-                                id: productName,
-                                name: bookData.book_name,
-                                quantity: quantity
-                        };
+                            if(bookData==null) {
+                                messageElement.innerHTML = "Sản phẩm không tồn tại!";
+                            } else {
+                                if (productJson.hasOwnProperty(productName)) {
+                                    messageElement.innerHTML = "Sản phẩm đã được nhập!";
+                                    return;
+                                }
+                                var tableBody = document.getElementById("productBody");
+                                var row = tableBody.insertRow();
+                                var cell0 = row.insertCell(0);
+                                var cell1 = row.insertCell(1);
+                                var cell2 = row.insertCell(2);
+                                var cell3 = row.insertCell(3);
+                                var cell4 = row.insertCell(4);
+                                var cell5 = row.insertCell(5);
+                                cell0.innerHTML = productName;
+                                row.addEventListener("click", function () {
+                                    modifyContent(this);
+                                });
+                                cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
+                                cell2.innerHTML = bookData.book_name;
+                                cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
+                                cell4.innerHTML = quantity;
+                                cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
+                                updateTotal();
+                                productJson[productName] = {
+                                    id: productName,
+                                    name: bookData.book_name,
+                                    quantity: quantity
+                                };
+                                var deleteButton = document.createElement("button");
+                                    deleteButton.innerHTML = "Xóa";
+                                    deleteButton.addEventListener("click", function (event) {
+                                        event.stopPropagation(); // Prevent row click event from triggering
+                                        confirmAction(row);
+                                });
+                                var cell6 = row.insertCell(6);
+                                cell6.appendChild(deleteButton);
+
+                                // Clear the form fields
+                                document.getElementById("productName").value = "";
+                                document.getElementById("quantity").value = "";
+                                // Hide the form after adding a product
+                                var productForm = document.getElementById("productForm");
+                                productForm.style.display = "none";
+                                document.getElementById("addProductBtn").style.display = "block";
+                                // updateTotal();
+                                console.log("productJson:", productJson);
+                            }
                         })
                         .catch(error => {
                             console.log(error);
                         })
                         
-                        var deleteButton = document.createElement("button");
-                            deleteButton.innerHTML = "Xóa";
-                            deleteButton.addEventListener("click", function (event) {
-                                event.stopPropagation(); // Prevent row click event from triggering
-                                confirmAction(row);
-                        });
-                        var cell6 = row.insertCell(6);
-                        cell6.appendChild(deleteButton);
-
-                        // Clear the form fields
-                        document.getElementById("productName").value = "";
-                        document.getElementById("quantity").value = "";
-                        // Hide the form after adding a product
-                        var productForm = document.getElementById("productForm");
-                        productForm.style.display = "none";
-                        document.getElementById("addProductBtn").style.display = "block";
-                        // updateTotal();
-                        console.log("productJson:", productJson);
+                        
                     }
                 }
                 function modifyContent(clickedRow) {
