@@ -125,6 +125,23 @@ include("connection.php");
                     <a href="add_new_book.php"><input type="button" value="Nhập sách mới"></a>
                 </div>
             </div>
+            <style>
+                #bookTable {
+                    max-height: 600px;
+                    overflow-y: auto;
+                    position: relative; /* Set the position property to relative */
+                }
+
+                table {
+                    width: 100%;
+                    
+                }
+
+                thead {
+                    position: sticky; /* Set the position property to sticky for the table header */
+                    top: 0; /* Stick the header to the top */
+                }
+            </style>
             <div id="bookTable"></div>
             <script>           
             function redirectToDetailsPage(ID) {

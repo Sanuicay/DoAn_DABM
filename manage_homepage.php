@@ -159,77 +159,107 @@
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
             ?>
 
+            <style>
+                .book-table-container {
+                    max-height: 200px;
+                    overflow-y: auto;
+                }
+
+                .book-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .book-table th, .book-table td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                .book-table thead {
+                    position: sticky;
+                    top: 0;
+                }
+
+                .book-table th{
+                    background-color: #FFECD5;
+                }
+            </style>
             <div class="shown-book">
                 <p style="font-family: Arial, sans-serif; font-size: 20px; color: #B88E2F;">Sách được hiển thị</p>
-                <table class="book-table">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Tên sách</th>
-                            <th>Thể loại</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                            <!-- Add more columns as needed -->
-                        </tr>
-                    </thead>
-                    <tbody id="shown-book-table-body" >
-                        <!-- Table content will be dynamically populated here -->
-                    <?php
-                        while($item = mysqli_fetch_array($sql_test_show)) {
-                            $tmp = $item['book_ID'];
-                    ?>
-                        <tr data-book-id="<?php echo $item['book_ID']; ?>" data-display-status="<?php echo $item['display_status']; ?>">
-                            <!-- Example -->
-                            <th onclick="ViewDetail1()"><?php echo $count++ ?></th>
-                            <th onclick="ViewDetail1()"><?php echo $item['book_ID'] ?></th>
-                            <th onclick="ViewDetail1()"><?php echo $item['book_name'] ?></th>
-                            <th onclick="ViewDetail1()"><?php echo $item['genre_name'] ?></th>
-                            <th onclick="ViewDetail1()"><?php echo $item['display_status'] ?></th>
-                            <th style="color: red;" onclick="SelectToHideBook()">Ẩn sách</th>
-                        </tr>
-                    <?php
-                        }
-                    ?>
-                    </tbody>
-                </table>
+                <div class="book-table-container">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Thể loại</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody id="shown-book-table-body" >
+                            <!-- Table content will be dynamically populated here -->
+                        <?php
+                            while($item = mysqli_fetch_array($sql_test_show)) {
+                                $tmp = $item['book_ID'];
+                        ?>
+                            <tr data-book-id="<?php echo $item['book_ID']; ?>" data-display-status="<?php echo $item['display_status']; ?>">
+                                <!-- Example -->
+                                <th onclick="ViewDetail1()"><?php echo $count++ ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['book_ID'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['book_name'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['genre_name'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['display_status'] ?></th>
+                                <th style="color: red;" onclick="SelectToHideBook()">Ẩn sách</th>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
             <div class="unshown-book">
                 <br>
                 <p style="font-family: Arial, sans-serif; font-size: 20px; color: #B88E2F;">Sách đã ẩn</p>
-                <table class="book-table">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Tên sách</th>
-                            <th>Thể loại</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                            <!-- Add more columns as needed -->
-                        </tr>
-                    </thead>
-                    <tbody id="unshown-book-table-body">
-                        <!-- Table content will be dynamically populated here -->
-                    <?php
-                        while($itemm = mysqli_fetch_array($sql_test_hide)) {
-                            $tmp = $itemm['book_ID'];
-                    ?>
-                        <tr data-book-id="<?php echo $itemm['book_ID']; ?>" data-display-status="<?php echo $itemm['display_status']; ?>">
-                            <!-- Example -->
-                            <th onclick="ViewDetail2()"><?php echo $countt++ ?></th>
-                            <th onclick="ViewDetail2()"><?php echo $itemm['book_ID'] ?></th>
-                            <th onclick="ViewDetail2()"><?php echo $itemm['book_name'] ?></th>
-                            <th onclick="ViewDetail2()"><?php echo $itemm['genre_name'] ?></th>
-                            <th onclick="ViewDetail2()"><?php echo $itemm['display_status'] ?></th>
-                            <th style="color:mediumaquamarine;" onclick="SelectToShowBook()">Hiển thị sách</th>
-                        </tr>
-                    <?php
-                        }
-                    ?>
-                    </tbody>
-                </table>
+                <div class="book-table-container">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Thể loại</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody id="unshown-book-table-body">
+                            <!-- Table content will be dynamically populated here -->
+                        <?php
+                            while($itemm = mysqli_fetch_array($sql_test_hide)) {
+                                $tmp = $itemm['book_ID'];
+                        ?>
+                            <tr data-book-id="<?php echo $itemm['book_ID']; ?>" data-display-status="<?php echo $itemm['display_status']; ?>">
+                                <!-- Example -->
+                                <th onclick="ViewDetail2()"><?php echo $countt++ ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['book_ID'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['book_name'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['genre_name'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['display_status'] ?></th>
+                                <th style="color:mediumaquamarine;" onclick="SelectToShowBook()">Hiển thị sách</th>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
 
