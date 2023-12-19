@@ -221,7 +221,7 @@ else if(isset($_POST['cancel'])){
         <div class="body-container">
             <div class="profile">
                 <h2>Thông tin sách</h2>
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmit()">
                     <div class="name">
                         <div>
                             <!-- using base from add_new_book.php but with placeholder -->
@@ -336,10 +336,74 @@ else if(isset($_POST['cancel'])){
                         <label for="info">Mô tả thêm</label><br>
                         <input type="text" id="info" name="info">
                     </div>
+                    <style>
+                        .button-container input[name="cancel"] {
+                            margin-top: 20px;
+                            width: 300px;
+                            height: 40px;
+                            color: #000;
+                            font-weight: bold;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            background-color: #F8C2B1;
+                        }
+                        .button-container input[name="cancel"]:hover {
+                            background-color: #F5A99A;
+                        }
+                    </style>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="CẬP NHẬT">
-                        <input type="submit" name="cancel" value="HỦY">
+                        <input type="button" name="cancel" value="HỦY" onclick="confirmCancel()">
                     </div>
+                    <script>
+                        var originalValues = {
+                            tensach: "<?php echo $row_book['book_name']; ?>",
+                            nhaxuatbanID: "<?php echo $row_book['publisher_ID']; ?>",
+                            masach: "<?php echo $row_book['book_ID']; ?>",
+                            sotrang: "<?php echo $row_book['page_count']; ?>",
+                            ngayphathanh: "<?php echo $row_book['release_date']; ?>",
+                            bookstatus: "<?php echo $row_book['display_status']; ?>",
+                            tentacgiaID: "<?php echo $row_book['author_ID']; ?>",
+                            namxuatban: "<?php echo $row_book['publication_year']; ?>",
+                            theloaiID: "<?php echo $row_book['genre_ID']; ?>",
+                            soluong: "<?php echo $row_book['remaining_quantity']; ?>",
+                            giatien: "<?php echo $row_book['sale_price']; ?>",
+                            gianhap: "<?php echo $row_book['purchase_price']; ?>",
+                            img_path: "<?php echo $row_book['img_path']; ?>"
+                        };
+                    function confirmSubmit() {
+                        // Display a confirmation dialog
+                        var confirmAction = confirm("Are you sure you want to update detail of this book?");
+                        
+                        // Return true if the user clicks OK, false otherwise
+                        return confirmAction;
+                    }
+                    function confirmCancel() {
+                        // Display a confirmation dialog for cancel
+                        var confirmAction = confirm("Are you sure you want to cancel?");
+                        
+                        // If the user clicks OK, navigate to the cancel page
+                        if (confirmAction) {
+                            document.getElementById('tensach').value = originalValues.tensach;
+                            document.getElementById('nhaxuatbanID').value = originalValues.nhaxuatbanID;
+                            document.getElementById('masach').value = originalValues.masach;
+                            document.getElementById('sotrang').value = originalValues.sotrang;
+                            document.getElementById('ngayphathanh').value = originalValues.ngayphathanh;
+                            document.getElementById('bookstatus').value = originalValues.bookstatus;
+                            document.getElementById('tentacgiaID').value = originalValues.tentacgiaID;
+                            document.getElementById('namxuatban').value = originalValues.namxuatban;
+                            document.getElementById('theloaiID').value = originalValues.theloaiID;
+                            document.getElementById('soluong').value = originalValues.soluong;
+                            document.getElementById('giatien').value = originalValues.giatien;
+                            document.getElementById('gianhap').value = originalValues.gianhap;
+                            document.getElementById('uploaded_image').src = originalValues.img_path;
+                            window.location.href = 'update_book.php?id=' + ID;
+                        }
+                    }
+                    </script>
             </div>
             <style>
                 #uploaded_image {

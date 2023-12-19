@@ -20,8 +20,8 @@ $result = mysqli_query($con, $query);
 $query = "DELETE FROM belongs_to WHERE book_ID = '$id'";
 $result = mysqli_query($con, $query);
 
-//delete from book table
-$query = "DELETE FROM book WHERE book_ID = '$id'";
+//update from book table (set số lượng còn lại = 0)
+$query = "UPDATE book SET remaining_quantity = 0 WHERE book_ID = '$id'";
 $result = mysqli_query($con, $query);
 
 if ($result) {

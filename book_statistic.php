@@ -144,6 +144,19 @@
             
             <a style="font-size:30px; color:#B88E2F; font-weight: bold; text-align: center; display: block; margin: 0 auto;" id="dateRangeText">THỐNG KÊ SÁCH TỪ NGÀY A ĐẾN B</a>
             <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("statisticForm").addEventListener("submit", function(event) {
+                        // Validate the date range
+                        var fromTime = document.getElementById("from_time").value;
+                        var toTime = document.getElementById("to_time").value;
+
+                        if (fromTime > toTime) {
+                            alert("Ngày bắt đầu không thể lớn hơn ngày kết thúc. Vui lòng nhập lại.");
+                            event.preventDefault(); // Prevent form submission
+                        }
+                    });
+                });
+                
                 var date_statistic = <?php echo json_encode($bookStatistics_date); ?>;
 
                 // Format date to "dd-mm-yyyy"

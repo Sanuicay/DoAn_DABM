@@ -131,20 +131,32 @@
             $countt = 1;
 
             $search_query = isset($_GET['search']) ? $_GET['search'] : '';
+            $escaped_search_query = mysqli_real_escape_string($mysqli, $search_query); // Escape the search query to prevent SQL injection
+           // Split the search query into individual words
+            $search_words = explode(' ', $escaped_search_query);
+
+            // Create an array to store conditions for each word
+            $conditions = [];
+
+            foreach ($search_words as $word) {
+                // Add conditions for each word (case-insensitive search)
+                $conditions[] = "(LOWER(A.book_name) LIKE LOWER('%$word%') OR LOWER(C.genre_name) LIKE LOWER('%$word%') OR A.book_ID LIKE '%$word%')";
+            }
+
+            // Combine conditions using AND
+            $conditions_query = implode(' AND ', $conditions);
 
             $sql_test_show = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
                 WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available'
-                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                    AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
 
             $sql_test_hide = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
                 WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable'
-                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                    AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
-
-
             ?>
 
             <div class="shown-book">
@@ -157,10 +169,11 @@
                             <th>Tên sách</th>
                             <th>Thể loại</th>
                             <th>Trạng thái</th>
+                            <th>Hành động</th>
                             <!-- Add more columns as needed -->
                         </tr>
                     </thead>
-                    <tbody id="shown-book-table-body" onclick="SelectToHideBook()">
+                    <tbody id="shown-book-table-body" >
                         <!-- Table content will be dynamically populated here -->
                     <?php
                         while($item = mysqli_fetch_array($sql_test_show)) {
@@ -168,11 +181,12 @@
                     ?>
                         <tr data-book-id="<?php echo $item['book_ID']; ?>" data-display-status="<?php echo $item['display_status']; ?>">
                             <!-- Example -->
-                            <th><?php echo $count++ ?></th>
-                            <th><?php echo $item['book_ID'] ?></th>
-                            <th><?php echo $item['book_name'] ?></th>
-                            <th><?php echo $item['genre_name'] ?></th>
-                            <th><?php echo $item['display_status'] ?></th>
+                            <th onclick="ViewDetail1()"><?php echo $count++ ?></th>
+                            <th onclick="ViewDetail1()"><?php echo $item['book_ID'] ?></th>
+                            <th onclick="ViewDetail1()"><?php echo $item['book_name'] ?></th>
+                            <th onclick="ViewDetail1()"><?php echo $item['genre_name'] ?></th>
+                            <th onclick="ViewDetail1()"><?php echo $item['display_status'] ?></th>
+                            <th style="color: red;" onclick="SelectToHideBook()">Ẩn sách</th>
                         </tr>
                     <?php
                         }
@@ -192,10 +206,11 @@
                             <th>Tên sách</th>
                             <th>Thể loại</th>
                             <th>Trạng thái</th>
+                            <th>Hành động</th>
                             <!-- Add more columns as needed -->
                         </tr>
                     </thead>
-                    <tbody id="unshown-book-table-body" onclick="SelectToShowBook()">
+                    <tbody id="unshown-book-table-body">
                         <!-- Table content will be dynamically populated here -->
                     <?php
                         while($itemm = mysqli_fetch_array($sql_test_hide)) {
@@ -203,11 +218,12 @@
                     ?>
                         <tr data-book-id="<?php echo $itemm['book_ID']; ?>" data-display-status="<?php echo $itemm['display_status']; ?>">
                             <!-- Example -->
-                            <th><?php echo $countt++ ?></th>
-                            <th><?php echo $itemm['book_ID'] ?></th>
-                            <th><?php echo $itemm['book_name'] ?></th>
-                            <th><?php echo $itemm['genre_name'] ?></th>
-                            <th><?php echo $itemm['display_status'] ?></th>
+                            <th onclick="ViewDetail2()"><?php echo $countt++ ?></th>
+                            <th onclick="ViewDetail2()"><?php echo $itemm['book_ID'] ?></th>
+                            <th onclick="ViewDetail2()"><?php echo $itemm['book_name'] ?></th>
+                            <th onclick="ViewDetail2()"><?php echo $itemm['genre_name'] ?></th>
+                            <th onclick="ViewDetail2()"><?php echo $itemm['display_status'] ?></th>
+                            <th style="color:mediumaquamarine;" onclick="SelectToShowBook()">Hiển thị sách</th>
                         </tr>
                     <?php
                         }
@@ -225,25 +241,33 @@
                 });
 
                 function searchBooks() {
-                    var searchQuery = document.getElementById('search_book').value;
-
-                    // You can use AJAX to dynamically update the table content based on the search query
-                    // For simplicity, let's assume you reload the page with the search query as a parameter
+                    var searchQuery = document.getElementById('search_book').value.toLowerCase();
                     window.location.href = 'manage_homepage.php?search=' + encodeURIComponent(searchQuery);
                 }
             </script>
 
             <!-- Add this function in your script tag or external JS file -->
             <script>
+                function ViewDetail1() {
+                    var selectedRow = document.querySelector('#shown-book-table-body tr.selected');
+                    if (selectedRow) {
+                        var bookId = selectedRow.dataset.bookId;
+                        window.location.href = 'update_book.php?id=' + bookId;
+                    }
+                }
+
+                function ViewDetail2() {
+                    var selectedRow = document.querySelector('#unshown-book-table-body tr.selected');
+                    if (selectedRow) {
+                        var bookId = selectedRow.dataset.bookId;
+                        window.location.href = 'update_book.php?id=' + bookId;
+                    }
+                }
                 function SelectToHideBook() {
                     var selectedRow = document.querySelector('#shown-book-table-body tr.selected');
                     if (selectedRow) {
-                        var choice = prompt("Choose an action:\n1. View detail\n2. Hide the book");
-
-                        if (choice === '1') {
-                            var bookId = selectedRow.dataset.bookId;
-                            window.location.href = 'update_book.php?id=' + bookId;
-                        } else if (choice === '2') {
+                        var confirmAction = confirm("Are you sure you want to hide the book?");
+                        if (confirmAction) {
                             // Hide the book
                             var bookId = selectedRow.dataset.bookId;
                             var data = { bookId: bookId, status: 'Unavailable' };
@@ -272,24 +296,18 @@
 
                             // Send the request with the bookId and status as POST parameters
                             xhr.send(JSON.stringify(data));
-                        } else {
-                            alert("Invalid choice. Please choose 1 or 2.");
                         }
-                    } else {
+                    } /*else {
                         alert("Please select a book to perform an action.");
-                    }
+                    }*/
                 }
                 function SelectToShowBook() {
                     var selectedRow = document.querySelector('#unshown-book-table-body tr.selected');
 
                     if (selectedRow) {
-                        var choice = prompt("Choose an action:\n1. View detail\n2. Show the book");
-
-                        if (choice === '1') {
-                            var bookId = selectedRow.dataset.bookId;
-                            window.location.href = 'update_book.php?id=' + bookId;
-                        } else if (choice === '2') {
-                            // Hide the book
+                        var confirmAction = confirm("Are you sure you want to show the book?");
+                        if (confirmAction) {
+                            // Show the book
                             var bookId = selectedRow.dataset.bookId;
                             var data = { bookId: bookId, status: 'Available' };
 
@@ -317,12 +335,10 @@
 
                             // Send the request with the bookId and status as POST parameters
                             xhr.send(JSON.stringify(data));
-                        } else {
-                            alert("Invalid choice. Please choose 1 or 2.");
                         }
-                    } else {
+                    } /*else {
                         alert("Please select a book to perform an action.");
-                    }
+                    }*/
                 }
 
                 // Add click event handlers to rows

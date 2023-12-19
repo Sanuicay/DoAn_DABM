@@ -18,7 +18,7 @@ if (isset($_POST['confirm'])) {
     // Handle file upload
     $img_path = ''; // Initialize the variable
     if (isset($_FILES['img_file']) && $_FILES['img_file']['error'] == 0) {
-        $target_dir = "img/Books_Images"; // Specify the directory where you want to store uploaded images
+        $target_dir = "img/Books_Images/"; // Specify the directory where you want to store uploaded images
         $target_file = $target_dir . basename($_FILES['img_file']['name']);
 
         // Move the uploaded file to the specified directory
@@ -195,8 +195,8 @@ if (isset($_POST['confirm'])) {
         </div>
         <div class="body-container">
             <div class="profile">
-                <h2>Thông tin sách</h2>
-                <form method="POST"  enctype="multipart/form-data">
+                <h2>THÔNG TIN SÁCH</h2>
+                <form method="POST"  enctype="multipart/form-data" onsubmit="return confirmSubmit()">
                     <div class="name">
                         <div>
                             <!-- tensach -->
@@ -314,14 +314,50 @@ if (isset($_POST['confirm'])) {
                             <input type="number" id="gianhap" name="gianhap" min='0'>
                         </div>
                     </div>
+                    <style>
+                        .button-container input[name="cancel"] {
+                            margin-top: 20px;
+                            width: 300px;
+                            height: 40px;
+                            color: #000;
+                            font-weight: bold;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            background-color: #F8C2B1;
+                        }
+                        .button-container input[name="cancel"]:hover {
+                            background-color: #F5A99A;
+                        }
+                    </style>
                     <div class="description">
                         <label for="info">Mô tả thêm</label><br>
                         <input type="text" id="info" name="info">
                     </div>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="XÁC NHẬN">
-                        <input type="submit" name="cancel" value="HỦY">
+                        <input type="button" name="cancel" value="HỦY" onclick="confirmCancel()">
                     </div>
+                    <script>
+                    function confirmSubmit() {
+                        // Display a confirmation dialog
+                        var confirmAction = confirm("Are you sure you want to add new book?");
+                        
+                        // Return true if the user clicks OK, false otherwise
+                        return confirmAction;
+                    }
+                    function confirmCancel() {
+                        // Display a confirmation dialog for cancel
+                        var confirmAction = confirm("Are you sure you want to cancel?");
+                        
+                        // If the user clicks OK, navigate to the cancel page
+                        if (confirmAction) {
+                            window.location.href = 'add_new_book.php';
+                        }
+                    }
+                    </script>
             </div>
             <style>
                 #uploaded_image {
