@@ -221,26 +221,12 @@ if (isset($_POST['confirm'])) {
                             <!-- masach -->                   
                             <?php
                                 echo "<label for='masach'>Mã sách:</label>";
-                                // a randomly generated ID that is 8 digits long, starts with 2 and does not match any other ID in the database
-                                $query_id = "SELECT book_ID FROM book";
-                                $result_id = mysqli_query($con,$query_id);
-
-                                // Generate a 7-digit random number (to end up with an 8-digit number including the leading 2)
-                                $randomNumber = rand(1000000,9999999);
-                                $bookID = "2" . $randomNumber;
-
-                                // Fetch all existing IDs into an array
-                                $existing_ids = array();
-                                while ($row_id = mysqli_fetch_assoc($result_id)) {
-                                    $existing_ids[] = $row_id['book_ID'];
-                                }
-
-                                // Generate a new ID until we find one that doesn't exist in the database
-                                while (in_array($bookID, $existing_ids)) {
-                                    $randomNumber = rand(1000000,9999999);
-                                    $bookID = "2" . $randomNumber;
-                                }
-                                echo "<input type='text' id='masach' name='masach' value='$bookID' readonly><br>";
+                                $sql = "SELECT MAX(CAST(book_ID AS UNSIGNED)) AS max_order_ID
+                                FROM `book`;";
+                        $result = mysqli_query($con, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $bookID = ($row['max_order_ID'] + 1);
+                        echo "<input type='text' id='masach' name='masach' value='$bookID' readonly><br>";
                             ?>
 
 
