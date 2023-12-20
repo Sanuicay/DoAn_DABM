@@ -230,6 +230,7 @@ if (isset($_POST['confirm'])) {
                             ?>
 
 
+
                             <!-- sotrang -->
                             <label for='sotrang'>Số trang</label><br>
                             <input type='number' id='sotrang' name='sotrang' min='0'><br>
