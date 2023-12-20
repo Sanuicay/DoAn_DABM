@@ -249,7 +249,7 @@
                         console.log("Option 1");
                         break;
                     case 'option2':
-                        loadData();
+                        handleDateInc();
                         console.log("Option 2");
                         break;
                     case 'option3':
@@ -302,6 +302,27 @@
                 }
                 function handleDateDec() {
                     fetch('./database_scripts/fetch_sale_order_3.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleDateInc() {
+                    fetch('./database_scripts/fetch_sale_order_2.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
