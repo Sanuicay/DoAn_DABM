@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 $bookID = $_GET['id'];
-$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price, book.purchase_price, book.display_status, book.img_path
+$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price, book.purchase_price, book.display_status, book.img_path, book.description
           FROM book, written_by, belongs_to
           WHERE book.book_ID = written_by.book_ID AND book.book_ID = belongs_to.book_ID AND book.book_ID = '$bookID'";
 $result = mysqli_query($con,$query);
@@ -66,6 +66,11 @@ if(isset($_POST['confirm'])){
     if (!empty($_POST['bookstatus'])){
         $bookstatus = $_POST['bookstatus'];
         $query = "UPDATE `book` SET `display_status` = '$bookstatus' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    if (!empty($_POST['info'])){
+        $bookdes = $_POST['info'];
+        $query = "UPDATE `book` SET `description` = '$bookdes' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
     // Handle file upload
@@ -334,7 +339,7 @@ else if(isset($_POST['cancel'])){
                     </div>
                     <div class="description">
                         <label for="info">Mô tả thêm</label><br>
-                        <input type="text" id="info" name="info">
+                        <input type="text" id="info" name="info" placeholder="<?php echo $row_book['description']; ?>">
                     </div>
                     <style>
                         .button-container input[name="cancel"] {

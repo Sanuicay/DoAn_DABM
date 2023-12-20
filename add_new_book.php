@@ -14,6 +14,8 @@ if (isset($_POST['confirm'])) {
     $giatien = $_POST['giatien'];
     $gianhap = $_POST['gianhap'];
     $bookstatus = $_POST['bookstatus'];
+    $bookdes = $_POST['info'];
+
 
     // Handle file upload
     $img_path = ''; // Initialize the variable
@@ -41,7 +43,7 @@ if (isset($_POST['confirm'])) {
         echo "<script>alert('Vui lòng nhập đầy đủ thông tin và thông tin hợp lệ!')</script>";
     } else {
         // Use prepared statements to prevent SQL injection
-        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`, `purchase_price`, `display_status`, `img_path`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CONVERT(?, BINARY), ?)";
+        $query1 = "INSERT INTO `book` (`book_ID`, `book_name`, `publisher_ID`, `publication_year`, `release_date`, `page_count`, `sale_price`, `remaining_quantity`, `purchase_price`, `display_status`, `img_path`, `description`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CONVERT(?, BINARY), ?, ?)";
         $query2 = "INSERT INTO `written_by` VALUES (?, ?)";
         $query3 = "INSERT INTO `belongs_to` VALUES (?, ?)";
 
@@ -52,7 +54,7 @@ if (isset($_POST['confirm'])) {
 
         if ($stmt1 && $stmt2 && $stmt3) {
             // Bind parameters to the placeholders
-            mysqli_stmt_bind_param($stmt1, "sssssiidiss", $masach, $tensach, $nhaxuatbanID, $namxuatban, $ngayphathanh, $sotrang, $giatien, $soluong, $gianhap, $bookstatus, $img_path);
+            mysqli_stmt_bind_param($stmt1, "sssssiidisss", $masach, $tensach, $nhaxuatbanID, $namxuatban, $ngayphathanh, $sotrang, $giatien, $soluong, $gianhap, $bookstatus, $img_path, $bookdes);
             mysqli_stmt_bind_param($stmt2, "ss", $masach, $tentacgiaID);
             mysqli_stmt_bind_param($stmt3, "ss", $masach, $theloaiID);
 
@@ -195,7 +197,7 @@ if (isset($_POST['confirm'])) {
         </div>
         <div class="body-container">
             <div class="profile">
-                <h2>THÔNG TIN SÁCH</h2>
+                <h2 style="font-family: 'Times New Roman', Times, serif; font-weight: bold;">THÔNG TIN SÁCH</h2>
                 <form method="POST"  enctype="multipart/form-data" onsubmit="return confirmSubmit()">
                     <div class="name">
                         <div>

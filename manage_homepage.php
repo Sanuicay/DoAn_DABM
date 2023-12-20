@@ -148,13 +148,13 @@
 
             $sql_test_show = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available'
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available' AND A.deleted_tag = 0
                     AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
 
             $sql_test_hide = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable'
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable' AND A.deleted_tag = 0
                     AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
             ?>
