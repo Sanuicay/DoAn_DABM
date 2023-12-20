@@ -173,7 +173,7 @@
             <div class = "main-container">
                 <div class="search-container">
                         <img class="side-box-image" src="img/icon_search_emp.png" alt="Icon"/>
-                        <input type="text" class="search-input" placeholder="Tìm đơn hàng">   
+                        <input type="text" class="search-input" placeholder="Tìm đơn hàng" id = "searchInput">     
                         <select id="filterOptions">
                                 <option value="option1">ID</option>
                                 <option value="option2">Ngày gần nhất</option>
@@ -188,7 +188,7 @@
                 </div>                 
             </div>    
             <h2>Danh sách hóa đơn</h2>
-            <div class="table-container">                
+            <div class="table-container" id="saleOrderTable">                
                 <table>
                     <thead>
                         <tr>
@@ -203,6 +203,142 @@
                 </table>
             </div>   
             <script>
+                 document.getElementById('filterOptions').addEventListener('change', function () {
+                    // Get the selected filter option
+                    var selectedOption = this.value;
+
+                    // Call a function to apply the filter based on the selected option
+                    applyFilter(selectedOption);
+                });
+                
+                function applyFilter(selectedOption) {
+                    // Get the table body
+                    const searchInput = document.getElementById('searchInput');
+                    searchInput.value = "";  // Set the value to an empty string
+                    var tbody = document.querySelector('#saleOrderTable tbody');
+                    // Get all rows in the table
+                    var rows = tbody.querySelectorAll('tr');
+
+                    // Convert the NodeList to an array for easier manipulation
+                    var rowsArray = Array.from(rows);
+
+                    // Implement your filtering logic based on the selected option
+                    switch (selectedOption) {
+                    case 'option1':
+                        loadData();
+                        console.log("Option 1");
+                        break;
+                    case 'option2':
+                        handleDateInc();
+                        console.log("Option 2");
+                        break;
+                    case 'option3':
+                        handleDateDec()
+                        console.log("Option 3");
+                        break;
+                    case 'option4':
+                        handleSumInc()
+                        console.log("Option 4");
+                        break;
+                    case 'option5':
+                        handleSumDec()
+                        console.log("Option 5");
+                        break;
+                    // Add cases for other options as needed
+                    }
+
+                    // Clear the existing table rows
+                    tbody.innerHTML = '';
+
+                    // Append the sorted rows back to the table
+                    rowsArray.forEach(row => {
+                    tbody.appendChild(row);
+                    });
+                }
+                function handleSumInc() {
+                    fetch('./database_scripts/fetch_purchase_order_4.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleDateDec() {
+                    fetch('./database_scripts/fetch_purchase_order_3.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleDateInc() {
+                    fetch('./database_scripts/fetch_purchase_order_2.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function handleSumDec() {
+                    fetch('./database_scripts/fetch_purchase_order_5.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updatePurchaseOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
                 loadData();
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
@@ -343,7 +479,7 @@
             <script>
                 function redirectToDetailsPage(orderId) {
                     // Thực hiện chuyển hướng đến trang chi tiết với orderId là tham số
-                    window.location.href = 'details.php?orderId=' + orderId;
+                    window.location.href = 'details_purchase.php?orderId=' + orderId;
                 }
                 function redirectToDetailsPagePurchase(orderId) {
                     // Thực hiện chuyển hướng đến trang chi tiết với orderId là tham số

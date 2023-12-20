@@ -174,7 +174,7 @@ while($item = mysqli_fetch_array($result)) {
                     <div>
                         <div><span class="label">Mã đơn hàng:</span> <?php echo $item['order_ID'] ?></div>
                         <div><span class="label">Ngày tạo đơn:</span> <?php echo $item['order_date'] ?></div>
-                        <div><span class="label">Ghi chú:</span> <?php echo $item['order_info'] ?></div>
+                        <div><span class="label">Ghi chú:</span> <?php $info_parts = explode(', ', $item['order_info']);$note = isset($info_parts[2]) ? $info_parts[2] : '';echo $note ?></div>
                     </div>
                 </div>
                 <div class="total">

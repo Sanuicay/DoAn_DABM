@@ -9,7 +9,7 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status, img_path
+  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status, img_path, order_info
   FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
   WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
   ";
@@ -176,7 +176,10 @@ while($item = mysqli_fetch_array($result)) {
                         <span class="label">Tình trạng thanh toán:</span> <?php echo $item['payment_status'] ?>
                     </div>
                     <div>
-                        <span class="label">Trạng thái đơn hàng:</span> Đang vận chuyển
+                        <span class="label">Trạng thái đơn hàng:</span>  <?php $info_parts = explode(', ', $item['order_info']); $status = isset($info_parts[1]) ? $info_parts[1] : ''; echo $status;?>
+                    </div>
+                    <div>
+                        <span class="label">Ghi chú:</span>  <?php $note = isset($info_parts[2]) ? $info_parts[2] : ''; echo $note  ?>
                     </div>
                 </div>
                 <div class="total">
