@@ -79,3 +79,62 @@ function selectProduct(bookID) {
     const url = 'single_product.php?id=' + bookID;
     window.location.href = url;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const seeMoreBtn1 = document.getElementById('seeMoreBtn1');
+    const items1 = document.querySelectorAll('.item1');
+
+    const seeMoreBtn2 = document.getElementById('seeMoreBtn2');
+    const items2 = document.querySelectorAll('.item2');
+
+    const seeMoreBtn3 = document.getElementById('seeMoreBtn3');
+    const items3 = document.querySelectorAll('.item3');
+
+    const seeMoreBtn4 = document.getElementById('seeMoreBtn4');
+    const items4 = document.querySelectorAll('.item4');
+
+    // Initial number of items to display
+    let visibleItemCount1 = 4;
+    let visibleItemCount2 = 4;
+    let visibleItemCount3 = 4;
+    let visibleItemCount4 = 4;
+
+    // Show/hide items based on the current state
+    function toggleItems(items, seeMoreBtn, visibleItemCount) {
+        items.forEach((item, index) => {
+            if (index < visibleItemCount) {
+                item.classList.remove('hidden');
+            }
+        });
+
+        // Toggle the "See More" button based on the number of hidden items
+        seeMoreBtn.style.display = (visibleItemCount < items.length) ? 'block' : 'none';
+    }
+
+    // Event listener for the "See More" button
+    seeMoreBtn1.addEventListener('click', function() {
+        visibleItemCount1 += 12; // Increase the number of visible items
+        toggleItems(items1, seeMoreBtn1, visibleItemCount1); // Show/hide items
+    });
+
+    seeMoreBtn2.addEventListener('click', function() {
+        visibleItemCount2 += 12; // Increase the number of visible items
+        toggleItems(items2, seeMoreBtn2, visibleItemCount2); // Show/hide items
+    });
+
+    seeMoreBtn3.addEventListener('click', function() {
+        visibleItemCount3 += 12; // Increase the number of visible items
+        toggleItems(items3, seeMoreBtn3, visibleItemCount3); // Show/hide items
+    });
+
+    seeMoreBtn4.addEventListener('click', function() {
+        visibleItemCount4 += 12; // Increase the number of visible items
+        toggleItems(items4, seeMoreBtn4, visibleItemCount4); // Show/hide items
+    });
+
+    // Initial setup
+    toggleItems(items1, seeMoreBtn1, visibleItemCount1);
+    toggleItems(items2, seeMoreBtn2, visibleItemCount2);
+    toggleItems(items3, seeMoreBtn3, visibleItemCount3);
+    toggleItems(items4, seeMoreBtn4, visibleItemCount4);
+});

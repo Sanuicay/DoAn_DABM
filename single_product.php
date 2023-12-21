@@ -106,7 +106,7 @@ if(isset($_POST['add_to_cart'])){
         </div>
         <div class="header-nav-links">
             <a href="login_success.php">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="features_product_nologin.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -142,7 +142,7 @@ if(isset($_POST['add_to_cart'])){
                     echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
                     echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
                     echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
-                    echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
+                    echo "<p class='price'>" . number_format($row["sale_price"], 0, ',', ' '). " VNĐ</p><br>";
                     echo "<div class='quantity-group'>";
                     echo "<input type='number' id='quantity' name='quantity' value='1' min='1' max='" . $row["remaining_quantity"]. "' oninput='updateQuantity()'>";
                     echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
