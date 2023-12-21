@@ -117,6 +117,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }

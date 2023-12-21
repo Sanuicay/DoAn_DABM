@@ -141,6 +141,9 @@
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
@@ -516,7 +519,7 @@
                     var order_info_array = order_info.split(',');
 
                     // Update the second element (index 1) to "Đã duyệt"
-                    order_info_array[1] = "Đã duyệt";
+                    order_info_array[1] = " Đã duyệt ";
 
                     // Join the array back into a string using ','
                     var status = order_info_array.join(',');

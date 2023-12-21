@@ -37,6 +37,7 @@ include_once('database_scripts/func_total_price_sale.php');
     <link rel="stylesheet" href="css/style_duong.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+
     <link rel="stylesheet" href="css/employee.css">
     <link rel="stylesheet" href="css/logo.css">
     <link rel="stylesheet" href="css/order.css">
@@ -115,6 +116,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
@@ -176,13 +180,14 @@ while($item = mysqli_fetch_array($result)) {
                         <span class="label">Tình trạng thanh toán:</span> <?php echo $item['payment_status'] ?>
                     </div>
                     <div>
-                        <span class="label">Trạng thái đơn hàng:</span>  <?php $info_parts = explode(', ', $item['order_info']); $status = isset($info_parts[1]) ? $info_parts[1] : ''; echo $status;?>
+                        <span class="label" id = "status">Trạng thái đơn hàng:</span>  <?php $info_parts = explode(', ', $item['order_info']); $status = isset($info_parts[1]) ? $info_parts[1] : ''; echo $status;?>
                     </div>
                     <div>
                         <span class="label">Ghi chú:</span>  <?php $note = isset($info_parts[2]) ? $info_parts[2] : ''; echo $note  ?>
                     </div>
                 </div>
                 <div class="total">
+                    <span class="label" id="tmp" style="display: none;"><?php echo $item['order_info'] ?></span>  
                     <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
                 </div>
             </div>
@@ -208,7 +213,48 @@ while($item = mysqli_fetch_array($result)) {
             if ($sp) break;
  }
             ?>
-            
+             <style>
+    /* Style for the check div */
+    #check {
+      display: none;
+      text-align: center; /* Center the buttons */
+      margin-top: 10px; /* Add margin for spacing (adjust as needed) */
+    }
+
+    /* Style for the Confirm button */
+    #check input[name="confirm"] {
+      padding: 10px; /* Adjust padding as needed */
+      margin: 5px; /* Add margin for spacing between buttons (adjust as needed) */
+      background-color: #4CAF50; /* Green background color */
+      color: #fff; /* White text color */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Hover effect for the Confirm button */
+    #check input[name="confirm"]:hover {
+      background-color: #45a049; /* Darker green color on hover */
+    }
+
+    /* Style for the Cancel button */
+    #check input[name="cancel"] {
+      padding: 10px; /* Adjust padding as needed */
+      margin: 5px; /* Add margin for spacing between buttons (adjust as needed) */
+      background-color: #FF0000; /* Red background color */
+      color: #fff; /* White text color */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Hover effect for the Cancel button */
+    #check input[name="cancel"]:hover {
+      background-color: #a03a3a; /* Darker red color on hover */
+    }
+  </style>
             <h2>Danh sách sản phẩm</h2>
             <!-- Result display area (optional) -->
                 <table id="productTable">
@@ -240,24 +286,72 @@ while($item = mysqli_fetch_array($result)) {
                     </tbody>
                     <?php } ?>  
                 </table>
-                <br>
-                <!-- <div class="total">
-                    <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
-                </div>  -->
-                <br>
+
+                
+            <div id ="check" style="display: none;">
+                <input type="button" name="confirm" value="Xác nhận" onclick="confirmAction()">
+                <input type="button" name="cancel" value="Từ chối" onclick="confirmCancel()">
+            </div>
+                        
+
             <script>
                 // Lấy giá trị orderId từ tham số truyền vào URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const orderId = urlParams.get('orderId');
-
+                var statusValue = document.getElementById('tmp').innerText;
                 // Thêm các thông tin khác tương ứng với orderId
-                
-                // Ví dụ: Hiển thị nút để quay lại trang trước
+                // // Ví dụ: Hiển thị nút để quay lại trang trước
+                // document.write('<button onclick="goBack()">Go Back</button>');
+                if (statusValue.includes('Đang chờ duyệt')) {
+                // Display the check div if the condition is true
+                document.getElementById('check').style.display = 'block';
+                } else {
+                // Keep the check div hidden if the condition is false
                 document.write('<button onclick="goBack()">Go Back</button>');
-
+                document.getElementById('check').style.display = 'none';
+                }
                 // Hàm để quay lại trang trước
                 function goBack() {
                     window.history.back();
+                }
+                function confirmAction() {
+                    // Implement your confirmation logic or perform the delete action here
+                    
+                    var order_info_array = statusValue.split(',');
+
+                    // Update the second element (index 1) to "Đã duyệt"
+                    order_info_array[1] = " Đã duyệt ";
+
+                    // Join the array back into a string using ','
+                    var status = order_info_array.join(',');
+                    var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
+                    if (confirmed) {
+                        fetch('./database_scripts/confirm_sale_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({orderID: orderId, status: status})
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log('A');
+                            console.log(data.success);
+                            if(data.success) {
+                                window.location.href = 'details.php?orderId=' + orderId;
+                            }
+                        })
+                        .catch(error => {
+                            console.log('B');
+                            console.log(error);
+                        })
+                        
+                    }
                 }
             </script>
 

@@ -14,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     JOIN purchase_order AS po ON o.order_ID = po.purchase_ID
     JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
     JOIN book AS b ON b.book_ID = pi.book_ID
-    GROUP BY order_ID;
+    GROUP BY order_ID
+    ORDER BY CAST(SUBSTRING(order_ID, 4) AS UNSIGNED);
     ');
 
     if ($result) {
