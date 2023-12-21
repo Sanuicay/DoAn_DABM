@@ -146,34 +146,9 @@
             }
             ?>
             <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
             <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
-            <script>
-                function chooseOption() {
-                    // Prompt the user to input their choice
-                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
-
-                    // Convert the user input to a number
-                    var userChoice = parseInt(userInput);
-
-                    // Redirect based on user's choice
-                    if (!isNaN(userChoice)) {
-                        switch (userChoice) {
-                            case 1:
-                                window.location.href = "list_of_book.php";
-                                break;
-                            case 2:
-                                window.location.href = "manage_homepage.php";
-                                break;
-                            default:
-                                alert("Invalid choice. Please enter 1 or 2.");
-                        }
-                    } else {
-                        alert("Invalid input. Please enter a number.");
-                    }
-                }
-            </script>
         </div>
         <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">

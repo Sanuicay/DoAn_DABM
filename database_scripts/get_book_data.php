@@ -73,6 +73,8 @@ if (mysqli_num_rows($result) > 0) {
             <tbody>";
     $i = 1;
     while ($row = mysqli_fetch_assoc($result)) {
+        $idParts = explode(':', $row['book_ID']);
+        $id = $idParts[0];
         echo "<tr onclick=\"redirectToDetailsPage('".$row['book_ID']."')\">
                 <td>".$i."</td>
                 <td>".$row['book_ID']."</td>
@@ -84,8 +86,8 @@ if (mysqli_num_rows($result) > 0) {
                 <td>".$row['sale_price']."</td>
                 <td>".$row['remaining_quantity']."</td>
                 <td>".($row['deleted_tag'] == 0 ? 'Đang bán' : 'Đã xóa')."</td>
-                <td>".($row['deleted_tag'] == 0 ? "<a href=\"database_scripts/confirmation.php?id={$row['book_ID']}\">Xóa</a>" : "")."</td>
-            </tr>";
+                <td>".($row['deleted_tag'] == 0 ? "<a href=\"database_scripts/confirmation.php?id={$id}\">Xóa</a>" : "")."</td>
+            </tr>";     
         $i++;
     }
     echo "</tbody>";

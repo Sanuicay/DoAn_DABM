@@ -21,7 +21,7 @@ $id = mysqli_real_escape_string($con, $id);
 //$result = mysqli_query($con, $query);
 
 //update from book table (set số lượng còn lại = 0)
-$query = "UPDATE book SET remaining_quantity = 0 , deleted_tag = 1 WHERE book_ID = '$id'";
+$query = "UPDATE book SET deleted_tag = 1 WHERE book_ID = '$id'";
 $result = mysqli_query($con, $query);
 
 if ($result) {
