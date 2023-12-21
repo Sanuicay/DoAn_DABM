@@ -117,6 +117,65 @@
                 </div>
             </div>
             <br><br>
+            <style>
+                .best-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+
+                .best-table th, .best-table td {
+                    border: 1px solid #B88E2F;
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                .best-table th {
+                    background-color: #FFECD5;
+                    text-align: center;
+                    color: #B88E2F;
+                }
+
+                .best-table td{
+                    background-color: #FFECD5;
+                    text-align: center;
+                }
+
+                .best-table td, .best-table th {
+                    font-weight: normal;
+                }
+            </style>
+            <?php
+                include_once('./database_scripts/get_top5_bestseller.php');
+                $from_date = isset($_POST['from_time']) ? $_POST['from_time'] : '';
+                $to_date = isset($_POST['to_time']) ? $_POST['to_time'] : '';
+                $bestSellers = getBestSeller($mysqli, $from_date, $to_date);
+            ?>
+            <a style="font-size:30px; color:#B88E2F; font-weight: bold; text-align: center; display: block; margin: 0 auto;" id="bestseller">TOP 5 BEST SELLER</a>
+            <a style="font-size: 25px; color:#B88E2F; font-weight: bold; text-align: center; display: block; margin: 0 auto;" id="dateRangeText1">(TỪ NGÀY A ĐẾN B)</a>
+            <table class="best-table">
+                <thead>
+                    <tr>
+                        <th>Mã sách</th>
+                        <th>Tên sách</th>
+                        <th>Thể loại</th>
+                        <th>Số lượng đã bán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach ($bestSellers as $item) {
+                        echo "<tr>";
+                        echo "<td>{$item['book_ID']}</td>";
+                        echo "<td>{$item['book_name']}</td>";
+                        echo "<td>{$item['genre_name']}</td>";
+                        echo "<td>{$item['total_book_sold']}</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+            <br><br>
             <?php
                 include_once('./database_scripts/get_date.php');
 
@@ -166,7 +225,9 @@
                 var fromTime = formatDate(date_statistic[0]['from_date']);
                 var toTime = formatDate(date_statistic[0]['to_date']);
                 var dateRangeText = "THỐNG KÊ SÁCH TỪ NGÀY " + fromTime + " ĐẾN " + toTime;
+                var dateRangeText1 = "(TỪ NGÀY " + fromTime + " ĐẾN " + toTime + ")";
                 document.getElementById("dateRangeText").innerText = dateRangeText;
+                document.getElementById("dateRangeText1").innerText = dateRangeText1;
             </script>
 
             <br><br>
