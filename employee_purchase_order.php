@@ -90,7 +90,16 @@
             <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 4"></a>
+            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 

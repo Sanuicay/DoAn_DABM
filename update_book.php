@@ -145,6 +145,15 @@ else if(isset($_POST['cancel'])){
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -189,6 +198,9 @@ else if(isset($_POST['cancel'])){
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
