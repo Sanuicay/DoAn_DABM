@@ -111,6 +111,19 @@ include("connection.php");
                 }
             </script>
         </div>
+        <style>
+            .button-container1 {
+                margin-left: auto;
+                margin-left: 180%;
+            }
+            .button-container1 input[type="button"] {
+                background-color: #FFECD5;
+                color: #B88E2F;
+                padding: 8px 12px; /* Adjust padding as needed */
+                border: 1px solid #B88E2F;
+                border-radius: 100px;
+            }
+        </style>
         <div class="content-box">
             <!-- real content goes here -->
             <div class="search-container">
@@ -121,6 +134,9 @@ include("connection.php");
                     <input type="text" id="search" name="search">
                     <input type="submit" value="Submit">
                 </form>
+                <div class="button-container1">
+                    <a href="manage_homepage.php"><input type="button" value="Quản lý trang chủ"></a>
+                </div>
                 <div class="button-container">
                     <a href="add_new_book.php"><input type="button" value="Nhập sách mới"></a>
                 </div>
