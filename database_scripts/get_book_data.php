@@ -16,36 +16,48 @@ $search = str_replace(')', '', $search);
 $search = str_replace(';', '', $search);
 $search = strtolower($search);
 
-$query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
-          FROM book, author, publisher, genre, written_by, belongs_to 
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+$query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.deleted_tag 
+          FROM book
+          INNER JOIN written_by ON book.book_ID = written_by.book_ID
+          INNER JOIN author ON written_by.author_ID = author.author_ID
+          INNER JOIN publisher ON book.publisher_ID = publisher.publisher_ID
+          INNER JOIN belongs_to ON book.book_ID = belongs_to.book_ID
+          INNER JOIN genre ON belongs_to.genre_ID = genre.genre_ID
+          WHERE REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
+             OR book.book_ID LIKE '%$search%'
+          ORDER BY book.deleted_tag";
+
 $result = mysqli_query($con, $query);
 
 if (mysqli_num_rows($result) == 0) {
-    // If no books found by name, search by author name
-    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+    // If no books found by name or ID, search by author name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.deleted_tag 
               FROM book, author, publisher, genre, written_by, belongs_to 
-              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(author.author_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID 
+                AND (REPLACE(REPLACE(REPLACE(REPLACE(LOWER(author.author_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
+                 OR book.book_ID LIKE '%$search%')";
     $result = mysqli_query($con, $query);
 }
 
 if (mysqli_num_rows($result) == 0) {
-    // If no books found by author name, search by publisher name
-    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+    // If no books found by author name or ID, search by publisher name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.deleted_tag 
               FROM book, author, publisher, genre, written_by, belongs_to 
-              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(publisher.publisher_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID 
+                AND (REPLACE(REPLACE(REPLACE(REPLACE(LOWER(publisher.publisher_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
+                 OR book.book_ID LIKE '%$search%')";
     $result = mysqli_query($con, $query);
 }
 
 if (mysqli_num_rows($result) == 0) {
-    // If no books found by publisher name, search by genre name
-    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity 
+    // If no books found by publisher name or ID, search by genre name
+    $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.deleted_tag 
               FROM book, author, publisher, genre, written_by, belongs_to 
-              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND REPLACE(REPLACE(REPLACE(REPLACE(LOWER(genre.genre_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'";
+              WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID 
+                AND (REPLACE(REPLACE(REPLACE(REPLACE(LOWER(genre.genre_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
+                 OR book.book_ID LIKE '%$search%')";
     $result = mysqli_query($con, $query);
 }
-
-
 
 if (mysqli_num_rows($result) > 0) {
     echo "<table>
@@ -60,12 +72,15 @@ if (mysqli_num_rows($result) > 0) {
                     <th>Số trang</th>
                     <th>Giá tiền</th>
                     <th>Số lượng</th>
+                    <th>Trạng thái</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>";
     $i = 1;
     while ($row = mysqli_fetch_assoc($result)) {
+        $idParts = explode(':', $row['book_ID']);
+        $id = $idParts[0];
         echo "<tr onclick=\"redirectToDetailsPage('".$row['book_ID']."')\">
                 <td>".$i."</td>
                 <td>".$row['book_ID']."</td>
@@ -76,8 +91,9 @@ if (mysqli_num_rows($result) > 0) {
                 <td>".$row['page_count']."</td>
                 <td>".$row['sale_price']."</td>
                 <td>".$row['remaining_quantity']."</td>
-                <td><a href=\"database_scripts/confirmation.php?id={$row['book_ID']}\">Xóa</a></td>
-            </tr>";
+                <td>".($row['deleted_tag'] == 0 ? 'Đang bán' : 'Đã xóa')."</td>
+                <td>".($row['deleted_tag'] == 0 ? "<a href=\"database_scripts/confirmation.php?id={$id}\">Xóa</a>" : "")."</td>
+            </tr>";     
         $i++;
     }
     echo "</tbody>";

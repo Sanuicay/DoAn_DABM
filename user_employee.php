@@ -116,7 +116,7 @@ if (isset($_POST['change2']))
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
@@ -137,14 +137,14 @@ if (isset($_POST['change2']))
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thông tin cá nhân</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="user_employee.php">> Thông tin cá nhân</a>
         </div>
     </div>
 
     <div class="content">
     <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p> -->
@@ -176,15 +176,15 @@ if (isset($_POST['change2']))
                     }
                 }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="list_of_book.php" ><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="body-container">
             <div class="profile">
                 <h2>Hồ Sơ Của Tôi</h2>
-                <form method="POST">
+                <form method="POST" onsubmit="return confirmSubmit()" >
                     <div class="name">
                         <div>
                             <?php
@@ -204,11 +204,29 @@ if (isset($_POST['change2']))
                         echo "<label for='email'>Email:</label>";
                         echo "<input type='email' value='$row[email]' id='email' name='email'><br>";
                         echo "<label for='phone'>Số Điện Thoại:</label>";
-                        echo "<input type='tel' value='$row[phone_num]' id='phone' name='phone' patern='0[0-9]{9,10}'><br>";
+                        echo "<input type='tel' value='$row[phone_num]' id='phone' name='phone' pattern='0[0-9]{9,10}' title='Enter a valid phone number starting with 0 and followed by 9 to 10 digits' required><br>";
                         echo "<label for='info'>Thông tin thêm:</label>";
                         echo "<input type='info' value='$row[user_info]' id='info' name='info'><br>";
                         echo "<input type='submit' name='change1' value='Thay Đổi'>;"
                     ?>
+                    <script>
+                        function confirmSubmit() {
+                            // Display a confirmation dialog
+                            var confirmAction = confirm("Are you sure you want to update your information?");
+
+                            if (!confirmAction) {
+                                // Reset the form values to the original values
+                                document.getElementById('ho').value = '<?php echo $row['sur_name']; ?>';
+                                document.getElementById('ten').value = '<?php echo $row['last_name']; ?>';
+                                document.getElementById('email').value = '<?php echo $row['email']; ?>';
+                                document.getElementById('phone').value = '<?php echo $row['phone_num']; ?>';
+                                document.getElementById('info').value = '<?php echo $row['user_info']; ?>';
+                            }
+
+                            // Return true if the user clicks OK, false otherwise
+                            return confirmAction;
+                        }
+                    </script>
                             <!-- <label for="ho">Họ:</label>
                             <input type="text" id="ho" name="ho">
                         </div>

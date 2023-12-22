@@ -2,6 +2,7 @@
 // Connect to your database
 include_once('connection.php');
 include_once('database_scripts/func_total_price_sale.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +21,29 @@ include_once('database_scripts/func_total_price_sale.php');
     <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
+<style>        #productFormModify {
+    display: none;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px auto; /* Center the table horizontally */
+}
+
+#productFormModify label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#productFormModify input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}</style>
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
@@ -32,10 +56,19 @@ include_once('database_scripts/func_total_price_sale.php');
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 4"></a>
+            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -43,16 +76,15 @@ include_once('database_scripts/func_total_price_sale.php');
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Quản lý đơn hàng</p>
         <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="#">></a>
-            <a href="#">Quản lý đơn hàng</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="employee_order.">> Quản lý đơn hàng</a>
         </div>
     </div>
 
     <!-- content -->
     <div class="content">
     <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -80,14 +112,17 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
             <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="content-box">
             <img class = "logo" src="img/logo_DABM.png", alt="Logo">
@@ -97,7 +132,14 @@ include_once('database_scripts/func_total_price_sale.php');
                 <div class="order-info">
                     <div>
                         <span class="label">Mã đơn hàng:</span> 
-                        <input type="text" id="s.orderid" name="s.orderid" placeholder="Nhập mã đơn hàng">
+                        <?php
+                                $sql = "SELECT MAX(CAST(SUBSTRING(order_ID, 4) AS UNSIGNED)) AS max_order_ID
+                                        FROM `order`;";
+                                $result = mysqli_query($con, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $orderID = 'STO' . ($row['max_order_ID'] + 1);
+                            ?>
+                        <input type="text" id="s.orderid" name="s.orderid" value="<?php echo $orderID;?>" placeholder="Nhập mã đơn hàng" readonly>
                     </div>
                     <div>
                         <span class="label">Thời gian:</span> 
@@ -117,15 +159,8 @@ include_once('database_scripts/func_total_price_sale.php');
                 <h2>Thông tin khách hàng</h2>
                 <button id="addCustomerBtn" class = "format-button" onclick="showForm()">Thêm khách hàng mới</button>
                 <div id="formContainer" style="display: none;">
-                    <label for="name">Tên:</label>
-                    <input type="text" id="name" placeholder="Nhập tên">
-        
                     <label for="phone">Số điện thoại:</label>
-                    <input type="text" id="phone" placeholder="Nhập số điện thoại">
-        
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" placeholder="Nhập email">
-        
+                    <input type="text" id="phone" placeholder="Nhập số điện thoại">        
                     <button class = "format-button" onclick="addCustomer()">Thêm khách hàng</button>
                     </div>
                 </div>
@@ -135,6 +170,7 @@ include_once('database_scripts/func_total_price_sale.php');
             </div>
             
             <h2>Danh sách sản phẩm</h2>
+            <div id="messageForOrder"></div>
             <!-- Result display area (optional) -->
                 <table id="productTable">
                     <thead>
@@ -160,13 +196,25 @@ include_once('database_scripts/func_total_price_sale.php');
             
             <div id="productForm">
                 <label for="productName">Tên/Mã sản phẩm:</label>
+                <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
                 <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm">
-                
+                <div id="productSuggestions"></div>
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
                 <div id="message"></div>
                 <button id="submitProductBtn" onclick="addProduct()">Thêm sản phẩm</button>
                 <button id="delProductBtn" onclick="cancelAddProduct()">Hủy bỏ</button>
+            </div>
+            <div id="productFormModify">
+                <label for="product_name">Tên/Mã sản phẩm:</label>
+                <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
+                <input type="text" id="product_name" placeholder="Nhập tên/mã sản phẩm">
+                <div id="productSuggestions"></div>
+                <label for="curquantity">Số lượng:</label>
+                <input type="number" id="curquantity" placeholder="Nhập số lượng">
+                <div id="message"></div>
+                <button id="modifyProductBtn" onclick="confirmModifyProduct()">Xác nhận</button>
+                <button id="delProductBtn" onclick="cancelModifyProduct()">Hủy bỏ</button>
             </div>
             <br>
             <div class = "bounding">
@@ -177,7 +225,23 @@ include_once('database_scripts/func_total_price_sale.php');
             <script>
                 var customerData = {};
                 var productJson = {};
+                
                 var userId = <?php echo json_encode($user['ID']); ?>;
+                // Get the current date in the format YYYY-MM-DD
+                document.getElementById("productFormModify").style.display = "none";
+                function getCurrentDate() {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                    const day = now.getDate().toString().padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+
+                // Set the current date to the "Thời gian" input field
+                document.getElementById('s.orderdate').value = getCurrentDate();
+                // Disable the "Thời gian" input field
+                document.getElementById('s.orderdate').disabled = true;
+
                  function showForm() {
                     var formContainer = document.getElementById("formContainer");
                     formContainer.style.display = "block";
@@ -185,9 +249,9 @@ include_once('database_scripts/func_total_price_sale.php');
                 }
 
                 function addCustomer() {
-                    var name = document.getElementById("name").value;
+                    // var name = document.getElementById("name").value;
                     var phone = document.getElementById("phone").value;
-                    var email = document.getElementById("email").value;
+                    // var email = document.getElementById("email").value;
 
                     
                     console.log(phone);
@@ -208,6 +272,12 @@ include_once('database_scripts/func_total_price_sale.php');
                     .then (data=>{
                         const userData = data.userData;
                         console.log(userData);
+                        if (userData === null) {
+                            // Handle the case where userData is null
+                            var customerDetails = document.getElementById("customerDetails");
+                            customerDetails.innerHTML =""
+                            customerDetails.innerHTML = "<strong style='color: red;'>Khách hàng chưa là thành viên</strong>";
+                        } else {
                         customerData = {
                             id: userData.ID,
                             surName: userData.sur_name,
@@ -223,6 +293,9 @@ include_once('database_scripts/func_total_price_sale.php');
                                 <strong>Email:</strong> ${userData.email}
                             </div>
                         `;
+                        var formContainer = document.getElementById("formContainer");
+                        formContainer.style.display = "none";
+                    }
                     })
                     .catch(error => {
                         console.log(error);
@@ -234,8 +307,7 @@ include_once('database_scripts/func_total_price_sale.php');
                     document.getElementById("email").value = "";
 
                     // Hide the form after adding a customer
-                    var formContainer = document.getElementById("formContainer");
-                    formContainer.style.display = "none";
+                   
                 }
                 function showProductForm() {
                     document.getElementById("productForm").style.display = "block";
@@ -268,7 +340,8 @@ include_once('database_scripts/func_total_price_sale.php');
                     if (productName === null || productName === undefined || productName.trim() === "") {
                     // Product name is null, undefined, or an empty string
                         if(productName === null|| productName === undefined || productName.trim() === "" ) {
-                            messageElement.innerHTML = "Sản phẩm đang trống";
+                            messageElement.innerHTML = "";
+                            messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm đang trống</strong>";
                         }
                         return;
                         // You can alter the message or take other actions here
@@ -276,25 +349,21 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     if (quantity === null || quantity === undefined || quantity.trim() === "") {
                         // Quantity is null, undefined, or not a number
-
-                        messageElement.innerHTML = "Số lượng đang trống";
+                        messageElement.innerHTML = "";
+                        messageElement.innerHTML = "<strong style='color: red;'>Số lượng đang trống</strong>";
                         return;
                         // You can alter the message or take other actions here
                     }
-
+                    if (quantity <= 0) {
+                        messageElement.innerHTML = "";
+                        messageElement.innerHTML = "<strong style='color: red;'>Số lượng không hợp lệ</strong>";
+                        return;
+                    }
                     // Add additional conditions and messages as needed
 
                     if (messageElement.innerHTML === "") {
                         // If no error messages were set, proceed with adding the product
-                        var tableBody = document.getElementById("productBody");
-                        var row = tableBody.insertRow();
-                        var cell0 = row.insertCell(0);
-                        var cell1 = row.insertCell(1);
-                        var cell2 = row.insertCell(2);
-                        var cell3 = row.insertCell(3);
-                        var cell4 = row.insertCell(4);
-                        var cell5 = row.insertCell(5);
-                        cell0.innerHTML = productName;
+                        
                         //Call API to get data of the book
                         fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
                         method: 'POST',
@@ -313,45 +382,110 @@ include_once('database_scripts/func_total_price_sale.php');
                         .then (data=>{
                             const bookData = data.bookData;
                             console.log(bookData);
-                            cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
-                            cell2.innerHTML = bookData.book_name;
-                            cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
-                            cell4.innerHTML = quantity;
-                            cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
-                            updateTotal();
-                            productJson[productName] = {
-                                id: productName,
-                                name: bookData.book_name,
-                                quantity: quantity
-                        };
+                            if(bookData==null) {
+                                messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm không tồn tại!</strong>";
+                            } else {
+                                if (productJson.hasOwnProperty(productName)) {
+                                    messageElement.innerHTML = "<strong style='color: red;'>Sản phẩm đã được nhập!</strong>";
+                                    return;
+                                }
+                                var tableBody = document.getElementById("productBody");
+                                var row = tableBody.insertRow();
+                                var cell0 = row.insertCell(0);
+                                var cell1 = row.insertCell(1);
+                                var cell2 = row.insertCell(2);
+                                var cell3 = row.insertCell(3);
+                                var cell4 = row.insertCell(4);
+                                var cell5 = row.insertCell(5);
+                                cell0.innerHTML = productName;
+                                row.addEventListener("click", function () {
+                                    modifyContent(this);
+                                });
+                                cell1.innerHTML = "<img src='" + bookData.img_path + "' alt='Product Image'>";
+                                cell2.innerHTML = bookData.book_name;
+                                cell3.innerHTML = bookData.sale_price + " VNĐ"; // Replace with actual price
+                                cell4.innerHTML = quantity;
+                                cell5.innerHTML = bookData.sale_price*quantity + " VNĐ"; // Replace with actual calculation
+                                updateTotal();
+                                productJson[productName] = {
+                                    id: productName,
+                                    name: bookData.book_name,
+                                    quantity: quantity
+                                };
+                                var deleteButton = document.createElement("button");
+                                    deleteButton.innerHTML = "Xóa";
+                                    deleteButton.addEventListener("click", function (event) {
+                                        event.stopPropagation(); // Prevent row click event from triggering
+                                        confirmAction(row);
+                                });
+                                var cell6 = row.insertCell(6);
+                                cell6.appendChild(deleteButton);
+
+                                // Clear the form fields
+                                document.getElementById("productName").value = "";
+                                document.getElementById("quantity").value = "";
+                                // Hide the form after adding a product
+                                var productForm = document.getElementById("productForm");
+                                productForm.style.display = "none";
+                                document.getElementById("addProductBtn").style.display = "block";
+                                // updateTotal();
+                                console.log("productJson:", productJson);
+                            }
                         })
                         .catch(error => {
                             console.log(error);
                         })
                         
-                        var deleteButton = document.createElement("button");
-                            deleteButton.innerHTML = "Xóa";
-                            deleteButton.addEventListener("click", function (event) {
-                                event.stopPropagation(); // Prevent row click event from triggering
-                                confirmAction(row);
-                        });
-                        var cell6 = row.insertCell(6);
-                        cell6.appendChild(deleteButton);
-                        // Add an event listener to the newly added row
-                        // row.addEventListener("click", function () {
-                        //     confirmAction(this);
-                        // });
-
-                        // Clear the form fields
-                        document.getElementById("productName").value = "";
-                        document.getElementById("quantity").value = "";
-                        // Hide the form after adding a product
-                        var productForm = document.getElementById("productForm");
-                        productForm.style.display = "none";
-                        document.getElementById("addProductBtn").style.display = "block";
-                        // updateTotal();
-                        console.log("productJson:", productJson);
+                        
                     }
+                }
+                function modifyContent(clickedRow) {
+                    // You can modify content based on the clicked row
+                    // For example, you can access the cells in the row using clickedRow.cells
+                    var productName = clickedRow.cells[0].innerHTML;
+                    var bookName = clickedRow.cells[2].innerHTML;
+                    var currentQuantity = parseInt(clickedRow.cells[4].innerHTML, 10); // Assuming the quantity is in the 5th cell
+                    // Perform actions based on the clicked row's content
+                    console.log("Clicked on row with product name:", productName);
+                    console.log("Book name:", bookName, currentQuantity);
+                    document.getElementById("productFormModify").style.display = "block";
+                    var productFormModify = document.getElementById("productFormModify");
+                    
+                    // Set values in the form
+                    var productNameInput = document.getElementById("product_name");
+                    productNameInput.value = bookName;
+
+                    // Make the productName input field readonly
+                    productNameInput.readOnly = true;
+                    document.getElementById("curquantity").value = currentQuantity;
+                    document.getElementById("modifyProductBtn").addEventListener("click", function () {
+                        // Handle the modification confirmation logic here, passing productName as a parameter
+                        clickedRow.cells[4].innerHTML =  document.getElementById("curquantity").value ;
+                        var priceText =  clickedRow.cells[3].innerText;
+                        console.log("Sum: ",priceText);
+                        var price = parseInt(priceText.replace(" VNĐ", "").trim());
+                        clickedRow.cells[5].innerHTML =  document.getElementById("curquantity").value*price;
+                        confirmModifyProduct(productName,  document.getElementById("curquantity").value);
+                        updateTotal();
+                        document.getElementById("productFormModify").style.display = "none";
+                        console.log(productJson);
+                    });
+
+                    document.getElementById("delProductBtn").addEventListener("click", function () {
+                        // Handle the cancellation logic here
+                        cancelModifyProduct();
+                    });
+
+                    
+                }
+                function cancelModifyProduct() {
+                    document.getElementById("productFormModify").style.display = "none";
+                }
+                function confirmModifyProduct(productID, newQuantity) {
+                    if (productJson.hasOwnProperty(productID)) {
+                        productJson[productID].quantity = newQuantity;
+                    }
+                    console.log(productJson[productID], newQuantity);
                 }
                 function confirmAction(row) {
                     var confirmDelete = confirm("Are you sure you want to delete this product?");
@@ -377,15 +511,23 @@ include_once('database_scripts/func_total_price_sale.php');
 
                 function confirmOrderTest() {
                     // Assuming customerData is defined somewhere in your code
+                    if (Object.keys(customerData).length === 0) {
+                        var customerDetails = document.getElementById("customerDetails");
+                        customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập khách hàng</strong>";
+                    } 
+                    else {
+                        if (Object.keys(productJson).length === 0) {
+                        var customerDetails = document.getElementById("messageForOrder");
+                        customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập sản phẩm</strong>";
+                    } else {
                     var customer = customerData.id;
                     console.log(customer);
-
                     var tableBody = document.getElementById("productBody");
                     var rows = tableBody.getElementsByTagName("tr");
 
                     var orderid = document.getElementById("s.orderid").value;
                     var orderdate = document.getElementById("s.orderdate").value;
-                    var ordernote = document.getElementById("s.ordernote").value;
+                    var ordernote ="store, Đã duyệt, "+document.getElementById("s.ordernote").value;
 
                     // Display a confirmation dialog
                     var isConfirmed = window.confirm("Are you sure you want to confirm the order?");
@@ -426,7 +568,7 @@ include_once('database_scripts/func_total_price_sale.php');
                     } else {
                         // If the user clicks "Cancel," do nothing (stay on the same page)
                         // You can add more logic here if needed
-                    }
+                    }}}
                 }
 
 

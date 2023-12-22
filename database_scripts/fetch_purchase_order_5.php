@@ -1,7 +1,12 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $con = require_once __DIR__ . "/connect.php";
+    $con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
+
+    if (mysqli_connect_errno()) {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        exit();
+    }
 
     // Create a new order
     $result = mysqli_query($con, 'SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price
@@ -10,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
     JOIN book AS b ON b.book_ID = pi.book_ID
     GROUP BY order_ID
-    ORDER BY CAST(SUBSTRING(order_ID, 4) AS UNSIGNED);
+    ORDER BY total_price DESC;
     ');
 
     if ($result) {

@@ -21,7 +21,7 @@ include("connection.php");
     <!-- header -->
     <div class="header">
         <div class="header-left-section">
-            <a href="login_success.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
             <a href="index.html">Trang chủ</a>
@@ -30,10 +30,19 @@ include("connection.php");
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
-            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 4"></a>
+            <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -41,15 +50,15 @@ include("connection.php");
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Xem sách</p>
         <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="list_of_book.html">> Quản lý sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="list_of_book.php">> Quản lý sách</a>
         </div>
     </div>
 
     <!-- content -->
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -77,15 +86,56 @@ include("connection.php");
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="#" onclick="chooseOption();"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <script>
+                function chooseOption() {
+                    // Prompt the user to input their choice
+                    var userInput = prompt("Choose an option:\n1. List of Books\n2. Manage Homepage");
+
+                    // Convert the user input to a number
+                    var userChoice = parseInt(userInput);
+
+                    // Redirect based on user's choice
+                    if (!isNaN(userChoice)) {
+                        switch (userChoice) {
+                            case 1:
+                                window.location.href = "list_of_book.php";
+                                break;
+                            case 2:
+                                window.location.href = "manage_homepage.php";
+                                break;
+                            default:
+                                alert("Invalid choice. Please enter 1 or 2.");
+                        }
+                    } else {
+                        alert("Invalid input. Please enter a number.");
+                    }
+                }
+            </script>
         </div>
+        <style>
+            .button-container1 {
+                margin-left: auto;
+                margin-left: 180%;
+            }
+            .button-container1 input[type="button"] {
+                background-color: #FFECD5;
+                color: #B88E2F;
+                padding: 8px 12px; /* Adjust padding as needed */
+                border: 1px solid #B88E2F;
+                border-radius: 100px;
+            }
+        </style>
         <div class="content-box">
             <!-- real content goes here -->
             <div class="search-container">
@@ -96,10 +146,30 @@ include("connection.php");
                     <input type="text" id="search" name="search">
                     <input type="submit" value="Submit">
                 </form>
+                <div class="button-container1">
+                    <a href="manage_homepage.php"><input type="button" value="Quản lý trang chủ"></a>
+                </div>
                 <div class="button-container">
                     <a href="add_new_book.php"><input type="button" value="Nhập sách mới"></a>
                 </div>
             </div>
+            <style>
+                #bookTable {
+                    max-height: 600px;
+                    overflow-y: auto;
+                    position: relative; /* Set the position property to relative */
+                }
+
+                table {
+                    width: 100%;
+                    
+                }
+
+                thead {
+                    position: sticky; /* Set the position property to sticky for the table header */
+                    top: 0; /* Stick the header to the top */
+                }
+            </style>
             <div id="bookTable"></div>
             <script>           
             function redirectToDetailsPage(ID) {

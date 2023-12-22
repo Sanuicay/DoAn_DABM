@@ -1,10 +1,10 @@
 <?php
 include 'connection.php';
-$con = mysqli_connect("localhost:3307","root","","doan");
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    exit();
-}
+// $con = mysqli_connect("localhost:3307","root","","doan");
+// if (mysqli_connect_errno()) {
+//     echo "Failed to connect to MySQL: " . mysqli_connect_error();
+//     exit();
+// }
 //get the id of the order from the url
 $order_id = $_GET['id'];
 //sanitize the id

@@ -13,15 +13,15 @@ $id = $_GET['id'];
 $id = mysqli_real_escape_string($con, $id);
 
 //delete from written_by table
-$query = "DELETE FROM written_by WHERE book_ID = '$id'";
-$result = mysqli_query($con, $query);
+//$query = "DELETE FROM written_by WHERE book_ID = '$id'";
+//$result = mysqli_query($con, $query);
 
 //delete from belongs_to table
-$query = "DELETE FROM belongs_to WHERE book_ID = '$id'";
-$result = mysqli_query($con, $query);
+//$query = "DELETE FROM belongs_to WHERE book_ID = '$id'";
+//$result = mysqli_query($con, $query);
 
-//delete from book table
-$query = "DELETE FROM book WHERE book_ID = '$id'";
+//update from book table (set số lượng còn lại = 0)
+$query = "UPDATE book SET deleted_tag = 1 WHERE book_ID = '$id'";
 $result = mysqli_query($con, $query);
 
 if ($result) {

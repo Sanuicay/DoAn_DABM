@@ -34,10 +34,19 @@
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -46,23 +55,51 @@
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Quản lý trang chủ</p>
         <div>
-            <a href="#">Cá nhân</a>
+            <a href="user_employee.php">Cá nhân</a>
             <a href="#">> Quản lý sách</a>
-            <a href="#">> Quản lý trang chủ</a>
+            <a href="book_statistic.php">> Quản lý trang chủ</a>
+            
         </div>
     </div>
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
-            <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
-            <p style="font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;">Employee</p>
-            <a href="user.html"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="book_statistic.html"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <?php
+                echo "<p style='font-family: Times New Roman, Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F'>$row[sur_name] $row[last_name]</p>";
+                echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
+                if ($id == 00000001)
+                {
+                    echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
+                }
+                else
+                {
+                    //check if the ID exsist in the employee table
+                    $query_ = "SELECT ID
+                              FROM employee
+                              WHERE ID = $id;";
+                    $result_ = mysqli_query($con,$query_);
+                    $row_ = mysqli_fetch_assoc($result_);
+                    //check number of rows
+                    $count = mysqli_num_rows($result_);
+                    if ($count == 1)
+                    {
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
+                    }
+                    else
+                    {
+                        echo '<script>alert("You are not authorized to view this content.");</script>';
+                        echo '<script>window.location.href = "user_member.php";</script>';
+                        exit;
+                        echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
+                    }
+                }
+            ?>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
 
         <div class="content-box">
@@ -81,89 +118,135 @@
             $countt = 1;
 
             $search_query = isset($_GET['search']) ? $_GET['search'] : '';
+            $escaped_search_query = mysqli_real_escape_string($mysqli, $search_query); // Escape the search query to prevent SQL injection
+           // Split the search query into individual words
+            $search_words = explode(' ', $escaped_search_query);
+
+            // Create an array to store conditions for each word
+            $conditions = [];
+
+            foreach ($search_words as $word) {
+                // Add conditions for each word (case-insensitive search)
+                $conditions[] = "(LOWER(A.book_name) LIKE LOWER('%$word%') OR LOWER(C.genre_name) LIKE LOWER('%$word%') OR A.book_ID LIKE '%$word%')";
+            }
+
+            // Combine conditions using AND
+            $conditions_query = implode(' AND ', $conditions);
 
             $sql_test_show = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available'
-                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Available' AND A.deleted_tag = 0
+                    AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
 
             $sql_test_hide = mysqli_query($mysqli, "SELECT A.book_ID, A.book_name, A.display_status, C.genre_name
                 FROM `book` as A, `belongs_to` as B, `genre` as C
-                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable'
-                    AND (A.book_name LIKE '%$search_query%' OR C.genre_name LIKE '%$search_query%')
+                WHERE A.book_ID = B.book_ID AND B.genre_ID = C.genre_ID AND A.display_status = 'Unavailable' AND A.deleted_tag = 0
+                    AND $conditions_query
                 GROUP BY C.genre_name, A.book_ID, A.book_name, A.display_status");
-
-
             ?>
 
+            <style>
+                .book-table-container {
+                    max-height: 200px;
+                    overflow-y: auto;
+                }
+
+                .book-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .book-table th, .book-table td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                .book-table thead {
+                    position: sticky;
+                    top: 0;
+                }
+
+                .book-table th{
+                    background-color: #FFECD5;
+                }
+            </style>
             <div class="shown-book">
                 <p style="font-family: Arial, sans-serif; font-size: 20px; color: #B88E2F;">Sách được hiển thị</p>
-                <table class="book-table">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Tên sách</th>
-                            <th>Thể loại</th>
-                            <th>Trạng thái</th>
-                            <!-- Add more columns as needed -->
-                        </tr>
-                    </thead>
-                    <tbody id="shown-book-table-body" onclick="SelectToHideBook()">
-                        <!-- Table content will be dynamically populated here -->
-                    <?php
-                        while($item = mysqli_fetch_array($sql_test_show)) {
-                            $tmp = $item['book_ID'];
-                    ?>
-                        <tr data-book-id="<?php echo $item['book_ID']; ?>" data-display-status="<?php echo $item['display_status']; ?>">
-                            <!-- Example -->
-                            <th><?php echo $count++ ?></th>
-                            <th><?php echo $item['book_ID'] ?></th>
-                            <th><?php echo $item['book_name'] ?></th>
-                            <th><?php echo $item['genre_name'] ?></th>
-                            <th><?php echo $item['display_status'] ?></th>
-                        </tr>
-                    <?php
-                        }
-                    ?>
-                    </tbody>
-                </table>
+                <div class="book-table-container">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Thể loại</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody id="shown-book-table-body" >
+                            <!-- Table content will be dynamically populated here -->
+                        <?php
+                            while($item = mysqli_fetch_array($sql_test_show)) {
+                                $tmp = $item['book_ID'];
+                        ?>
+                            <tr data-book-id="<?php echo $item['book_ID']; ?>" data-display-status="<?php echo $item['display_status']; ?>">
+                                <!-- Example -->
+                                <th onclick="ViewDetail1()"><?php echo $count++ ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['book_ID'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['book_name'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['genre_name'] ?></th>
+                                <th onclick="ViewDetail1()"><?php echo $item['display_status'] ?></th>
+                                <th style="color: red;" onclick="SelectToHideBook()">Ẩn sách</th>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
             <div class="unshown-book">
                 <br>
                 <p style="font-family: Arial, sans-serif; font-size: 20px; color: #B88E2F;">Sách đã ẩn</p>
-                <table class="book-table">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Mã sách</th>
-                            <th>Tên sách</th>
-                            <th>Thể loại</th>
-                            <th>Trạng thái</th>
-                            <!-- Add more columns as needed -->
-                        </tr>
-                    </thead>
-                    <tbody id="unshown-book-table-body" onclick="SelectToShowBook()">
-                        <!-- Table content will be dynamically populated here -->
-                    <?php
-                        while($itemm = mysqli_fetch_array($sql_test_hide)) {
-                            $tmp = $itemm['book_ID'];
-                    ?>
-                        <tr data-book-id="<?php echo $itemm['book_ID']; ?>" data-display-status="<?php echo $itemm['display_status']; ?>">
-                            <!-- Example -->
-                            <th><?php echo $countt++ ?></th>
-                            <th><?php echo $itemm['book_ID'] ?></th>
-                            <th><?php echo $itemm['book_name'] ?></th>
-                            <th><?php echo $itemm['genre_name'] ?></th>
-                            <th><?php echo $itemm['display_status'] ?></th>
-                        </tr>
-                    <?php
-                        }
-                    ?>
-                    </tbody>
-                </table>
+                <div class="book-table-container">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sách</th>
+                                <th>Tên sách</th>
+                                <th>Thể loại</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                                <!-- Add more columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody id="unshown-book-table-body">
+                            <!-- Table content will be dynamically populated here -->
+                        <?php
+                            while($itemm = mysqli_fetch_array($sql_test_hide)) {
+                                $tmp = $itemm['book_ID'];
+                        ?>
+                            <tr data-book-id="<?php echo $itemm['book_ID']; ?>" data-display-status="<?php echo $itemm['display_status']; ?>">
+                                <!-- Example -->
+                                <th onclick="ViewDetail2()"><?php echo $countt++ ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['book_ID'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['book_name'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['genre_name'] ?></th>
+                                <th onclick="ViewDetail2()"><?php echo $itemm['display_status'] ?></th>
+                                <th style="color:mediumaquamarine;" onclick="SelectToShowBook()">Hiển thị sách</th>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
 
@@ -175,25 +258,33 @@
                 });
 
                 function searchBooks() {
-                    var searchQuery = document.getElementById('search_book').value;
-
-                    // You can use AJAX to dynamically update the table content based on the search query
-                    // For simplicity, let's assume you reload the page with the search query as a parameter
+                    var searchQuery = document.getElementById('search_book').value.toLowerCase();
                     window.location.href = 'manage_homepage.php?search=' + encodeURIComponent(searchQuery);
                 }
             </script>
 
             <!-- Add this function in your script tag or external JS file -->
             <script>
+                function ViewDetail1() {
+                    var selectedRow = document.querySelector('#shown-book-table-body tr.selected');
+                    if (selectedRow) {
+                        var bookId = selectedRow.dataset.bookId;
+                        window.location.href = 'update_book.php?id=' + bookId;
+                    }
+                }
+
+                function ViewDetail2() {
+                    var selectedRow = document.querySelector('#unshown-book-table-body tr.selected');
+                    if (selectedRow) {
+                        var bookId = selectedRow.dataset.bookId;
+                        window.location.href = 'update_book.php?id=' + bookId;
+                    }
+                }
                 function SelectToHideBook() {
                     var selectedRow = document.querySelector('#shown-book-table-body tr.selected');
                     if (selectedRow) {
-                        var choice = prompt("Choose an action:\n1. View detail\n2. Hide the book");
-
-                        if (choice === '1') {
-                            var bookId = selectedRow.dataset.bookId;
-                            window.location.href = 'update_book.php?id=' + bookId;
-                        } else if (choice === '2') {
+                        var confirmAction = confirm("Are you sure you want to hide the book?");
+                        if (confirmAction) {
                             // Hide the book
                             var bookId = selectedRow.dataset.bookId;
                             var data = { bookId: bookId, status: 'Unavailable' };
@@ -222,24 +313,18 @@
 
                             // Send the request with the bookId and status as POST parameters
                             xhr.send(JSON.stringify(data));
-                        } else {
-                            alert("Invalid choice. Please choose 1 or 2.");
                         }
-                    } else {
+                    } /*else {
                         alert("Please select a book to perform an action.");
-                    }
+                    }*/
                 }
                 function SelectToShowBook() {
                     var selectedRow = document.querySelector('#unshown-book-table-body tr.selected');
 
                     if (selectedRow) {
-                        var choice = prompt("Choose an action:\n1. View detail\n2. Show the book");
-
-                        if (choice === '1') {
-                            var bookId = selectedRow.dataset.bookId;
-                            window.location.href = 'update_book.php?id=' + bookId;
-                        } else if (choice === '2') {
-                            // Hide the book
+                        var confirmAction = confirm("Are you sure you want to show the book?");
+                        if (confirmAction) {
+                            // Show the book
                             var bookId = selectedRow.dataset.bookId;
                             var data = { bookId: bookId, status: 'Available' };
 
@@ -267,12 +352,10 @@
 
                             // Send the request with the bookId and status as POST parameters
                             xhr.send(JSON.stringify(data));
-                        } else {
-                            alert("Invalid choice. Please choose 1 or 2.");
                         }
-                    } else {
+                    } /*else {
                         alert("Please select a book to perform an action.");
-                    }
+                    }*/
                 }
 
                 // Add click event handlers to rows

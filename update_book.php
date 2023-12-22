@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 $bookID = $_GET['id'];
-$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price
+$query = "SELECT book.book_ID, book.book_name, written_by.author_ID, book.publisher_ID, belongs_to.genre_ID, book.publication_year, book.page_count, book.remaining_quantity, book.release_date, book.sale_price, book.purchase_price, book.display_status, book.img_path, book.description
           FROM book, written_by, belongs_to
           WHERE book.book_ID = written_by.book_ID AND book.book_ID = belongs_to.book_ID AND book.book_ID = '$bookID'";
 $result = mysqli_query($con,$query);
@@ -58,6 +58,42 @@ if(isset($_POST['confirm'])){
         $query = "UPDATE `book` SET `sale_price` = '$giatien' WHERE `book`.`book_ID` = '$bookID'";
         $result = mysqli_query($con,$query);
     }
+    if (!empty($_POST['gianhap'])){
+        $gianhap = $_POST['gianhap'];
+        $query = "UPDATE `book` SET `purchase_price` = '$gianhap' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    if (!empty($_POST['bookstatus'])){
+        $bookstatus = $_POST['bookstatus'];
+        $query = "UPDATE `book` SET `display_status` = '$bookstatus' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    if (!empty($_POST['info'])){
+        $bookdes = $_POST['info'];
+        $query = "UPDATE `book` SET `description` = '$bookdes' WHERE `book`.`book_ID` = '$bookID'";
+        $result = mysqli_query($con,$query);
+    }
+    // Handle file upload
+    if (isset($_FILES['img_file']) && $_FILES['img_file']['error'] == 0) {
+        $target_dir = "img/Books_Images/";
+        $target_file = $target_dir . basename($_FILES['img_file']['name']);
+        
+        // Move the uploaded file to the specified directory
+        if (move_uploaded_file($_FILES['img_file']['tmp_name'], $target_file)) {
+            // File upload was successful, save the file path to the img_path attribute
+            $img_path = $target_file;
+            $query_update_img_path = "UPDATE `book` SET `img_path` = '$img_path' WHERE `book_ID` = '$bookID';";
+            mysqli_query($con, $query_update_img_path);
+            // Retrieve the updated img_path
+            $query_retrieve_img_path = "SELECT img_path FROM `book` WHERE `book_ID` = '$bookID'";
+            $result_img_path = mysqli_query($con, $query_retrieve_img_path);
+            $row_img_path = mysqli_fetch_assoc($result_img_path);
+            $updated_img_path = $row_img_path['img_path'];
+            echo "<script>alert('File uploaded successfully!')</script>";
+        } else {
+            echo "<script>alert('Sorry, there was an error uploading your file.')</script>";
+        }
+    }
     header("Location: list_of_book.php");
 }
 else if(isset($_POST['cancel'])){
@@ -71,6 +107,8 @@ else if(isset($_POST['cancel'])){
     $theloaiID = "";
     $soluong = "";
     $giatien = "";
+    $gianhap = "";
+    $bookstatus = "";
     header("Refresh:0");
 }
 
@@ -103,10 +141,19 @@ else if(isset($_POST['cancel'])){
             <a href="#">Liên hệ</a>
         </div>
         <div class="header-right-section">
-            <a href="user.html"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+            <a href="user_employee.php"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
             <a href="#"><img class="header-icon" src="img/icon_news.png" alt="Icon 2"></a>
             <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
             <a href="#"><img class="header-icon" src="img/icon_cart.png" alt="Icon 3"></a>
+            <button class="header-login-button" onclick="redirectToLogout()">
+                Đăng xuất
+            </button>
+            <script>
+                function redirectToLogout() {
+                // Add code to redirect to the login page
+                window.location.href = 'logout.php'; // Replace 'login.html' with the actual URL of your login page
+                }
+            </script>
         </div>
     </div>
 
@@ -115,15 +162,15 @@ else if(isset($_POST['cancel'])){
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Cập nhật thông tin sách</p>
         <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="list_of_book.html">> Quản lý sách</a>
+            <a href="user_employee.php">Cá nhân</a>
+            <a href="list_of_book.php">> Quản lý sách</a>
             <a>> Chi tiết sách</a>
         </div>
     </div>
 
     <div class="content">
         <div class="side-box">
-            <a href="#"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
+            <a href="user_employee.php"><img class="side-box-avatar" src="img/icon_user.png" alt="User Avatar"></a>
             <br>
             <!-- <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-bottom: 0; color: #B88E2F">Nguyễn Ngọc</p>
             <p style="font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F">ID: 00000001</p>
@@ -151,19 +198,22 @@ else if(isset($_POST['cancel'])){
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "user_member.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                 }
             }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.html"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="user_employee.php"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
+            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
+            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
+            <a href="book_statistic.php"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
         </div>
         <div class="body-container">
             <div class="profile">
                 <h2>Thông tin sách</h2>
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmit()">
                     <div class="name">
                         <div>
                             <!-- using base from add_new_book.php but with placeholder -->
@@ -212,6 +262,14 @@ else if(isset($_POST['cancel'])){
                             });
                             });
                             </script>
+
+                            <!-- trạng thái hiển thị -->
+                            <label for='bookstatus'>Trạng thái hiển thị</label><br>
+                            <select id='bookstatus' name='bookstatus'>
+                                <option value='Available' <?php echo ($row_book['display_status'] == 'Available') ? 'selected' : ''; ?>>Available</option>
+                                <option value='Unavailable' <?php echo ($row_book['display_status'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                            </select><br>
+
                             
                             </div>
                         <div>
@@ -260,25 +318,126 @@ else if(isset($_POST['cancel'])){
                             <!-- giá tiền -->
                             <label for="giatien">Giá tiền</label><br>
                             <input type="number" id="giatien" name="giatien" placeholder="<?php echo $row_book['sale_price']; ?>"><br>
+
+                            <!-- giá nhập -->
+                            <label for="gianhap">Giá nhập</label><br>
+                            <input type="number" id="gianhap" name="gianhap" placeholder="<?php echo $row_book['purchase_price']; ?>"readonly><br>
                         </div>
                     </div>
                     <div class="description">
                         <label for="info">Mô tả thêm</label><br>
-                        <input type="text" id="info" name="info">
+                        <input type="text" id="info" name="info" placeholder="<?php echo $row_book['description']; ?>">
                     </div>
+                    <style>
+                        .button-container input[name="cancel"] {
+                            margin-top: 20px;
+                            width: 300px;
+                            height: 40px;
+                            color: #000;
+                            font-weight: bold;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            background-color: #F8C2B1;
+                        }
+                        .button-container input[name="cancel"]:hover {
+                            background-color: #F5A99A;
+                        }
+                    </style>
                     <div class="button-container">
                         <input type="submit" name="confirm" value="CẬP NHẬT">
-                        <input type="submit" name="cancel" value="HỦY">
+                        <input type="button" name="cancel" value="HỦY" onclick="confirmCancel()">
                     </div>
-                </form>
+                    <script>
+                        var originalValues = {
+                            tensach: "<?php echo $row_book['book_name']; ?>",
+                            nhaxuatbanID: "<?php echo $row_book['publisher_ID']; ?>",
+                            masach: "<?php echo $row_book['book_ID']; ?>",
+                            sotrang: "<?php echo $row_book['page_count']; ?>",
+                            ngayphathanh: "<?php echo $row_book['release_date']; ?>",
+                            bookstatus: "<?php echo $row_book['display_status']; ?>",
+                            tentacgiaID: "<?php echo $row_book['author_ID']; ?>",
+                            namxuatban: "<?php echo $row_book['publication_year']; ?>",
+                            theloaiID: "<?php echo $row_book['genre_ID']; ?>",
+                            soluong: "<?php echo $row_book['remaining_quantity']; ?>",
+                            giatien: "<?php echo $row_book['sale_price']; ?>",
+                            gianhap: "<?php echo $row_book['purchase_price']; ?>",
+                            img_path: "<?php echo $row_book['img_path']; ?>"
+                        };
+                    function confirmSubmit() {
+                        // Display a confirmation dialog
+                        var confirmAction = confirm("Are you sure you want to update detail of this book?");
+                        
+                        // Return true if the user clicks OK, false otherwise
+                        return confirmAction;
+                    }
+                    function confirmCancel() {
+                        // Display a confirmation dialog for cancel
+                        var confirmAction = confirm("Are you sure you want to cancel?");
+                        
+                        // If the user clicks OK, navigate to the cancel page
+                        if (confirmAction) {
+                            document.getElementById('tensach').value = originalValues.tensach;
+                            document.getElementById('nhaxuatbanID').value = originalValues.nhaxuatbanID;
+                            document.getElementById('masach').value = originalValues.masach;
+                            document.getElementById('sotrang').value = originalValues.sotrang;
+                            document.getElementById('ngayphathanh').value = originalValues.ngayphathanh;
+                            document.getElementById('bookstatus').value = originalValues.bookstatus;
+                            document.getElementById('tentacgiaID').value = originalValues.tentacgiaID;
+                            document.getElementById('namxuatban').value = originalValues.namxuatban;
+                            document.getElementById('theloaiID').value = originalValues.theloaiID;
+                            document.getElementById('soluong').value = originalValues.soluong;
+                            document.getElementById('giatien').value = originalValues.giatien;
+                            document.getElementById('gianhap').value = originalValues.gianhap;
+                            document.getElementById('uploaded_image').src = originalValues.img_path;
+                            window.location.href = 'update_book.php?id=' + ID;
+                        }
+                    }
+                    </script>
             </div>
+            <style>
+                #uploaded_image {
+                    max-width: 140%;
+                    max-height: 350%;
+                }
+                .image{
+                    padding: 50px;
+                    align-items: center;
+                    margin-top: 200px;
+                    display: flex;
+                    flex-direction: column;
+                }
+            </style>
             <div class="image">
-                <div class="image-container">
-                    +
+                <!-- Image upload -->
+                <label for="img_file" style="display: flex; align-items: center; justify-content: center; background-color: #FFECD5; border-radius: 20px; width: 200px; height: 50px; margin-bottom:20px">Chỉnh sửa ảnh</label>
+                <input type="file" name="img_file" id="img_file" onchange="previewImage(this)">
+                <div class="image-preview-container">
+                    <img src="<?php echo $row_book['img_path']; ?>" alt="Book Image" id="uploaded_image">
                 </div>
-                <div class="upload-text">Thêm ảnh minh họa</div>
             </div>
+            <script>
+                // Update the image source
+                document.getElementById('uploaded_image').src = "<?php echo $row_book['img_path']; ?>";
+            </script>
+            </form>
         </div>
+        <script>
+            function previewImage(input) {
+                var uploadedImage = document.getElementById('uploaded_image');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                };
+
+                if (input.files && input.files[0]) {
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
     </div>
     <!-- content goes here -->
 
