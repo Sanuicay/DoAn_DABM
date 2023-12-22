@@ -54,10 +54,8 @@ if(isset($_POST['add_to_cart'])){
             $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
             $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
-                // If the book is already in the cart, update the quantity then minus the remaining_quantity in book table
+                // If the book is already in the cart, update the quantity
                 $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
-                $result = mysqli_query($con,$query);
-                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
                 // thông báo thêm vào giỏ hàng thành công
                 if ($result) {
@@ -68,10 +66,8 @@ if(isset($_POST['add_to_cart'])){
                     echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
                 }
             } else {
-                // If the book is not in the cart, insert the book to the cart then minus the remaining_quantity in book table
+                // If the book is not in the cart, insert the book to the cart
                 $query = "INSERT INTO cart_include VALUES ('$user_id', '$book_id', '$quantity');";
-                $result = mysqli_query($con,$query);
-                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
                 if ($result) {
                     echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
