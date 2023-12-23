@@ -355,24 +355,40 @@ if (isset($_POST['confirm'])) {
                 <div class="image-preview-container" style="display: flex;">
                     <img src="<?php echo $img_path; ?>" alt="Book Image" id="uploaded_image">
                 </div>
+                <div id="error_message" style="color: red;"></div>
             </div>
 
             <script>
-                document.getElementById('uploaded_image').src = "<?php echo $img_path; ?>";
+                var imgPath = "<?php echo isset($img_path) ? $img_path : ''; ?>";
+                document.getElementById('uploaded_image').src = imgPath;
             </script>
             </form>
         </div>
         <script>
             function previewImage(input) {
                 var uploadedImage = document.getElementById('uploaded_image');
+                var errorMessage = document.getElementById('error_message');
                 var reader = new FileReader();
+                var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                var maxFileSize = 5000000; // 5 MB
 
                 reader.onload = function (e) {
                     uploadedImage.src = e.target.result;
+                    errorMessage.innerHTML = ''; // Clear any previous error messages
                 };
 
                 if (input.files && input.files[0]) {
-                    reader.readAsDataURL(input.files[0]);
+                    var fileSize = input.files[0].size;
+
+                    if (!allowedExtensions.exec(input.value)) {
+                        errorMessage.innerHTML = 'Invalid file type. Please upload an image with extensions .jpg, .jpeg, .png, or .gif.';
+                        uploadedImage.src = ''; // Clear the image preview
+                    } else if (fileSize > maxFileSize) {
+                        errorMessage.innerHTML = 'File size exceeds the limit (5 MB). Please choose a smaller file.';
+                        uploadedImage.src = ''; // Clear the image preview
+                    } else {
+                        reader.readAsDataURL(input.files[0]);
+                    }
                 }
             }
         </script>

@@ -149,7 +149,7 @@ if (isset($_POST['purchase'])) {
                                             o.order_ID LIKE 'ONL%'
                                         ORDER BY 
                                             o.order_date DESC,
-                                            o.order_ID ASC;";
+                                            o.order_ID DESC;";
                             $result = mysqli_query($con, $query);
                             $count = mysqli_num_rows($result);
                             $i = 1;
