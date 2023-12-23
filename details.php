@@ -274,7 +274,7 @@ while($item = mysqli_fetch_array($result)) {
                 
             <div id ="check" style="display: none;">
                 <input type="button" name="confirm" value="Xác nhận" onclick="confirmAction()">
-                <input type="button" name="cancel" value="Từ chối" onclick="confirmCancel()">
+                <!-- <input type="button" name="cancel" value="Từ chối" onclick="confirmCancel()"> -->
             </div>
                         
 

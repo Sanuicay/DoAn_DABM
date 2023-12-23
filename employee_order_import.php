@@ -251,7 +251,7 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     
                     console.log(phone);
-                    fetch('http://localhost:8012/DoAn_DABM/database_scripts/fetch_user_data.php',{
+                    fetch('./database_scripts/fetch_user_data.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',
@@ -352,7 +352,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         // If no error messages were set, proceed with adding the product
                         
                         //Call API to get data of the book
-                        fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
+                        fetch('./database_scripts/add_new_product.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',

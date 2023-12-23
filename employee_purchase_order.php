@@ -328,6 +328,31 @@
                         })
                 }
                 loadData();
+                console.log('Script is running!');
+                const searchInput = document.getElementById('searchInput');
+                console.log('searchInput:', searchInput);
+
+                // Add an event listener if searchInput is not null
+                if (searchInput) {
+                    searchInput.addEventListener('input', applySearch);
+                } else {
+                    console.error('searchInput not found.');
+                }
+                function applySearch() {
+                    const searchTerm = searchInput.value.trim().toLowerCase();
+                    const filterOption = filterOptions.value;
+                    const rows = document.querySelectorAll('.table-container table tbody tr');
+
+                    rows.forEach((row) => {
+                        const dataCellValue = row.cells[3].textContent.trim().toLowerCase();
+
+                        const shouldDisplay =
+                            (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
+                            (filterOption === 'option6' && dataCellValue === 'đang chờ duyệt');
+
+                        row.style.display = shouldDisplay ? 'table-row' : 'none';
+                    });
+                }
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
@@ -376,7 +401,7 @@
                             index + 1,
                             order.order_ID,
                             order.order_date,
-                            "TEST",
+                            order.sur_name+" "+ order.last_name,
                             order.total_price,
                         ];
 
