@@ -165,7 +165,7 @@
                 <tbody>
                 <?php
                     foreach ($bestSellers as $item) {
-                        echo "<tr>";
+                        echo "<tr onclick=\"Detail({$item['book_ID']})\">";
                         echo "<td>{$item['book_ID']}</td>";
                         echo "<td>{$item['book_name']}</td>";
                         echo "<td>{$item['genre_name']}</td>";
@@ -175,6 +175,13 @@
                     ?>
                 </tbody>
             </table>
+            <script>
+                function Detail(bookID) {
+                    // Redirect to the update_book.php page with the book ID
+                    window.location.href = 'update_book.php?id=' + bookID;
+                }
+            </script>
+
             <br><br>
             <?php
                 include_once('./database_scripts/get_date.php');
