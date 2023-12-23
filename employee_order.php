@@ -173,8 +173,8 @@
                         <input type="text" class="search-input" placeholder="Tìm đơn hàng" id = "searchInput">   
                         <select id="filterOptions">
                                 <option value="option1">ID</option>
-                                <option value="option2">Ngày tăng dần</option>
-                                <option value="option3">Ngày giảm dần</option>
+                                <option value="option2">Ngày gần nhất</option>
+                                <option value="option3">Ngày xa nhất</option>
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
@@ -260,11 +260,11 @@
                         console.log("Option 1");
                         break;
                     case 'option2':
-                        handleDateInc();
+                        handleDateDec();
                         console.log("Option 2");
                         break;
                     case 'option3':
-                        handleDateDec()
+                        handleDateInc();
                         console.log("Option 3");
                         break;
                     case 'option4':
