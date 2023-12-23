@@ -176,9 +176,9 @@ while($item = mysqli_fetch_array($result)) {
             ?>
              <div>
                 <div id="customerForm">
-                <h2>Thông tin khách hàng</h2>
+                <h2>Thông tin nhân viên</h2>
                 <div>
-                        <span class="label">Tên khách hàng: </span> <?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?>
+                        <span class="label">Họ và tên: </span> <?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?>
                     </div>
                     <div>
                         <span class="label">Số điện thoại:</span> <?php echo $item['phone_num']?>
