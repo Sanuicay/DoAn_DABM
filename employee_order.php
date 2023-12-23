@@ -178,7 +178,6 @@
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
-                                <option value="option7">Khách hàng</option>
                         </select>  
                 </div>
 

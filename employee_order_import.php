@@ -49,8 +49,8 @@ include_once('database_scripts/func_total_price_sale.php');
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
