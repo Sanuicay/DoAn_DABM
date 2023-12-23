@@ -50,8 +50,8 @@ include_once('database_scripts/func_total_price_sale.php');
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -255,7 +255,7 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     
                     console.log(phone);
-                    fetch('http://localhost:8012/DoAn_DABM/database_scripts/fetch_user_data.php',{
+                    fetch('./database_scripts/fetch_user_data.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',
@@ -365,7 +365,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         // If no error messages were set, proceed with adding the product
                         
                         //Call API to get data of the book
-                        fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
+                        fetch('./database_scripts/add_new_product.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',

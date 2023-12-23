@@ -12,30 +12,8 @@ body {
     font-family: 'EB Garamond';
 }
 
-.image-box {
-    width: 100px;
-    height: 400px;
-    background-color: #F9F1E7;
-    margin-left: 50px;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    margin-right: 50px;
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
-    display: flex; /* makes the side box a flex container */
-    flex-direction: column; /* aligns the items vertically */
-    align-items: center; /* centers the items horizontally */
-}
-
-.image-box img {
-    width: 50%; /* Adjust this value to change the size of the images */
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 10px;
-}
-
 .large-image {
+    margin-left: 200px;
     margin-top: 50px;
     /* height equal to image-box */
     height: 400px;

@@ -89,8 +89,8 @@
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -178,7 +178,6 @@
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
-                                <option value="option7">Khách hàng</option>
                         </select>  
                 </div>
 

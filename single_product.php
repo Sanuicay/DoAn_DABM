@@ -29,11 +29,6 @@ $book_id = $_GET['id'];
 //sanitize the id before using in the query
 $book_id = mysqli_real_escape_string($con, $book_id);
 
-$query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
-          FROM book, author, publisher, genre, written_by, belongs_to
-          WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$book_id';";
-$result = mysqli_query($con,$query);
-
 
 //When click on the button "Thêm vào giỏ hàng", if the user is not logged in, redirect to login page
 // else add the book to the cart_include table
@@ -54,10 +49,8 @@ if(isset($_POST['add_to_cart'])){
             $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
             $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
-                // If the book is already in the cart, update the quantity then minus the remaining_quantity in book table
+                // If the book is already in the cart, update the quantity
                 $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
-                $result = mysqli_query($con,$query);
-                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
                 // thông báo thêm vào giỏ hàng thành công
                 if ($result) {
@@ -68,10 +61,8 @@ if(isset($_POST['add_to_cart'])){
                     echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
                 }
             } else {
-                // If the book is not in the cart, insert the book to the cart then minus the remaining_quantity in book table
+                // If the book is not in the cart, insert the book to the cart
                 $query = "INSERT INTO cart_include VALUES ('$user_id', '$book_id', '$quantity');";
-                $result = mysqli_query($con,$query);
-                $query = "UPDATE book SET remaining_quantity = remaining_quantity - '$quantity' WHERE book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
                 if ($result) {
                     echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
@@ -120,72 +111,60 @@ if(isset($_POST['add_to_cart'])){
 
     <!-- content goes here -->
     <div class="content">
-        <div class="image-box">
-            <img src="img/pic1.png" alt="Image 1"><br>
-            <img src="img/pic2.png" alt="Image 2"><br>
-            <img src="img/pic3.png" alt="Image 3"><br>
-            <img src="img/pic4.png" alt="Image 4"><br>
-        </div>
-        <img src="img/pic1.png" alt="Large Image" class="large-image">
-        <main>
-        <!-- SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status
-        FROM book, author, publisher, genre, written_by, belongs_to
-        WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID; -->
-            <?php
+        <?php
+            $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status, book.img_path
+                        FROM book, author, publisher, genre, written_by, belongs_to
+                        WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$book_id';";
+            $result = mysqli_query($con,$query);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    echo "<h1>" . $row["book_name"]. "</h1>";
-                    echo "<p>Tác giả: " . $row["author_name"]. "</p>";
-                    echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
-                    echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
-                    echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
-                    echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
-                    echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
-                    echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
-                    echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
-                    echo "<div class='quantity-group'>";
-                    echo "<input type='number' id='quantity' name='quantity' value='1' min='1' max='" . $row["remaining_quantity"]. "' oninput='updateQuantity()'>";
-                    echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
-                echo "</div><br>";
+                    echo "<img class='large-image' src='" . $row["img_path"]. "' alt='Book image'>";
+                }
+            } else {
+                echo "0 results";
             }
-        } else {
-            echo "0 results";
-        }
-    ?>
-    <form method="POST">
-        <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
-        <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
-        <button type="submit" name="buy_now">Mua ngay</button>
-    </form>
-    
-    <script>
-        function updateQuantity() {
-            var quantity = document.getElementById('quantity').value;
-            document.getElementById('hiddenQuantity').value = quantity;
-        }
-    </script>
+        ?>
+        <main>
+            <?php
+                $query = "SELECT book.book_name, author.author_name, publisher.publisher_name, book.publication_year, book.release_date, book.book_ID, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.display_status, book.img_path
+                            FROM book, author, publisher, genre, written_by, belongs_to
+                            WHERE book.book_ID = written_by.book_ID AND written_by.author_ID = author.author_ID AND book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.book_ID = '$book_id';";
+                $result = mysqli_query($con,$query);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<h1>" . $row["book_name"]. "</h1>";
+                        echo "<p>Tác giả: " . $row["author_name"]. "</p>";
+                        echo "<p>Nhà xuất bản: " . $row["publisher_name"]. "</p>";
+                        echo "<p>Năm xuất bản: " . $row["publication_year"]. "</p>";
+                        echo "<p>Năm phát hành: " . $row["release_date"]. "</p>";
+                        echo "<p>Mã sách: " . $row["book_ID"]. "</p>";
+                        echo "<p>Thể loại: " . $row["genre_name"]. "</p>";
+                        echo "<p>Số trang: " . $row["page_count"]. "</p><br>";
+                        echo "<p class='price'>" . $row["sale_price"]. " VND</p><br>";
+                        echo "<div class='quantity-group'>";
+                        echo "<input type='number' id='quantity' name='quantity' value='1' min='1' max='" . $row["remaining_quantity"]. "' oninput='updateQuantity()'>";
+                        echo "<span class='stock'>Kho: " . $row["remaining_quantity"]. "</span>";
+                        echo "</div><br>";
+                    }
+                } else {
+                    echo "0 results";
+                }
+            ?>
+            <form method="POST">
+                <input type="hidden" name="quantity" id="hiddenQuantity" value="1">
+                <button type="submit" name="add_to_cart">Thêm vào giỏ hàng</button>
+                <button type="submit" name="buy_now">Mua ngay</button>
+            </form>
+            
+            <script>
+                function updateQuantity() {
+                    var quantity = document.getElementById('quantity').value;
+                    document.getElementById('hiddenQuantity').value = quantity;
+                }
+            </script>
         </main>
     </div>
     <div class="product-description">
-        <h2>Mô tả sản phẩm:</h2>
-        <p>Thông tin sản phẩm:</p>
-        <a>- Tác giả: Nhiều tác giả</a>
-        <a>- Số trang: 176</a>
-        <a>- Năm xuất bản: 2022</a>
-        <a>- Khổ sách: 19 x 26.5 cm</a>
-        <a>- Hình thức: Bìa mềm</a>
-        <a>- Nhà xuất bản: NXB Giáo dục Việt Nam</a>
-        <a>- Đổi mới</a>
-        <div class="product-description-new">
-            <a>+ Cung cấp thông tin và tra cứu thông tin khoa học cốt lõi</a>
-            <a>+ Định hướng các hoạt động dạy học</a>
-            <a>+ Tạo động cơ học tập xen kẽ chặt chẽ, kịp thời giữa lý thuyết và thực hành</a>
-            <a>+ Tạo điều kiện dạy học tích cực, tích hợp và dạy học phân hóa học sinh</a>
-            <a>+ Hỗ trợ tự học, vận dụng các kiến thức, kĩ năng đã học vào thực tiễn</a>
-        </div>
-        <p>Lưu ý khi mua hàng:</p>
-        <a>- Quý khách cần tư vấn sách phù hợp nhu cầu và mong muốn, vui lòng chat với shop để được hỗ trợ tốt nhất</a>
-        <a>- Sản phẩm đổi trả trong 3 ngày kể từ khi đơn hàng được giao thành công. Áp dụng với hàng còn mới, chưa qua sử dụng, bị lỗi hoặc hư hỏng do vận chuyển hoặc do nhà sản xuất</a>
     </div> 
     <!-- content goes here -->
 
