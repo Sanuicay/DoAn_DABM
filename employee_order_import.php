@@ -191,8 +191,8 @@ include_once('database_scripts/func_total_price_sale.php');
                     
             
             <div id="productForm">
-                <label for="productName">Tên/Mã sản phẩm:</label>
-                <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm">
+                <label for="productName">Mã sản phẩm:</label>
+                <input type="text" id="productName" placeholder="Nhập mã sản phẩm">
                 
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
@@ -203,7 +203,7 @@ include_once('database_scripts/func_total_price_sale.php');
                 
             </div>
             <div id="productFormModify">
-                <label for="product_name">Tên/Mã sản phẩm:</label>
+                <label for="product_name">Tên sản phẩm:</label>
                 <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
                 <input type="text" id="product_name" placeholder="Nhập tên/mã sản phẩm">
                 <div id="productSuggestions"></div>
