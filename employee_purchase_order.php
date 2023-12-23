@@ -163,8 +163,8 @@
                         <input type="text" class="search-input" placeholder="Tìm đơn hàng" id = "searchInput">     
                         <select id="filterOptions">
                                 <option value="option1">ID</option>
-                                <option value="option2">Ngày gần nhất</option>
-                                <option value="option3">Ngày xa nhất</option>
+                                <option value="option2">Ngày tăng dần</option>
+                                <option value="option3">Ngày giảm dần</option>
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                         </select>  
