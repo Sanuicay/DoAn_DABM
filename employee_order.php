@@ -187,7 +187,12 @@
                     <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
                     <!-- <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button> -->
                 </div>                 
-            </div>      
+            </div>   
+            <div>
+                <label for="myCheckbox">Tìm theo tên khách hàng</label>
+                <input type="checkbox" id="searchCheckbox" onchange="applySearch()">
+            </div>   
+            
             <a href="employee_purchase_order.php">Quản lý đơn nhập hàng</a>
             <style>
     .table-container {
@@ -464,7 +469,9 @@
                     const rows = document.querySelectorAll('.table-container table tbody tr');
 
                     rows.forEach((row) => {
-                        const dataCellValue = row.cells[4].textContent.trim().toLowerCase();
+                        const dataCellValue = document.getElementById('searchCheckbox').checked ?
+                    row.cells[3].textContent.trim().toLowerCase() :  // Search column 3
+                    row.cells[4].textContent.trim().toLowerCase();   // Search column 4
 
                         const shouldDisplay =
                             (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
@@ -474,7 +481,7 @@
                     });
                 }
 
-
+                
                 function getDataCellIndex(filterOption) {
                     switch (filterOption) {
                         case 'option1':
