@@ -178,6 +178,8 @@
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
+                                <option value="option7">Đơn online</option>
+                                <option value="option8">Đơn tại cửa hàng</option>
                         </select>  
                 </div>
 
@@ -187,6 +189,29 @@
                 </div>                 
             </div>      
             <a href="employee_purchase_order.php">Quản lý đơn nhập hàng</a>
+            <style>
+    .table-container {
+        height: 80vh; /* Set the height to 80% of the viewport height */
+        overflow-y: auto; /* Add vertical scrollbar if necessary */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+</style>
             <h2>Danh sách hóa đơn</h2>
             <div class="table-container" id="saleOrderTable">                
                 <table>
@@ -254,6 +279,14 @@
                         needConfirmed();
                         console.log("Option 1");
                         break;
+                    case 'option7':
+                        showOnline();
+                        console.log("Option 1");
+                        break;
+                    case 'option8':
+                        showOffline();
+                        console.log("Option 1");
+                        break;
                     // Add cases for other options as needed
                     }
 
@@ -264,6 +297,48 @@
                     rowsArray.forEach(row => {
                     tbody.appendChild(row);
                     });
+                }
+                function showOnline() {
+                    fetch('./database_scripts/fetch_sale_order_7.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function showOffline() {
+                    fetch('./database_scripts/fetch_sale_order_8.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
                 }
                 function handleSumInc() {
                     fetch('./database_scripts/fetch_sale_order_4.php', {
