@@ -53,6 +53,7 @@ if (isset($_SESSION["user_id"])) {
       </script>
     </div>
 
+    
 
     <!-- search bar -->
     <div id="hiddenElement" class="hidden">
