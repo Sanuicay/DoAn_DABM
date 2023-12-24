@@ -11,25 +11,25 @@ if (isset($_SESSION["user_id"])) {
 
 $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
             FROM book, publisher, belongs_to, genre
-            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID";
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND book.deleted_tag = 0";
 
 $book = mysqli_query($mysqli, $sql);
 
     $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
             FROM book, publisher, belongs_to, genre
-            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '01'";
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '01' AND book.deleted_tag = 0";
 
     $book_giaokhoa = mysqli_query($mysqli, $sql);
 
     $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
             FROM book, publisher, belongs_to, genre
-            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '02'";
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '02' AND book.deleted_tag = 0";
 
     $book_cotich = mysqli_query($mysqli, $sql);   
 
     $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
             FROM book, publisher, belongs_to, genre
-            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '03'";
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '03' AND book.deleted_tag = 0";
 
     $book_tieuthuyet = mysqli_query($mysqli, $sql);  
 ?>
