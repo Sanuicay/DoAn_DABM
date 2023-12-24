@@ -75,6 +75,9 @@
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "login_success.php";</script>';
+                    exit;
                     //check if the ID exsist in the employee table
                     $query_ = "SELECT ID
                               FROM employee

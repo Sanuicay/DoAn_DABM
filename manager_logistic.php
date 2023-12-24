@@ -39,10 +39,10 @@ include("connection.php");
 
     <div class="box">
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Quản lý nhân sự</p>
+        <p class="box-text">Thống kê</p>
         <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="list_of_book.html">> Quản lý nhân sự</a>
+            <a href="user_manager.php">Cá nhân</a>
+            <a href="manager_logistic.php">> Thống kê</a>
         </div>
     </div>
 
@@ -60,6 +60,9 @@ include("connection.php");
             }
             else
             {
+                echo '<script>alert("You are not authorized to view this content.");</script>';
+                echo '<script>window.location.href = "login_success.php";</script>';
+                exit;
                 //check if the ID exsist in the employee table
                 $query_ = "SELECT ID
                           FROM employee

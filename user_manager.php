@@ -137,8 +137,8 @@ if (isset($_POST['change2']))
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thông tin cá nhân</p>
         <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
+            <a href="user_manager.php">Cá nhân</a>
+            <a href="user_manager.php">> Thông tin cá nhân</a>
         </div>
     </div>
 
@@ -158,6 +158,9 @@ if (isset($_POST['change2']))
                 }
                 else
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "login_success.php";</script>';
+                    exit;
                     //check if the ID exsist in the employee table
                     $query_ = "SELECT ID
                               FROM employee
