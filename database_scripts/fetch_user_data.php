@@ -1,6 +1,6 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $con = require_once __DIR__ . "/connect.php";
+        $con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
         // Get the phone number from the POST data
         
         $data = json_decode(file_get_contents("php://input"));
