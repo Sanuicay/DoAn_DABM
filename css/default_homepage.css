@@ -206,7 +206,7 @@ select:focus {
     color: #fff;
 }
 
-.categories .row a {
+.categories .row button {
     text-decoration: none;
     display: inline-block;
     border: 1px solid #f7af5c;
@@ -219,7 +219,7 @@ select:focus {
     color: #555;
 }
 
-.categories .row a:hover{
+.categories .row button:hover{
     background: #f7af5c;
     color: #fff;
 }

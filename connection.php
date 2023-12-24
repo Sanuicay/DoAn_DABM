@@ -2,7 +2,7 @@
 session_start();
 //check if user is logged in
 if(!isset($_SESSION['user_id'])){
-    header('location:homepage_nologin.html');
+    header('location:homepage.php');
 }
 else{
     $con = require __DIR__ . "/database.php";

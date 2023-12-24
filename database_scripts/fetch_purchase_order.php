@@ -1,12 +1,7 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $con = mysqli_connect("localhost:3307", "root", "", "dabm_database");
-
-    if (mysqli_connect_errno()) {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        exit();
-    }
+    $con = require_once __DIR__ . "/connect.php";
 
     // Create a new order
     $result = mysqli_query($con, 'SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price, po.employee_ID, sur_name, last_name

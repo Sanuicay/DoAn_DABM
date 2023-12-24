@@ -6,22 +6,32 @@ session_start();
 
 if (isset($_SESSION["user_id"])) {
     
-    $sql = "SELECT * FROM user
-            WHERE ID = {$_SESSION["user_id"]}";
-            
-    $result = $mysqli->query($sql);
-    
-    $user = $result->fetch_assoc();
+    header("Location: features_product_login.php");
 }
 
-$sql = "SELECT book_name, img_path, sale_price, publisher_name 
-            FROM book, publisher
-            WHERE book.publisher_ID = publisher.publisher_ID";
+$sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
+            FROM book, publisher, belongs_to, genre
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID";
 
-    $book = mysqli_query($mysqli, $sql);
+$book = mysqli_query($mysqli, $sql);
 
-$flag = 0;
+    $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
+            FROM book, publisher, belongs_to, genre
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '01'";
 
+    $book_giaokhoa = mysqli_query($mysqli, $sql);
+
+    $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
+            FROM book, publisher, belongs_to, genre
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '02'";
+
+    $book_cotich = mysqli_query($mysqli, $sql);   
+
+    $sql = "SELECT book_name, img_path, sale_price, publisher_name, display_status, book.book_ID, genre.genre_name
+            FROM book, publisher, belongs_to, genre
+            WHERE book.publisher_ID = publisher.publisher_ID AND book.book_ID = belongs_to.book_ID AND belongs_to.genre_ID = genre.genre_ID AND genre.genre_ID = '03'";
+
+    $book_tieuthuyet = mysqli_query($mysqli, $sql);  
 ?>
 
 
@@ -45,10 +55,10 @@ $flag = 0;
         <!-- header  -->
         <div class="header">
         <div class="header-left-section">
-            <a href="homepage_nologin.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
+            <a href="homepage.php"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="homepage_nologin.html">Trang chủ</a>
+            <a href="homepage.php">Trang chủ</a>
             <a href="features_product_nologin.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
@@ -101,22 +111,39 @@ $flag = 0;
 
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 4){
+                        $count = 1;
+                        while($row = mysqli_fetch_assoc($book)){
+                            if ($row['display_status'] == "Available") {
+                                if ($count <= 4) {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="item1 col-4">
                         <div class="description">
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                            $count = $count + 1;
+                            }
+                            else { 
+                    ?>
+                                <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class=" item1 hidden col-4 ">
+                                    <div class="description">
+                                        <img src="<?php echo $row["img_path"];?>" alt="">
+                                        <h2><?php echo $row["book_name"];?></h2>
+                                        <h3><?php echo $row["publisher_name"];  ?></h3>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
                         }
+                    }
                     ?>
                     
-                    <a href="#">Xem thêm</a>
+                    <button type="button" id="seeMoreBtn1" name="seeMoreBtn" class="seeMoreBtn">Xem thêm</button>
                 </div>
 
                 <div class="row row-2">
@@ -129,22 +156,39 @@ $flag = 0;
                 </div>
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 8){
+                        $count = 1;
+                        while($row = mysqli_fetch_assoc($book_giaokhoa)){
+                            if ($row['display_status'] == "Available") {
+                                if ($count <= 4) {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="item2 col-4">
                         <div class="description">
-                            <img src="<?php echo $row["img_path"]; ?>" alt="">
-                            <h2><?php echo $row["book_name"];  ?></h2>
+                            <img src="<?php echo $row["img_path"];?>" alt="">
+                            <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                            $count = $count + 1;
+                            }
+                            else { 
+                    ?>
+                                <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class=" item2 hidden col-4 ">
+                                    <div class="description">
+                                        <img src="<?php echo $row["img_path"];?>" alt="">
+                                        <h2><?php echo $row["book_name"];?></h2>
+                                        <h3><?php echo $row["publisher_name"];  ?></h3>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
                         }
+                    }
                     ?>
                     
-                    <a href="#">Xem thêm</a>
+                    <button type="button" id="seeMoreBtn2" name="seeMoreBtn" class="seeMoreBtn">Xem thêm</button>
                 </div>
 
                 <div class="row row-2">
@@ -157,22 +201,39 @@ $flag = 0;
                 </div>
                 <div class="row">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 12){
+                        $count = 1;
+                        while($row = mysqli_fetch_assoc($book_tieuthuyet)){
+                            if ($row['display_status'] == "Available") {
+                                if ($count <= 4) {
                     ?>
-                    <div class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="item3 col-4">
                         <div class="description">
-                            <img src="<?php echo $row["img_path"]; ?>" alt="">
-                            <h2><?php echo $row["book_name"];  ?></h2>
+                            <img src="<?php echo $row["img_path"];?>" alt="">
+                            <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                            $count = $count + 1;
+                            }
+                            else { 
+                    ?>
+                                <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class=" item3 hidden col-4 ">
+                                    <div class="description">
+                                        <img src="<?php echo $row["img_path"];?>" alt="">
+                                        <h2><?php echo $row["book_name"];?></h2>
+                                        <h3><?php echo $row["publisher_name"];  ?></h3>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
+                                    </div>
+                                </div>
+                    <?php
+                            }
                         }
+                    }
                     ?>
                     
-                    <a href="#">Xem thêm</a>
+                    <button type="button" id="seeMoreBtn3" name="seeMoreBtn" class="seeMoreBtn">Xem thêm</button>
                 </div>
 
             </div>

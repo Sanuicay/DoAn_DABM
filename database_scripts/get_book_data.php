@@ -1,7 +1,7 @@
 <?php
 // Connect to your database
 // $con = mysqli_connect("localhost:3307","root","","doan");
-include_once("../connection.php");
+$con = require_once __DIR__ . "/connect.php";
 
 // Check connection
 if (mysqli_connect_errno()) {
