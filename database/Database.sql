@@ -1498,7 +1498,8 @@ INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `userna
 ('20060606', 'Dao Van', 'E', '0906060606', 'test6@gmail.com', 'test6', 'test6', 'Dao Van E is a test user'),
 ('20070707', 'Dao Thi', 'F', '0907070707', 'test7@gmail.com', 'test7', 'test7', 'Dao Thi F is a test user'),
 ('20080808', 'Tran Van', 'G', '0908080808', 'test8@gmail.com', 'test8', 'test8', 'Tran Van G is a test user'),
-('20090909', 'Tran Thi', 'H', '0909090909', 'test9@gmail.com', 'test9', 'test9', 'Tran Thi H is a test user');
+('20090909', 'Tran Thi', 'H', '0909090909', 'test9@gmail.com', 'test9', 'test9', 'Tran Thi H is a test user'),
+('00000001', '', '', '', '', 'admin', 'admin', 'admin is an admin');
 
 
 -- --------------------------------------------------------
@@ -1842,3 +1843,56 @@ ALTER TABLE `written_by`
 COMMIT;
 
 
+
+
+
+
+
+-- For Statistics
+
+DROP PROCEDURE IF EXISTS GetTotalPurchaseAndSalesInRangeWithGenre;
+
+DELIMITER //
+CREATE PROCEDURE GetTotalPurchaseAndSalesInRangeWithGenre(IN startDate DATE, IN endDate DATE, IN genre_ID INT)
+BEGIN
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_table AS (
+        SELECT 
+            COALESCE(purchases.month, sales.month) AS month,
+            purchases.total_purchases,
+            sales.total_sales,
+            (sales.total_sales - purchases.total_purchases) AS total_profit
+        FROM 
+            (SELECT 
+                DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+                SUM(pi.purchase_quantity * b.purchase_price) AS total_purchases
+            FROM `order` o
+            JOIN purchase_include pi ON o.order_ID = pi.purchase_ID
+            JOIN book b ON pi.book_ID = b.book_ID
+            JOIN belongs_to bt ON b.book_ID = bt.book_ID
+            WHERE o.order_date BETWEEN startDate AND endDate AND bt.genre_ID = genre_ID
+            GROUP BY month) purchases
+        LEFT JOIN 
+            (SELECT 
+                DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+                SUM(si.sale_quantity * b.sale_price) AS total_sales
+            FROM `order` o
+            JOIN sale_include si ON o.order_ID = si.sale_ID
+            JOIN book b ON si.book_ID = b.book_ID
+            JOIN belongs_to bt ON b.book_ID = bt.book_ID
+            WHERE o.order_date BETWEEN startDate AND endDate AND bt.genre_ID = genre_ID
+            GROUP BY month) sales
+        ON purchases.month = sales.month
+    );
+
+    SELECT * FROM temp_table
+    UNION ALL
+    SELECT 
+        'Tổng cộng' AS month,
+        SUM(total_purchases),
+        SUM(total_sales),
+        SUM(total_profit)
+    FROM temp_table;
+
+    DROP TEMPORARY TABLE IF EXISTS temp_table;
+END //
+DELIMITER ;

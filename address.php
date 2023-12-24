@@ -69,18 +69,22 @@ if (isset($_POST['delete'])) {
 // When click on add address button, pop up a form to add address and add it to the database
 if (isset($_POST['add_address'])) {
     $new_address = $_POST['address'];
-
-    // SQL query to add the new address
-    $query = "INSERT INTO delivery_address (ID, address)
-              VALUES ($id, '$new_address');";
-
-    // Execute the query
-    if (mysqli_query($con, $query)) {
-        echo "<script>alert('Thêm địa chỉ thành công!')</script>";
+    if (empty($new_address)) {
+        echo "<script>alert('Address field is empty!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     } else {
-        echo "<script>alert('Thêm địa chỉ thất bại!')</script>";
-        echo "<script>window.location.href='address.php'</script>";
+        // SQL query to add the new address
+        $query = "INSERT INTO delivery_address (ID, address)
+                VALUES ($id, '$new_address');";
+
+        // Execute the query
+        if (mysqli_query($con, $query)) {
+            echo "<script>alert('Thêm địa chỉ thành công!')</script>";
+            echo "<script>window.location.href='address.php'</script>";
+        } else {
+            echo "<script>alert('Thêm địa chỉ thất bại!')</script>";
+            echo "<script>window.location.href='address.php'</script>";
+        }
     }
 }
 ?>
