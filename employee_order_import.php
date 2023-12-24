@@ -534,7 +534,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         .then(data => {
                             if(data.success) {
                                 alert("Order confirmed successfully!");
-                                window.location.href = "./employee_order.php"; // Replace with your actual page URL
+                                window.location.href = "./employee_purchase_order.php"; // Replace with your actual page URL
                             } else {
                                 alert("Error confirming order: " + data.message);
                             }

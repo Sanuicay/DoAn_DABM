@@ -9,7 +9,7 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID,E.sur_name,E.last_name,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status, img_path, order_info
+  $sql = "SELECT order_ID,E.sur_name as emp_sur ,E.last_name as emp_last,M.sur_name as sur,M.last_name as last_n, order_date, M.phone_num as phone, M.email as email, delivery_address, book_name, sale_quantity, sale_price, payment_status, img_path, order_info, E.ID as emp, E.phone_num as emp_phone, E.email as emp_email
   FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
   WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID=M.ID
   ";
@@ -172,6 +172,9 @@ while($item = mysqli_fetch_array($result)) {
                 </div>
                 <div class="total">
                     <span class="label" id="tmp" style="display: none;"><?php echo $item['order_info'] ?></span>  
+                    <span class="label" id="tmp_here" style="display: none;"><?php echo $id ?></span>
+                    <span class="label" id="tmp_id" style="display: none;"><?php echo $item['emp'] ?></span>
+                    <span class="label" id="tmp" style="display: none;"><?php echo $item['order_info'] ?></span>
                     <span class="label">Tổng tiền thanh toán:</span> <?php echo $sum ?>
                 </div>
             </div>
@@ -193,6 +196,22 @@ while($item = mysqli_fetch_array($result)) {
                     </div>
                 </div>
             </div>
+            <br>
+            <div>
+                <div id="customerForm">
+                <h2>Thông tin nhân viên xử lý</h2>
+                <div>
+                        <span class="label">Họ và tên: </span> <?php echo $item['emp_sur'];echo " "; echo $item['emp_last'] ?>
+                    </div>
+                    <div>
+                        <span class="label">Số điện thoại:</span> <?php echo $item['emp_phone']?>
+                    </div>
+                    <div>
+                        <span class="label">Email:</span> <?php echo $item['emp_email']?>
+                    </div>
+                </div>
+            </div>
+            <br>
             <?php 
             if ($sp) break;
  }
@@ -283,6 +302,8 @@ while($item = mysqli_fetch_array($result)) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const orderId = urlParams.get('orderId');
                 var statusValue = document.getElementById('tmp').innerText;
+                var here = document.getElementById('tmp_here').innerText;
+                var id = document.getElementById('tmp_id').innerText;
                 // Thêm các thông tin khác tương ứng với orderId
                 // // Ví dụ: Hiển thị nút để quay lại trang trước
                 // document.write('<button onclick="goBack()">Go Back</button>');
@@ -299,8 +320,7 @@ while($item = mysqli_fetch_array($result)) {
                     window.history.back();
                 }
                 function confirmAction() {
-                    // Implement your confirmation logic or perform the delete action here
-                    
+                    // Implement your confirmation logic or perform the delete action here    
                     var order_info_array = statusValue.split(',');
 
                     // Update the second element (index 1) to "Đã duyệt"
@@ -308,7 +328,11 @@ while($item = mysqli_fetch_array($result)) {
 
                     // Join the array back into a string using ','
                     var status = order_info_array.join(',');
-                    var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
+                    if (id != here) {
+                        alert("Bạn không có quyền xử lý hóa đơn này!");
+                        return; // Do nothing after displaying the alert
+                    }
+                    var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId); 
                     if (confirmed) {
                         fetch('./database_scripts/confirm_sale_order.php', {
                             method: 'POST',
@@ -336,7 +360,8 @@ while($item = mysqli_fetch_array($result)) {
                         })
                         
                     }
-                }
+                    
+                } 
             </script>
 
         </div>

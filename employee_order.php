@@ -182,7 +182,7 @@
                                 <option value="option8">Đơn tại cửa hàng</option>
                         </select>  
                 </div>
-
+                <span class="label" id="tmp_here" style="display: none;"><?php echo $id ?></span>
                 <div class ="button-container">
                     <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
                     <!-- <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button> -->
@@ -246,7 +246,7 @@
                     // Call a function to apply the filter based on the selected option
                     applyFilter(selectedOption);
                 });
-                
+                var here = document.getElementById('tmp_here').innerText;
                 function applyFilter(selectedOption) {
                     // Get the table body
                     const searchInput = document.getElementById('searchInput');
@@ -559,6 +559,7 @@
                             td.textContent = value;
                             row.appendChild(td);
                         });
+                       
                         var deleteButton = document.createElement("button");
                         if (order.payment_status === "Đã thanh toán" && status === "Đang chờ duyệt") {
                             
@@ -567,19 +568,23 @@
                             deleteButton.style.color = "white"; // Set the text color to white
                             deleteButton.addEventListener("click", function (event) {
                                 event.stopPropagation(); // Prevent row click event from triggering
-                                confirmAction(order.order_ID, order.order_info); // Pass order_ID or any identifier you need for deletion
+                                confirmAction(order.order_ID, order.order_info, order.emp); // Pass order_ID or any identifier you need for deletion
                             });
                         }
                         var cellIndex = row.cells.length; // Get the index of the last cell
                         var cell = row.insertCell(cellIndex);
                         cell.appendChild(deleteButton);
-
+                        
                         tbody.appendChild(row);
                     });
                 }
 
-                function confirmAction(orderId,order_info) {
+                function confirmAction(orderId,order_info, id) {
                     // Implement your confirmation logic or perform the delete action here
+                    if(id!=here) {
+                        alert("Bạn không có quyền xử lý hóa đơn này!");
+                        return; // Do nothing after displaying the alert
+                    }
                     var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
                     var order_info_array = order_info.split(',');
 

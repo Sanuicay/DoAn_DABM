@@ -175,6 +175,29 @@
                 </div>                 
             </div>   
             <a href="employee_order.php">Quản lý đơn bán hàng</a> 
+            <style>
+    .table-container {
+        height: 80vh; /* Set the height to 80% of the viewport height */
+        overflow-y: auto; /* Add vertical scrollbar if necessary */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+</style>
             <h2>Danh sách hóa đơn</h2>
             <div class="table-container" id="saleOrderTable">                
                 <table>
