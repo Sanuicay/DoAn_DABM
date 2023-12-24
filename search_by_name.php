@@ -16,12 +16,10 @@ if (isset($_SESSION["user_id"])) {
 
 $sql = 'SELECT book_name, img_path, sale_price, publisher_name, display_status, book_ID
         FROM book, publisher
-        WHERE book.publisher_ID = publisher.publisher_ID AND book.book_name LIKE "%'.$_GET['search'].'%"';
+        WHERE book.publisher_ID = publisher.publisher_ID AND book.book_name LIKE "%'.$_GET['search'].'%" AND book.deleted_tag = 0';
 
 $book = mysqli_query($mysqli, $sql);
 $book2 = mysqli_query($mysqli, $sql);
-
-$flag = 0;
 
 ?>
 
@@ -112,40 +110,49 @@ $flag = 0;
             <div class="small-container">
                 <div class="row row-2">
                     <h2>Kết quả tìm kiếm</h2>
-                    <select>
+                    <select name="sort" id="sort">
                         <option>Mặc định</option>
-                        <option>Sắp xếp theo giá</option>
-                        <option>Sắp xếp theo số lượng mua</option>
+                        <option value="l2h">Sắp xếp theo giá tăng dần</option>
+                        <option value="h2l">Sắp xếp theo giá giảm dần</option>
                     </select>
                 </div>
 
-                <div class="row">
+                <div class="row product_list" id="itemContainer">
                     <?php
-                        while($row = mysqli_fetch_assoc($book) and $flag < 4){
+                        $count = 1;
+                        while($row = mysqli_fetch_assoc($book)){
                             if ($row['display_status'] == "Available") {
+                                if ($count <= 4) {
                     ?>
-                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="col-4">
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="item1 col-4" data-price="<?php echo $row["sale_price"] ?>">
                         <div class="description">
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
-                            $flag = $flag + 1;
+                                $count = $count+1;
+                            }
+                            else {
+                    ?>  
+                    <div onclick="selectProduct(<?php echo $row['book_ID'] ?>)" class="item1 col-4 hidden" data-price="<?php echo $row["sale_price"] ?>">
+                        <div class="description">
+                            <img src="<?php echo $row["img_path"];?>" alt="">
+                            <h2><?php echo $row["book_name"];?></h2>
+                            <h3><?php echo $row["publisher_name"];  ?></h3>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
+                        </div>
+                    </div>
+                    <?php
+                            }
                         }
                     }
                     ?>
+                    <button type="button" id="seeMoreBtn1" name="seeMoreBtn" class="seeMoreBtn">Xem thêm</button>
                 </div>
 
-            </div>
-
-            <div class="page-button">
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>&#8594</span>
             </div>
         </div>
 
