@@ -1483,10 +1483,15 @@ INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `userna
 ('10050505', 'Linh Ngọc Thùy', 'Ngân', '0938271688', 'bow@gmail.com', 'bowne', 'ngankhung', 'LNTN is a test user'),
 ('10060606', 'Phan Trần Minh Đạt', 'E', '0900000000', 'datholuon@gmail.com', 'minhdat', 'luonleo', 'PTMĐ is a test user'),
 ('20010101', 'Nguyen Van', 'A', '0901010101', 'test1@gmail.com', 'test1', 'test1', 'Nguyen Van A is a test user'),
-('20030303', 'Nguyen Thi', 'B', '0903030303', 'test2@gmail.com', 'test2', 'test2', 'Nguyen Thi B is a test user'),
-('20040404', 'Le Van', 'C', '0904040404', 'test3@gmail.com', 'test3', 'test3', 'Le Van C is a test user'),
-('20050505', 'Le Thi', 'D', '0905050505', 'test4@gmail.com', 'test4', 'test4', 'Le Thi D is a test user'),
-('20060606', 'Dao Van', 'E', '0906060606', 'test5@gmail.com', 'test5', 'test5', 'Dao Van E is a test user');
+('20020202', 'Nguyen Thi', 'A', '0902020202', 'test2@gmail.com', 'test2', 'test2', 'Nguyen Thi A is a test user'),
+('20030303', 'Nguyen Thi', 'B', '0903030303', 'test3@gmail.com', 'test3', 'test3', 'Nguyen Thi B is a test user'),
+('20040404', 'Le Van', 'C', '0904040404', 'test4@gmail.com', 'test4', 'test4', 'Le Van C is a test user'),
+('20050505', 'Le Thi', 'D', '0905050505', 'test5@gmail.com', 'test5', 'test5', 'Le Thi D is a test user'),
+('20060606', 'Dao Van', 'E', '0906060606', 'test6@gmail.com', 'test6', 'test6', 'Dao Van E is a test user');
+('20070707', 'Dao Thi', 'F', '0907070707', 'test7@gmail.com', 'test7', 'test7', 'Dao Thi F is a test user'),
+('20080808', 'Tran Van', 'G', '0908080808', 'test8@gmail.com', 'test8', 'test8', 'Tran Van G is a test user'),
+('20090909', 'Tran Thi', 'H', '0909090909', 'test9@gmail.com', 'test9', 'test9', 'Tran Thi H is a test user');
+
 
 -- --------------------------------------------------------
 
