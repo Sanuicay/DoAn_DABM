@@ -1850,6 +1850,54 @@ COMMIT;
 
 -- For Statistics
 
+DROP PROCEDURE IF EXISTS GetTotalPurchaseAndSalesInRange;
+
+DELIMITER //
+CREATE PROCEDURE GetTotalPurchaseAndSalesInRange(IN startDate DATE, IN endDate DATE)
+BEGIN
+    CREATE TEMPORARY TABLE IF NOT EXISTS temp_table AS (
+        SELECT 
+            COALESCE(purchases.month, sales.month) AS month,
+            purchases.total_purchases,
+            sales.total_sales,
+            (sales.total_sales - purchases.total_purchases) AS total_profit
+        FROM 
+            (SELECT 
+                DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+                SUM(pi.purchase_quantity * b.purchase_price) AS total_purchases
+            FROM `order` o
+            JOIN purchase_include pi ON o.order_ID = pi.purchase_ID
+            JOIN book b ON pi.book_ID = b.book_ID
+            WHERE o.order_date BETWEEN startDate AND endDate
+            GROUP BY month) purchases
+        LEFT JOIN 
+            (SELECT 
+                DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+                SUM(si.sale_quantity * b.sale_price) AS total_sales
+            FROM `order` o
+            JOIN sale_include si ON o.order_ID = si.sale_ID
+            JOIN book b ON si.book_ID = b.book_ID
+            WHERE o.order_date BETWEEN startDate AND endDate
+            GROUP BY month) sales
+        ON purchases.month = sales.month
+    );
+
+    SELECT * FROM temp_table
+    UNION ALL
+    SELECT 
+        'Tổng cộng' AS month,
+        SUM(total_purchases),
+        SUM(total_sales),
+        SUM(total_profit)
+    FROM temp_table;
+
+    DROP TEMPORARY TABLE IF EXISTS temp_table;
+END //
+DELIMITER ;
+
+
+
+
 DROP PROCEDURE IF EXISTS GetTotalPurchaseAndSalesInRangeWithGenre;
 
 DELIMITER //

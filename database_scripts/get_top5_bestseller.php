@@ -1,5 +1,5 @@
 <?php
-include_once('connection.php');
+include_once("connection.php");
 
 function getBestSeller($mysqli, $from_date, $to_date) {
     $query = mysqli_prepare($mysqli, "SELECT SUM(si.sale_quantity) as total_book_sold, b.book_ID, b.book_name, g.genre_name
