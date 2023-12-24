@@ -89,8 +89,8 @@
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -178,16 +178,45 @@
                                 <option value="option4">Giá tiền tăng dần</option>
                                 <option value="option5">Giá tiền giảm dần</option>
                                 <option value="option6">Đang chờ duyệt</option>
-                                <option value="option7">Khách hàng</option>
+                                <option value="option7">Đơn online</option>
+                                <option value="option8">Đơn tại cửa hàng</option>
                         </select>  
                 </div>
-
+                <span class="label" id="tmp_here" style="display: none;"><?php echo $id ?></span>
                 <div class ="button-container">
                     <button class="create-order-button" onclick="handleCreateOrder('sell')">Tạo đơn bán hàng</button>
                     <!-- <button class="create-order-button" onclick="handleCreateOrder('buy')">Tạo đơn nhập hàng</button> -->
                 </div>                 
-            </div>      
+            </div>   
+            <div>
+                <label for="myCheckbox">Tìm theo tên khách hàng</label>
+                <input type="checkbox" id="searchCheckbox" onchange="applySearch()">
+            </div>   
+            
             <a href="employee_purchase_order.php">Quản lý đơn nhập hàng</a>
+            <style>
+    .table-container {
+        height: 80vh; /* Set the height to 80% of the viewport height */
+        overflow-y: auto; /* Add vertical scrollbar if necessary */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+</style>
             <h2>Danh sách hóa đơn</h2>
             <div class="table-container" id="saleOrderTable">                
                 <table>
@@ -217,7 +246,7 @@
                     // Call a function to apply the filter based on the selected option
                     applyFilter(selectedOption);
                 });
-                
+                var here = document.getElementById('tmp_here').innerText;
                 function applyFilter(selectedOption) {
                     // Get the table body
                     const searchInput = document.getElementById('searchInput');
@@ -236,11 +265,11 @@
                         console.log("Option 1");
                         break;
                     case 'option2':
-                        handleDateInc();
+                        handleDateDec();
                         console.log("Option 2");
                         break;
                     case 'option3':
-                        handleDateDec()
+                        handleDateInc();
                         console.log("Option 3");
                         break;
                     case 'option4':
@@ -255,6 +284,14 @@
                         needConfirmed();
                         console.log("Option 1");
                         break;
+                    case 'option7':
+                        showOnline();
+                        console.log("Option 1");
+                        break;
+                    case 'option8':
+                        showOffline();
+                        console.log("Option 1");
+                        break;
                     // Add cases for other options as needed
                     }
 
@@ -265,6 +302,48 @@
                     rowsArray.forEach(row => {
                     tbody.appendChild(row);
                     });
+                }
+                function showOnline() {
+                    fetch('./database_scripts/fetch_sale_order_7.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                function showOffline() {
+                    fetch('./database_scripts/fetch_sale_order_8.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Http error!');
+                            }
+                            return response.json(); // Convert response to JSON
+                        })
+                        .then (data=>{
+                            console.log(data.userData);
+                            updateSaleOrderContent(data.userData);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
                 }
                 function handleSumInc() {
                     fetch('./database_scripts/fetch_sale_order_4.php', {
@@ -390,7 +469,9 @@
                     const rows = document.querySelectorAll('.table-container table tbody tr');
 
                     rows.forEach((row) => {
-                        const dataCellValue = row.cells[4].textContent.trim().toLowerCase();
+                        const dataCellValue = document.getElementById('searchCheckbox').checked ?
+                    row.cells[3].textContent.trim().toLowerCase() :  // Search column 3
+                    row.cells[4].textContent.trim().toLowerCase();   // Search column 4
 
                         const shouldDisplay =
                             (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
@@ -400,7 +481,7 @@
                     });
                 }
 
-
+                
                 function getDataCellIndex(filterOption) {
                     switch (filterOption) {
                         case 'option1':
@@ -478,6 +559,7 @@
                             td.textContent = value;
                             row.appendChild(td);
                         });
+                       
                         var deleteButton = document.createElement("button");
                         if (order.payment_status === "Đã thanh toán" && status === "Đang chờ duyệt") {
                             
@@ -486,19 +568,23 @@
                             deleteButton.style.color = "white"; // Set the text color to white
                             deleteButton.addEventListener("click", function (event) {
                                 event.stopPropagation(); // Prevent row click event from triggering
-                                confirmAction(order.order_ID, order.order_info); // Pass order_ID or any identifier you need for deletion
+                                confirmAction(order.order_ID, order.order_info, order.emp); // Pass order_ID or any identifier you need for deletion
                             });
                         }
                         var cellIndex = row.cells.length; // Get the index of the last cell
                         var cell = row.insertCell(cellIndex);
                         cell.appendChild(deleteButton);
-
+                        
                         tbody.appendChild(row);
                     });
                 }
 
-                function confirmAction(orderId,order_info) {
+                function confirmAction(orderId,order_info, id) {
                     // Implement your confirmation logic or perform the delete action here
+                    if(id!=here) {
+                        alert("Bạn không có quyền xử lý hóa đơn này!");
+                        return; // Do nothing after displaying the alert
+                    }
                     var confirmed = confirm("Are you sure you want to confirm order with ID: " + orderId);
                     var order_info_array = order_info.split(',');
 

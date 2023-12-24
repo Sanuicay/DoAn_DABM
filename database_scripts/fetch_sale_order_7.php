@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Create a new order
     $result = mysqli_query($con, 'SELECT order_ID, E.sur_name, E.last_name, M.sur_name as sur, M.last_name as last_n, order_date, count(*) as count_item, payment_status, delivery_address, SUM(sale_include.sale_quantity * book.sale_price) AS total_price, order_info,  E.ID as emp
         FROM `order`,`sale_order` NATURAL JOIN `sale_include` NATURAL JOIN `book`, `user` as E, `user` as M
-        WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID = M.ID 
+        WHERE order_ID = sale_ID AND employee_ID = E.ID AND member_ID = M.ID AND `order`.order_ID LIKE "ONL%"
         GROUP BY order_ID, E.sur_name, E.last_name, sur, last_n, order_date, payment_status
-        ORDER BY total_price');
+        ORDER BY CAST(SUBSTRING(order_ID, 4) AS UNSIGNED);');
 
     if ($result) {
         // Fetch all rows into an array

@@ -81,8 +81,8 @@
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -175,6 +175,29 @@
                 </div>                 
             </div>   
             <a href="employee_order.php">Quản lý đơn bán hàng</a> 
+            <style>
+    .table-container {
+        height: 80vh; /* Set the height to 80% of the viewport height */
+        overflow-y: auto; /* Add vertical scrollbar if necessary */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+</style>
             <h2>Danh sách hóa đơn</h2>
             <div class="table-container" id="saleOrderTable">                
                 <table>
@@ -217,11 +240,12 @@
                         console.log("Option 1");
                         break;
                     case 'option2':
-                        handleDateInc();
+                        handleDateDec();
                         console.log("Option 2");
                         break;
                     case 'option3':
-                        handleDateDec()
+                        
+                        handleDateInc();
                         console.log("Option 3");
                         break;
                     case 'option4':
@@ -328,6 +352,31 @@
                         })
                 }
                 loadData();
+                console.log('Script is running!');
+                const searchInput = document.getElementById('searchInput');
+                console.log('searchInput:', searchInput);
+
+                // Add an event listener if searchInput is not null
+                if (searchInput) {
+                    searchInput.addEventListener('input', applySearch);
+                } else {
+                    console.error('searchInput not found.');
+                }
+                function applySearch() {
+                    const searchTerm = searchInput.value.trim().toLowerCase();
+                    const filterOption = filterOptions.value;
+                    const rows = document.querySelectorAll('.table-container table tbody tr');
+
+                    rows.forEach((row) => {
+                        const dataCellValue = row.cells[3].textContent.trim().toLowerCase();
+
+                        const shouldDisplay =
+                            (filterOption !== 'option6' && dataCellValue.includes(searchTerm)) ||
+                            (filterOption === 'option6' && dataCellValue === 'đang chờ duyệt');
+
+                        row.style.display = shouldDisplay ? 'table-row' : 'none';
+                    });
+                }
                 function handleCreateOrder(orderType) {
                     if (orderType === 'sell') {
                         // Logic for creating a sell order
@@ -376,7 +425,7 @@
                             index + 1,
                             order.order_ID,
                             order.order_date,
-                            "TEST",
+                            order.sur_name+" "+ order.last_name,
                             order.total_price,
                         ];
 

@@ -9,10 +9,11 @@ include_once('database_scripts/func_total_price_sale.php');
   $orderId = $_GET["orderId"];
 
   // Prepare and execute the SQL query
-  $sql = "SELECT order_ID, order_date, order_info, img_path, book_name, purchase_price,purchase_quantity
+  $sql = "SELECT order_ID, order_date, order_info, img_path, book_name, purchase_price,purchase_quantity, po.employee_ID, sur_name, last_name, email, phone_num, user_info
   FROM `order` AS o
   JOIN purchase_order AS po ON o.order_ID = po.purchase_ID
   JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
+  JOIN user AS u ON po.employee_ID = u.ID
   JOIN book AS b ON b.book_ID = pi.book_ID
   ";
 
@@ -63,8 +64,8 @@ include_once('database_scripts/func_total_price_sale.php');
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -173,7 +174,23 @@ while($item = mysqli_fetch_array($result)) {
             if ($sp) break;
  }
             ?>
-            
+             <div>
+                <div id="customerForm">
+                <h2>Thông tin nhân viên</h2>
+                <div>
+                        <span class="label">Họ và tên: </span> <?php echo $item['sur_name'];echo " "; echo $item['last_name'] ?>
+                    </div>
+                    <div>
+                        <span class="label">Số điện thoại:</span> <?php echo $item['phone_num']?>
+                    </div>
+                    <div>
+                        <span class="label">Email:</span> <?php echo $item['email']?>
+                    </div>
+                    <div>
+                        <span class="label">Ghi chú:</span> <?php echo $item['user_info']?>
+                    </div>
+                </div>
+            </div>
             <h2>Danh sách sản phẩm</h2>
             <!-- Result display area (optional) -->
                 <table id="productTable">

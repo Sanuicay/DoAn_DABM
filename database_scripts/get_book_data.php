@@ -18,11 +18,11 @@ $search = strtolower($search);
 
 $query = "SELECT book.book_ID, book.book_name, author.author_name, publisher.publisher_name, genre.genre_name, book.page_count, book.sale_price, book.remaining_quantity, book.deleted_tag 
           FROM book
-          INNER JOIN written_by ON book.book_ID = written_by.book_ID
-          INNER JOIN author ON written_by.author_ID = author.author_ID
-          INNER JOIN publisher ON book.publisher_ID = publisher.publisher_ID
-          INNER JOIN belongs_to ON book.book_ID = belongs_to.book_ID
-          INNER JOIN genre ON belongs_to.genre_ID = genre.genre_ID
+          LEFT JOIN written_by ON book.book_ID = written_by.book_ID
+          LEFT JOIN author ON written_by.author_ID = author.author_ID
+          LEFT JOIN publisher ON book.publisher_ID = publisher.publisher_ID
+          LEFT JOIN belongs_to ON book.book_ID = belongs_to.book_ID
+          LEFT JOIN genre ON belongs_to.genre_ID = genre.genre_ID
           WHERE REPLACE(REPLACE(REPLACE(REPLACE(LOWER(book.book_name), ' ', ''), '(', ''), ')', ''), ';', '') LIKE '%$search%'
              OR book.book_ID LIKE '%$search%'
           ORDER BY book.deleted_tag";

@@ -5,7 +5,18 @@ include 'connection.php';
 //     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 //     exit();
 // }
-
+// check if the user is customer or not
+$query = "SELECT sur_name, last_name
+        FROM member, user
+        WHERE member.ID = user.ID AND user.ID = $id;";
+$result = mysqli_query($con,$query);
+$row = mysqli_fetch_assoc($result);
+$count = mysqli_num_rows($result);
+if ($count != 1)
+{
+    echo "<script>alert('You dont have permission to access this page!')</script>";
+    echo "<script>window.location.href='login_success.php'</script>";
+}
 // When click on update button update the address in that row
 if (isset($_POST['update'])) {
     if (empty($_POST['new_address'])) {
@@ -69,18 +80,22 @@ if (isset($_POST['delete'])) {
 // When click on add address button, pop up a form to add address and add it to the database
 if (isset($_POST['add_address'])) {
     $new_address = $_POST['address'];
-
-    // SQL query to add the new address
-    $query = "INSERT INTO delivery_address (ID, address)
-              VALUES ($id, '$new_address');";
-
-    // Execute the query
-    if (mysqli_query($con, $query)) {
-        echo "<script>alert('Thêm địa chỉ thành công!')</script>";
+    if (empty($new_address)) {
+        echo "<script>alert('Address field is empty!')</script>";
         echo "<script>window.location.href='address.php'</script>";
     } else {
-        echo "<script>alert('Thêm địa chỉ thất bại!')</script>";
-        echo "<script>window.location.href='address.php'</script>";
+        // SQL query to add the new address
+        $query = "INSERT INTO delivery_address (ID, address)
+                VALUES ($id, '$new_address');";
+
+        // Execute the query
+        if (mysqli_query($con, $query)) {
+            echo "<script>alert('Thêm địa chỉ thành công!')</script>";
+            echo "<script>window.location.href='address.php'</script>";
+        } else {
+            echo "<script>alert('Thêm địa chỉ thất bại!')</script>";
+            echo "<script>window.location.href='address.php'</script>";
+        }
     }
 }
 ?>

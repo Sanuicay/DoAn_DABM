@@ -24,8 +24,8 @@
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -165,7 +165,7 @@
                 <tbody>
                 <?php
                     foreach ($bestSellers as $item) {
-                        echo "<tr>";
+                        echo "<tr onclick=\"Detail({$item['book_ID']})\">";
                         echo "<td>{$item['book_ID']}</td>";
                         echo "<td>{$item['book_name']}</td>";
                         echo "<td>{$item['genre_name']}</td>";
@@ -175,6 +175,13 @@
                     ?>
                 </tbody>
             </table>
+            <script>
+                function Detail(bookID) {
+                    // Redirect to the update_book.php page with the book ID
+                    window.location.href = 'update_book.php?id=' + bookID;
+                }
+            </script>
+
             <br><br>
             <?php
                 include_once('./database_scripts/get_date.php');

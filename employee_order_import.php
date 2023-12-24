@@ -49,8 +49,8 @@ include_once('database_scripts/func_total_price_sale.php');
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -191,8 +191,8 @@ include_once('database_scripts/func_total_price_sale.php');
                     
             
             <div id="productForm">
-                <label for="productName">Tên/Mã sản phẩm:</label>
-                <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm">
+                <label for="productName">Mã sản phẩm:</label>
+                <input type="text" id="productName" placeholder="Nhập mã sản phẩm">
                 
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" placeholder="Nhập số lượng">
@@ -203,7 +203,7 @@ include_once('database_scripts/func_total_price_sale.php');
                 
             </div>
             <div id="productFormModify">
-                <label for="product_name">Tên/Mã sản phẩm:</label>
+                <label for="product_name">Tên sản phẩm:</label>
                 <!-- <input type="text" id="productName" placeholder="Nhập tên/mã sản phẩm" oninput="displayMatchingProducts()"> -->
                 <input type="text" id="product_name" placeholder="Nhập tên/mã sản phẩm">
                 <div id="productSuggestions"></div>
@@ -251,7 +251,7 @@ include_once('database_scripts/func_total_price_sale.php');
 
                     
                     console.log(phone);
-                    fetch('http://localhost:8012/DoAn_DABM/database_scripts/fetch_user_data.php',{
+                    fetch('./database_scripts/fetch_user_data.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',
@@ -352,7 +352,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         // If no error messages were set, proceed with adding the product
                         
                         //Call API to get data of the book
-                        fetch('http://localhost:8012/DoAn_DABM/database_scripts/add_new_product.php',{
+                        fetch('./database_scripts/add_new_product.php',{
                         method: 'POST',
                         headers: {  // <-- Corrected property name
                             'Content-Type': 'application/json',
@@ -534,7 +534,7 @@ include_once('database_scripts/func_total_price_sale.php');
                         .then(data => {
                             if(data.success) {
                                 alert("Order confirmed successfully!");
-                                window.location.href = "./employee_order.php"; // Replace with your actual page URL
+                                window.location.href = "./employee_purchase_order.php"; // Replace with your actual page URL
                             } else {
                                 alert("Error confirming order: " + data.message);
                             }

@@ -4,11 +4,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $con = require_once __DIR__ . "/connect.php";
 
     // Create a new order
-    $result = mysqli_query($con, 'SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price
+    $result = mysqli_query($con, 'SELECT order_ID, o.order_date, o.order_info, SUM(purchase_price * purchase_quantity) as total_price, po.employee_ID, sur_name, last_name
     FROM `order` AS o
     JOIN purchase_order AS po ON o.order_ID = po.purchase_ID
     JOIN purchase_include AS pi ON o.order_ID = pi.purchase_ID
     JOIN book AS b ON b.book_ID = pi.book_ID
+    JOIN user AS e ON po.employee_ID = e.ID
     GROUP BY order_ID
     ORDER BY CAST(SUBSTRING(order_ID, 4) AS UNSIGNED);
     ');

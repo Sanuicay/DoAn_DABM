@@ -79,7 +79,8 @@ include("connection.php");
             }
             ?>
             <a href="manager_employee.php"><img class="side-box-button" src="img/button_employee_management.png" alt="Button1"></a>
-            <a href="manager_logistic.php"><img class="side-box-last-button" src="img/button_logistics.png" alt="Button1"></a>
+            <a href="manager_logistic.php"><img class="side-box-button" src="img/button_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button"></a>
         </div>
         <div class="content-box">
             <!-- real content goes here -->

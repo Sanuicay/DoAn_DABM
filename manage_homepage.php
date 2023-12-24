@@ -28,8 +28,8 @@
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="features_product_nologin.php">Cửa hàng</a>
+            <a href="./login_success.php">Trang chủ</a>
+            <a href="./features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -373,34 +373,7 @@
             </script>
 
 
-            <div class="promotion">
-                <p style="font-family: Arial, sans-serif; font-size: 20px; color: #B88E2F;">Quảng cáo</p>
-                <input type="file" id="image-upload" accept="image/*">
-                <button class="upload-button" onclick="uploadImage()">Hiển thị hình</button>
-                <div id="uploaded-image-container"></div>
-            </div>
             
-            <script>
-                function uploadImage() {
-                    var input = document.getElementById('image-upload');
-                    var container = document.getElementById('uploaded-image-container');
-            
-                    var file = input.files[0];
-            
-                    if (file) {
-                        var reader = new FileReader();
-            
-                        reader.onload = function (e) {
-                            var img = document.createElement('img');
-                            img.src = e.target.result;
-                            container.innerHTML = ''; // Clear previous content
-                            container.appendChild(img);
-                        };
-            
-                        reader.readAsDataURL(file);
-                    }
-                }
-            </script>
             
         </div>
         
