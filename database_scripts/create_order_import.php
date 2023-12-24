@@ -22,9 +22,9 @@
 
         if (mysqli_stmt_execute($stmt)) {
             // If the order creation is successful, proceed with creating order_customer_employee
-            $query = "INSERT INTO `purchase_order` (purchase_ID) VALUES (?)";
+            $query = "INSERT INTO `purchase_order` (purchase_ID, employee_ID) VALUES (?,?)";
             $stmt = mysqli_prepare($con, $query);
-            mysqli_stmt_bind_param($stmt, "s", $orderID);
+            mysqli_stmt_bind_param($stmt, "ss", $orderID, $employee);
 
             // if (mysqli_stmt_execute($stmt)) {
             //     foreach ($products as $product) {
