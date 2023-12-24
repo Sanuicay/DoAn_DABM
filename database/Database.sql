@@ -409,7 +409,6 @@ CREATE TABLE `cart` (
   `ID` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---Dumping data for table `cart`, same as `member`
 
 INSERT INTO `cart` (`ID`) VALUES
 ('10010101'),
@@ -1487,7 +1486,7 @@ INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `userna
 ('20030303', 'Nguyen Thi', 'B', '0903030303', 'test3@gmail.com', 'test3', 'test3', 'Nguyen Thi B is a test user'),
 ('20040404', 'Le Van', 'C', '0904040404', 'test4@gmail.com', 'test4', 'test4', 'Le Van C is a test user'),
 ('20050505', 'Le Thi', 'D', '0905050505', 'test5@gmail.com', 'test5', 'test5', 'Le Thi D is a test user'),
-('20060606', 'Dao Van', 'E', '0906060606', 'test6@gmail.com', 'test6', 'test6', 'Dao Van E is a test user');
+('20060606', 'Dao Van', 'E', '0906060606', 'test6@gmail.com', 'test6', 'test6', 'Dao Van E is a test user'),
 ('20070707', 'Dao Thi', 'F', '0907070707', 'test7@gmail.com', 'test7', 'test7', 'Dao Thi F is a test user'),
 ('20080808', 'Tran Van', 'G', '0908080808', 'test8@gmail.com', 'test8', 'test8', 'Tran Van G is a test user'),
 ('20090909', 'Tran Thi', 'H', '0909090909', 'test9@gmail.com', 'test9', 'test9', 'Tran Thi H is a test user');
