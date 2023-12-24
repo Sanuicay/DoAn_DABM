@@ -16,7 +16,7 @@ else{
 }
 
 // Connect to your database
-$con = mysqli_connect("localhost:3307","root","","dabm_database");
+$con = mysqli_connect("localhost","root","Danh@mysql@23","dabm_database");
 
 // Check connection
 if (mysqli_connect_errno()) {
