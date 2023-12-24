@@ -1,5 +1,6 @@
 <?php
 include("connection.php");
+
 //if change1 button is pressed, update the user info (ignore the blank input)
 if (isset($_POST['change1']))
 {

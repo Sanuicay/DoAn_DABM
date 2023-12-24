@@ -5,7 +5,18 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit();
 }
-
+// check if the user is customer or not
+$query = "SELECT sur_name, last_name
+        FROM member, user
+        WHERE member.ID = user.ID AND user.ID = $id;";
+$result = mysqli_query($con,$query);
+$row = mysqli_fetch_assoc($result);
+$count = mysqli_num_rows($result);
+if ($count != 1)
+{
+    echo "<script>alert('You dont have permission to access this page!')</script>";
+    echo "<script>window.location.href='login_success.php'</script>";
+}
 // when click on the purchase button
 if (isset($_POST['purchase'])) {
     $order_ID = $_POST['order_ID'];
