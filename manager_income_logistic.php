@@ -49,10 +49,10 @@
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thống kê sách</p>
+        <p class="box-text">Thống kê doanh thu</p>
         <div>
-            <a href="user_employee.php">Cá nhân</a>
-            <a href="book_statistic.php">> Thống kê sách</a>
+            <a href="manager_logistic.php">Thống kê</a>
+            <a href="manager_income_logistic.php">> Thống kê doanh thu</a>
         </div>
     </div>
 
@@ -114,7 +114,7 @@
                         <input type="date" id="from_time" name="from_time">
                         <label for="to_time">Đến:</label>
                         <input type="date" id="to_time" name="to_time">
-                        <label for='theloai'>Mã thể loại</label><br>
+                        <label for='theloai'>Mã thể loại:</label>
                         <select id='theloaiID' name='theloaiID'>
                         <option value='Không'>Không</option>
                         <?php

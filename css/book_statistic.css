@@ -24,7 +24,7 @@
 }
 
 .date-input form{
-    gap: 20px;
+    gap: 10px;
 }
 .custom-button {
     background-color: #4CAF50;
@@ -43,8 +43,11 @@
 #theloaiID {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin: 0px 0;
+    background-color: #F9F1E7;
+    border: 1px solid #ccc;
     box-sizing: border-box;
+    margin-top: 0px;
     margin-left : 20px;
 }
 

@@ -51,8 +51,8 @@
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Thống kê sách</p>
         <div>
-            <a href="user_employee.php">Cá nhân</a>
-            <a href="book_statistic.php">> Thống kê sách</a>
+            <a href="manager_logistic.php">Thống kê</a>
+            <a href="manager_book_logistic.php">> Thống kê sách</a>
         </div>
     </div>
 

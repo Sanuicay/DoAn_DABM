@@ -40,10 +40,6 @@ include("connection.php");
     <div class="box">
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
         <p class="box-text">Quản lý nhân sự</p>
-        <div>
-            <a href="index.html">Cá nhân</a>
-            <a href="list_of_book.html">> Quản lý nhân sự</a>
-        </div>
     </div>
 
     <!-- content -->
