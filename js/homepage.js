@@ -138,3 +138,36 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleItems(items3, seeMoreBtn3, visibleItemCount3);
     toggleItems(items4, seeMoreBtn4, visibleItemCount4);
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the select element and item container
+    const sortSelect = document.getElementById('sort');
+    const itemContainer = document.getElementById('itemContainer');
+
+    // Add event listener to handle changes in the select element
+    sortSelect.addEventListener('change', function () {
+        // Get the selected value
+        const selectedValue = sortSelect.value;
+
+        // Get all items inside the container
+        const items = Array.from(itemContainer.children);
+
+        // Sort items based on the selected option
+        if (selectedValue === 'h2l') {
+            items.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                return priceB - priceA;
+            });
+        } else if (selectedValue === 'l2h') {
+            items.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                return priceA - priceB;
+            });
+        }
+
+        // Append sorted items back to the container
+        items.forEach(item => itemContainer.appendChild(item));
+    });
+});

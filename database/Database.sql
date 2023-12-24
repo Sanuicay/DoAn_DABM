@@ -42,97 +42,109 @@ CREATE TABLE `author` (
 -- Dumping data for table `author`
 --
 
-INSERT INTO `author` (`author_ID`, `author_name`) VALUES
-('01', 'Nhiều tác giả'),
-('11', 'Jay Forman'),
-('12', 'Ronald Conway'),
-('13', 'Ramona Gonczol-Davies'),
-('14', 'Bruce McMillan'),
-('15', 'Ralf Niemczyk'),
-('16', 'Nigel Pollock'),
-('17', 'Jane Walmsley'),
-('18', 'Deborah Rudacille'),
-('19', 'Caroline Leavitt'),
-('20', 'Dave McGovern'),
-('21', 'Helen Brooks'),
-('22', 'Arnold A. Griese'),
-('23', 'Gary Rosberg'),
-('24', 'Gregory E Pence'),
-('25', 'Sherri Mandell'),
-('26', 'Jan McKee'),
-('27', 'Scott Atkinson'),
-('28', 'Laurence J Peter'),
-('29', 'Joanna Harris'),
-('30', 'R. John Brockmann'),
-('31', 'Donald D. Cheatham'),
-('32', 'Bernard Hagene'),
-('33', 'Leontyne Price'),
-('34', 'William R. Forstchen'),
-('35', 'John Dyson'),
-('36', 'Steve Stewart'),
-('37', 'Will Friedwald'),
-('38', 'Curtis Hutson'),
-('39', 'Sally Greengross'),
-('40', 'Clarence Norris'),
-('41', 'MÃ¡ximo Pradera'),
-('42', 'MIRIAM WEINSTEIN'),
-('43', 'Barbara Mujica'),
-('44', 'Brian Castro'),
-('45', 'Trevor Wye'),
-('46', 'Dale Van Every'),
-('47', 'Joseph Mitchell'),
-('48', 'Randy Richmond'),
-('49', 'Joseph Gelineau'),
-('50', 'Duerrenmatt'),
-('51', 'Todd Litman'),
-('52', 'Tom Philbin'),
-('53', 'Jonathan A. Michaels'),
-('54', 'Ann McAllister'),
-('55', 'Jean Betschart-Roemer'),
-('56', 'Jacqueline DeJohn'),
-('57', 'Fiona'),
-('58', 'George Hardinge'),
-('59', 'Jennifer B. Jones'),
-('60', 'Richard Kindsvatter'),
-('61', 'PHYLLIS GREENE'),
-('62', 'Kerry Madden'),
-('63', 'Ruth K. Westheimer'),
-('64', 'Richard M. Ebeling'),
-('65', 'Charles Merrill Smith'),
-('66', 'Jennifer Knapp'),
-('67', 'Charles Frances Hunter'),
-('68', 'Emily Rodda'),
-('69', 'Jacqueline Williams'),
-('70', 'J. Edward Evans'),
-('71', 'Clemens Birnbaum'),
-('72', 'BARBARA MUJICA'),
-('73', 'Judith Lennox'),
-('74', 'Collard'),
-('75', 'Kerry Mark Joels'),
-('76', 'John S. Dunne'),
-('77', 'D. Whitelock'),
-('78', 'Helaine G. Helmreich'),
-('79', 'Sarah Mlynowski'),
-('80', 'Alfred Werner'),
-('81', 'E. B White'),
-('82', 'K. J. Eddey'),
-('83', 'Michael Massey'),
-('84', 'Mat Schulz'),
-('85', 'Georges  Ifrah'),
-('86', 'Elaine O.Reilly'),
-('87', 'Rowan Williams'),
-('88', 'Robert Wuthnow'),
-('89', 'Georges Bordonove'),
-('90', 'Roger G. Kennedy'),
-('91', 'Robert Mawson'),
-('92', 'Charles Chesnutt'),
-('93', 'Rosetta  James'),
-('94', 'Donald Goldsmith'),
-('95', 'George Herbert Mead'),
-('96', 'Janice Larouche'),
-('97', 'Jacqueline Harrod'),
-('98', 'Gï¿½?Â©rard Delteil'),
-('99', 'Kay Sheppard');
+-- SQL script for inserting author
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("01", "Nhiều tác giả");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("11", "Mark P. O. Morford");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("12", "Richard Bruce Wright");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("13", "Carlo D'Este");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("14", "Gina Bari Kolata");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("15", "E. J. W. Barber");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("16", "Amy Tan");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("17", "Robert Cowley");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("18", "Scott Turow");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("19", "David Cordingly");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("20", "Ann Beattie");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("21", "David Adams Richards");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("22", "Adam Lebor");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("23", "Sheila Heti");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("24", "R. J. Kaiser");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("25", "Jack Canfield");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("26", "Loren D. Estleman");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("27", "Robert Hendrickson");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("28", "Julia Oliver");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("29", "John Grisham");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("30", "Toni Morrison");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("31", "The Onion");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("32", "Celia Brooks Brown");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("33", "J. R. Parrish");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("34", "Mary-Kate &amp, Ashley Olsen");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("35", "Robynn Clairday");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("36", "Kathleen Duey");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("37", "Rich Shapero");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("38", "Michael Crichton");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("39", "MICHAEL CRICHTON");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("40", "C.S. Lewis");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("41", "ARTHUR PHILLIPS");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("42", "Stephan Jaramillo");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("43", "Mordecai Richler");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("44", "Eleanor Cooney");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("45", "Charlotte Link");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("46", "Richard North Patterson");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("47", "Mark Salzman");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("48", "Harper Lee");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("49", "LAURA HILLENBRAND");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("50", "Barbara Kingsolver");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("51", "Jo Dereske");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("52", "Jane Austen");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("53", "Dolores Krieger");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("54", "Anne Rivers Siddons");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("55", "Dean R. Koontz");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("56", "Mary Higgins Clark");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("57", "Dean Koontz");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("58", "Patricia Cornwell");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("59", "J.D. Robb");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("60", "Maeve Binchy");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("61", "Laura J. Mixon");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("62", "Tim Lahaye");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("63", "JOHN GRISHAM");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("64", "M.D. Bernie S. Siegel");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("65", "Robert Penn Warren");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("66", "Hans Johannes Hoefer");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("67", "Mark Helprin");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("68", "O. Carol Simonton Md");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("69", "Chuck Hill");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("70", "David Iglehart");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("71", "Larry McMurtry");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("72", "SUZANNE FISHER STAPLES");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("73", "SUZANNE FISHER STAPLES");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("74", "Michel Tournier");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("75", "Carl Sagan");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("76", "Aleksandr Zinoviev");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("77", "Anne Tyler");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("78", "Amy Tan");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("79", "Joseph Conrad");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("80", "Deepak Chopra");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("81", "Thomas Hardy");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("82", "Charles Noland");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("83", "Valerie Frankel");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("84", "Benjamin Hoff");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("85", "LAURA HILLENBRAND");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("86", "Niccolo Machiavelli");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("87", "H. Jackson Brown");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("88", "Robert A. Heinlein");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("89", "PHILIP PULLMAN");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("90", "Anna Sewell");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("91", "MICHAEL ONDAATJE");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("92", "Sandra Levy Ceren");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("93", "P.J. O'Rourke");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("94", "Mike Gayle");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("95", "Stel Pavlou");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("96", "Sarah Payne Stuart");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("97", "Dan Quayle");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("98", "Donald F. Kettl");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("99", "DAVID FRUM");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("100", "Louis Lamour");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("101", "J.D. Salinger");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("102", "J. R. R. Tolkien");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("103", "J. R. R. Tolkien");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("104", "J. R. R. Tolkien");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("105", "John Berendt");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("106", "Mary Higgins Clark");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("107", "Jennifer Crusie");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("108", "Jane Heller");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("109", "Michael Rips");
+INSERT INTO `author` (`author_ID`, `author_name`) VALUES ("110", "Simon Mawer");
+
 
 -- --------------------------------------------------------
 
@@ -844,118 +856,108 @@ CREATE TABLE `publisher` (
 -- Dumping data for table `publisher`
 --
 
-INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES
-('001', 'NXB Giáo dục Việt Nam'),
-('002', 'HarperPerennial'),
-('003', 'Farrar Straus Giroux'),
-('004', 'W. W. Norton &amp, Company'),
-('005', 'Putnam Pub Group'),
-('006', 'Berkley Publishing Group'),
-('007', 'Audioworks'),
-('008', 'Random House'),
-('009', 'Scribner'),
-('010', 'Emblem Editions'),
-('011', 'Citadel Press'),
-('012', 'House of Anansi Press'),
-('013', 'Mira Books'),
-('014', 'Health Communications'),
-('015', 'Brilliance Audio - Trade'),
-('016', 'Kensington Publishing Corp.'),
-('017', 'River City Pub'),
-('018', 'Dell'),
-('019', 'Plume'),
-('020', 'Three Rivers Press'),
-('021', 'Ryland Peters &amp, Small Ltd'),
-('022', 'Cypress House'),
-('023', 'HarperEntertainment'),
-('024', 'Scholastic'),
-('025', 'Aladdin'),
-('026', 'Too Far'),
-('027', 'Ballantine Books'),
-('028', 'Ballantine Books'),
-('029', 'Scribner'),
-('030', 'Random House Trade Paperbacks'),
-('031', 'Berkley Publishing Group'),
-('032', 'L�?¼bbe'),
-('033', 'Goldmann'),
-('034', 'Goldmann'),
-('035', 'Goldmann'),
-('036', 'Alfred A. Knopf'),
-('037', 'Little Brown &amp, Company'),
-('038', 'Ballantine Books'),
-('039', 'Harpercollins'),
-('040', 'Avon'),
-('041', 'Bantam'),
-('042', 'Fireside'),
-('043', 'HarperTorch'),
-('044', 'Bantam Books'),
-('045', 'Pocket'),
-('046', 'Bantam Books'),
-('047', 'Berkley Publishing Group'),
-('048', 'Berkley Publishing Group'),
-('049', 'Dell'),
-('050', 'Tor Books'),
-('051', 'Tyndale House Publishers'),
-('052', 'Dell'),
-('053', 'HarperCollins Publishers'),
-('054', 'Harvest Books'),
-('055', 'Chambers Harrap Publishers Ltd'),
-('056', 'Avon Books'),
-('057', 'Bantam'),
-('058', 'Speed Graphics'),
-('059', 'Sunflower Press'),
-('060', 'Pocket'),
-('061', 'Laurel Leaf'),
-('062', 'Laurel Leaf'),
-('063', 'Gallimard'),
-('064', 'Ballantine Books'),
-('065', 'Random House'),
-('066', 'Berkley Publishing Group'),
-('067', 'Prentice Hall (K-12)'),
-('068', 'NTC/Contemporary Publishing Company'),
-('069', 'St. Martin s Press'),
-('070', 'NTC/Contemporary Publishing Company'),
-('071', '1stBooks Library'),
-('072', 'Avon Trade'),
-('073', 'Penguin Books'),
-('074', 'Ballantine Books'),
-('075', 'Signet Book'),
-('076', 'Thomas Nelson'),
-('077', 'Ace Books'),
-('078', 'Laurel Leaf'),
-('079', 'Landoll'),
-('080', 'Knopf'),
-('081', 'Andrew Scott Publishers'),
-('082', 'Atlantic Monthly Press'),
-('083', 'Hodder &amp, Stoughton General Division'),
-('084', 'Simon &amp, Schuster (Trade Division)'),
-('085', 'Perennial'),
-('086', 'Harpercollins'),
-('087', 'McGraw-Hill'),
-('088', 'Random House'),
-('089', 'Bantam Doubleday Dell'),
-('090', 'Little, Brown'),
-('091', 'Minotauro'),
-('092', 'Minotauro'),
-('093', 'Distribooks'),
-('094', 'Random House'),
-('095', 'Pocket'),
-('096', 'St. Martin s Press'),
-('097', 'St. Martin s Press'),
-('098', 'Back Bay Books'),
-('099', 'Back Bay Books'),
-('100', 'Doubleday Books'),
-('101', 'Warner Books'),
-('102', 'Signet Book'),
-('103', 'Bantam'),
-('104', 'Fireside'),
-('105', 'Vintage'),
-('106', 'Fireside'),
-('107', 'Hyperion'),
-('108', 'Tusquets'),
-('109', 'Star Trek'),
-('110', 'Pocket'),
-('111', 'Dell');
+-- SQL script for inserting publisher
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("001", "NXB Giáo dục Việt Nam");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("011", "Oxford University Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("012", "HarperFlamingo Canada");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("013", "HarperPerennial");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("014", "Farrar Straus Giroux");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("015", "W. W. Norton &amp, Company");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("016", "Putnam Pub Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("017", "Berkley Publishing Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("018", "Audioworks");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("019", "Random House");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("020", "Scribner");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("021", "Emblem Editions");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("022", "Citadel Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("023", "House of Anansi Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("024", "Mira Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("025", "Health Communications");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("026", "Brilliance Audio - Trade");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("027", "Kensington Publishing Corp.");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("028", "River City Pub");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("029", "Dell");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("030", "Plume");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("031", "Three Rivers Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("032", "Ryland Peters &amp, Small Ltd");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("033", "Cypress House");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("034", "HarperEntertainment");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("035", "Scholastic");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("036", "Aladdin");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("037", "Too Far");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("038", "Ballantine Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("039", "Ballantine Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("040", "Scribner");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("041", "Random House Trade Paperbacks");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("042", "Berkley Publishing Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("043", "L�?¼bbe");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("044", "Goldmann");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("045", "Goldmann");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("046", "Goldmann");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("047", "Alfred A. Knopf");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("048", "Little Brown &amp, Company");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("049", "Ballantine Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("050", "Harpercollins");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("051", "Avon");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("052", "Bantam");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("053", "Fireside");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("054", "HarperTorch");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("055", "Bantam Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("056", "Pocket");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("057", "Bantam Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("058", "Berkley Publishing Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("059", "Berkley Publishing Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("060", "Dell");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("061", "Tor Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("062", "Tyndale House Publishers");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("063", "Dell");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("064", "HarperCollins Publishers");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("065", "Harvest Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("066", "Chambers Harrap Publishers Ltd");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("067", "Avon Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("068", "Bantam");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("069", "Speed Graphics");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("070", "Sunflower Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("071", "Pocket");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("072", "Laurel Leaf");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("073", "Laurel Leaf");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("074", "Gallimard");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("075", "Ballantine Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("076", "Random House");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("077", "Berkley Publishing Group");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("078", "Prentice Hall (K-12)");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("079", "NTC/Contemporary Publishing Company");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("080", "St. Martin's Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("081", "NTC/Contemporary Publishing Company");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("082", "1stBooks Library");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("083", "Avon Trade");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("084", "Penguin Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("085", "Ballantine Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("086", "Signet Book");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("087", "Thomas Nelson");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("088", "Ace Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("089", "Laurel Leaf");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("090", "Landoll");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("091", "Knopf");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("092", "Andrew Scott Publishers");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("093", "Atlantic Monthly Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("094", "Hodder &amp, Stoughton General Division");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("095", "Simon &amp, Schuster (Trade Division)");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("096", "Perennial");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("097", "Harpercollins");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("098", "McGraw-Hill");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("099", "Random House");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("100", "Bantam Doubleday Dell");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("101", "Little, Brown");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("102", "Minotauro");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("103", "Minotauro");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("104", "Distribooks");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("105", "Random House");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("106", "Pocket");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("107", "St. Martin's Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("108", "St. Martin's Press");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("109", "Back Bay Books");
+INSERT INTO `publisher` (`publisher_ID`, `publisher_name`) VALUES ("110", "Back Bay Books");
 
 -- --------------------------------------------------------
 
@@ -1516,120 +1518,118 @@ CREATE TABLE `written_by` (
 --
 -- Dumping data for table `written_by`
 --
+-- SQL script for inserting written_by
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("1", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("2", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("3", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("4", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("5", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("6", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("7", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("8", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("9", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("10", "01");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("11", "11");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("12", "12");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("13", "13");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("14", "14");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("15", "15");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("16", "16");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("17", "17");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("18", "18");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("19", "19");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("20", "20");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("21", "21");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("22", "22");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("23", "23");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("24", "24");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("25", "25");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("26", "26");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("27", "27");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("28", "28");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("29", "29");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("30", "30");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("31", "31");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("32", "32");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("33", "33");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("34", "34");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("35", "35");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("36", "36");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("37", "37");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("38", "38");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("39", "39");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("40", "40");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("41", "41");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("42", "42");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("43", "43");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("44", "44");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("45", "45");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("46", "46");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("47", "47");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("48", "48");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("49", "49");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("50", "50");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("51", "51");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("52", "52");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("53", "53");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("54", "54");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("55", "55");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("56", "56");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("57", "57");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("58", "58");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("59", "59");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("60", "60");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("61", "61");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("62", "62");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("63", "63");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("64", "64");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("65", "65");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("66", "66");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("67", "67");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("68", "68");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("69", "69");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("70", "70");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("71", "71");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("72", "72");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("73", "73");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("74", "74");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("75", "75");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("76", "76");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("77", "77");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("78", "78");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("79", "79");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("80", "80");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("81", "81");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("82", "82");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("83", "83");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("84", "84");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("85", "85");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("86", "86");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("87", "87");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("88", "88");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("89", "89");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("90", "90");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("91", "91");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("92", "92");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("93", "93");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("94", "94");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("95", "95");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("96", "96");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("97", "97");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("98", "98");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("99", "99");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("100", "100");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("101", "101");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("102", "102");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("103", "103");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("104", "104");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("105", "105");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("106", "106");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("107", "107");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("108", "108");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("109", "109");
+INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES ("110", "110");
 
-INSERT INTO `written_by` (`book_ID`, `author_ID`) VALUES
-('0', '92'),
-('1', '96'),
-('10', '56'),
-('100', '23'),
-('101', '53'),
-('102', '5'),
-('103', '74'),
-('104', '38'),
-('105', '50'),
-('106', '18'),
-('107', '13'),
-('108', '26'),
-('109', '69'),
-('11', '87'),
-('110', '56'),
-('111', '36'),
-('12', '98'),
-('13', '83'),
-('14', '90'),
-('15', '21'),
-('16', '50'),
-('17', '63'),
-('18', '58'),
-('19', '52'),
-('2', '71'),
-('20', '78'),
-('21', '45'),
-('22', '64'),
-('23', '89'),
-('24', '76'),
-('25', '18'),
-('26', '83'),
-('27', '2'),
-('28', '63'),
-('29', '98'),
-('3', '50'),
-('30', '90'),
-('31', '89'),
-('32', '4'),
-('33', '58'),
-('34', '36'),
-('35', '88'),
-('36', '98'),
-('37', '32'),
-('38', '14'),
-('39', '77'),
-('4', '97'),
-('40', '3'),
-('41', '14'),
-('42', '65'),
-('43', '96'),
-('44', '23'),
-('45', '5'),
-('46', '1'),
-('47', '22'),
-('48', '74'),
-('49', '58'),
-('5', '47'),
-('50', '36'),
-('51', '30'),
-('52', '46'),
-('53', '5'),
-('54', '86'),
-('55', '59'),
-('56', '31'),
-('57', '7'),
-('58', '41'),
-('59', '30'),
-('6', '32'),
-('60', '11'),
-('61', '69'),
-('62', '95'),
-('63', '33'),
-('64', '98'),
-('65', '71'),
-('66', '38'),
-('67', '60'),
-('68', '26'),
-('69', '60'),
-('7', '58'),
-('70', '23'),
-('71', '21'),
-('72', '88'),
-('73', '16'),
-('74', '89'),
-('75', '55'),
-('76', '80'),
-('77', '97'),
-('78', '92'),
-('79', '98'),
-('8', '77'),
-('80', '37'),
-('81', '15'),
-('82', '12'),
-('83', '10'),
-('84', '8'),
-('85', '55'),
-('86', '16'),
-('87', '86'),
-('88', '8'),
-('89', '99'),
-('9', '93'),
-('90', '56'),
-('91', '11'),
-('92', '62'),
-('93', '51'),
-('94', '7'),
-('95', '3'),
-('96', '90'),
-('97', '84'),
-('98', '68'),
-('99', '94');
 
 --
 -- Indexes for dumped tables

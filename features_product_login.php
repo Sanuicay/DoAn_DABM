@@ -124,7 +124,7 @@ if (isset($_SESSION["user_id"])) {
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
@@ -137,7 +137,7 @@ if (isset($_SESSION["user_id"])) {
                                         <img src="<?php echo $row["img_path"];?>" alt="">
                                         <h2><?php echo $row["book_name"];?></h2>
                                         <h3><?php echo $row["publisher_name"];  ?></h3>
-                                        <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                                     </div>
                                 </div>
                     <?php
@@ -169,7 +169,7 @@ if (isset($_SESSION["user_id"])) {
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
@@ -182,7 +182,7 @@ if (isset($_SESSION["user_id"])) {
                                         <img src="<?php echo $row["img_path"];?>" alt="">
                                         <h2><?php echo $row["book_name"];?></h2>
                                         <h3><?php echo $row["publisher_name"];  ?></h3>
-                                        <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                                     </div>
                                 </div>
                     <?php
@@ -214,7 +214,7 @@ if (isset($_SESSION["user_id"])) {
                             <img src="<?php echo $row["img_path"];?>" alt="">
                             <h2><?php echo $row["book_name"];?></h2>
                             <h3><?php echo $row["publisher_name"];  ?></h3>
-                            <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                            <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                         </div>
                     </div>
                     <?php
@@ -227,7 +227,7 @@ if (isset($_SESSION["user_id"])) {
                                         <img src="<?php echo $row["img_path"];?>" alt="">
                                         <h2><?php echo $row["book_name"];?></h2>
                                         <h3><?php echo $row["publisher_name"];  ?></h3>
-                                        <h4><?php echo $row["sale_price"]; ?>đ</h4>
+                                        <h4><?php echo number_format($row["sale_price"], 0, ',', ' '); ?>đ</h4>
                                     </div>
                                 </div>
                     <?php
