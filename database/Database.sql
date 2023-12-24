@@ -505,6 +505,7 @@ CREATE TABLE `member` (
 
 INSERT INTO `member` (`ID`) VALUES
 ('10010101'),
+('10020202'),
 ('10030303'),
 ('10040404'),
 ('10050505'),
@@ -1271,6 +1272,11 @@ INSERT INTO `sale_include` (`sale_ID`, `book_ID`, `sale_quantity`) VALUES
 ('ONL93', '62', 177),
 ('ONL95', '87', 82),
 ('ONL99', '102', 51),
+('ONL100', '102', 1),
+('ONL11', '3', 4),
+('ONL14', '3', 4),
+('ONL21', '3', 4),
+('ONL22', '31', 1),
 ('STO1', '99', 105),
 ('STO100', '97', 89),
 ('STO11', '31', 197),
@@ -1373,7 +1379,9 @@ INSERT INTO `sale_order` (`sale_ID`, `delivery_date`, `delivery_address`, `payme
 ('ONL13', '2023-05-24', 'Paris', 0xc490c3a3207468616e6820746fc3a16e, '10020202', '20030303'),
 ('ONL14', '2023-10-27', 'Dĩ An, Bình Dương', 0xc490c3a3207468616e6820746fc3a16e, '10030303', '20030303'),
 ('ONL16', '2023-07-07', 'Dĩ An, Bình Dương', 0xc490c3a3207468616e6820746fc3a16e, '10010101', '20030303'),
+('ONL17', '2023-08-09', 'Dĩ An, Bình Dương', 0xc490c3a3207468616e6820746fc3a16e, '10010101', '20030303'),
 ('ONL18', '2023-10-28', 'KTX Khu A', 0xc490c3a3207468616e6820746fc3a16e, '10010101', '20040404'),
+('ONL19', '2023-11-26', 'KTX Khu A', 0xc490c3a3207468616e6820746fc3a16e, '10010101', '20040404'),
 ('ONL2', '2023-09-26', 'Moscow', 0xc490c3a3207468616e6820746fc3a16e, '10040404', '20060606'),
 ('ONL21', '2023-06-27', 'Thiên đình', 0xc490c3a3207468616e6820746fc3a16e, '10010101', '20020202'),
 ('ONL22', '2023-01-27', 'Nhà trắng', 0xc490c3a3207468616e6820746fc3a16e, '10030303', '20010101'),
@@ -1477,6 +1485,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `username`, `password`, `user_info`) VALUES
 ('10010101', 'Trần Nguyễn Nam', 'Anh', '0765710073', 'sallytran2809@gmail.com', 'na', 'na2809', 'TNNA is a test user'),
+('10020202', 'Trần Đông', 'Nhi', '0782341526', 'dongnhimehat@gmail.com', 'nhi', 'nhinhinhanh', 'TĐN is a test user'),
 ('10030303', 'Nguyễn Ngọc Bảo', 'Châu', '0913667729', 'bouchou@gmail.com', 'chou', 'bouchou', 'NNBC is a test user'),
 ('10040404', 'Đỗ Ngọc', 'Ánh', '0918511314', 'dna3@gmail.com', 'dna', 'dnadna', 'ĐNA is a test user'),
 ('10050505', 'Linh Ngọc Thùy', 'Ngân', '0938271688', 'bow@gmail.com', 'bowne', 'ngankhung', 'LNTN is a test user'),
