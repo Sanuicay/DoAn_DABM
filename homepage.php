@@ -37,7 +37,7 @@ if (isset($_SESSION["user_id"])) {
           <a href="#">Liên hệ</a>
       </div>
       <div class="header-right-section">
-          <a href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
+          <a onclick="redirectToLoginPage()" href="#"><img class="header-icon" src="img/icon_user.png" alt="Icon 1"></a>
           <button id="toggleBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
           <a href="#"><img class="header-icon" src="img/icon_heart.png" alt="Icon 3"></a>
       </div>
