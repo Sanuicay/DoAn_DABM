@@ -119,6 +119,20 @@
                     </form>
                 </div>
             </div>
+
+            <script>
+				window.onload = function() {
+					var today = new Date();
+					var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+					document.getElementById("from_time").value = '2023-01-01'
+					document.getElementById("to_time").value = date;
+				};
+
+				function redirectToBookDetailsPage(ID) {
+					window.location.href = 'update_book.php?id=' + ID;
+				}
+			</script>
+            
             <br><br>
             <style>
                 .best-table {
