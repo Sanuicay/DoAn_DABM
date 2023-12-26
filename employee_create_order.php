@@ -511,64 +511,66 @@ include_once('database_scripts/func_total_price_sale.php');
 
                 function confirmOrderTest() {
                     // Assuming customerData is defined somewhere in your code
-                    if (Object.keys(customerData).length === 0) {
-                        var customerDetails = document.getElementById("customerDetails");
-                        customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập khách hàng</strong>";
-                    } 
-                    else {
-                        if (Object.keys(productJson).length === 0) {
+                    if (Object.keys(productJson).length === 0) {
                         var customerDetails = document.getElementById("messageForOrder");
                         customerDetails.innerHTML = "<strong style='color: red;'>Chưa nhập sản phẩm</strong>";
-                    } else {
-                    var customer = customerData.id;
-                    console.log(customer);
-                    var tableBody = document.getElementById("productBody");
-                    var rows = tableBody.getElementsByTagName("tr");
+                    } 
+                    else {
+                        if (Object.keys(customerData).length === 0) {
+                            var isConfirmedWithoutCustomer = window.confirm("Chưa nhập khách hàng, bạn có muốn tiếp tục?");
+                        } if (Object.keys(customerData).length != 0 || isConfirmedWithoutCustomer) {
+                        var customer = customerData.id;
+                        if(isConfirmedWithoutCustomer) {
+                            customer = "00000000";
+                        }
+                        console.log(customer);
+                        var tableBody = document.getElementById("productBody");
+                        var rows = tableBody.getElementsByTagName("tr");
 
-                    var orderid = document.getElementById("s.orderid").value;
-                    var orderdate = document.getElementById("s.orderdate").value;
-                    var ordernote ="store, Đã duyệt, "+document.getElementById("s.ordernote").value;
+                        var orderid = document.getElementById("s.orderid").value;
+                        var orderdate = document.getElementById("s.orderdate").value;
+                        var ordernote ="store, Đã duyệt, "+document.getElementById("s.ordernote").value;
 
-                    // Display a confirmation dialog
-                    var isConfirmed = window.confirm("Are you sure you want to confirm the order?");
+                        // Display a confirmation dialog
+                        var isConfirmed = window.confirm("Are you sure you want to confirm the order?");
 
-                    // Check the result of the confirmation dialog
-                    if (isConfirmed) {
-                        fetch('./database_scripts/create_order.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                customerInfo: customer,
-                                product: productJson,
-                                orderID: orderid,
-                                orderDate: orderdate,
-                                orderNote: ordernote,
-                                employeeID: userId,
+                        // Check the result of the confirmation dialog
+                        if (isConfirmed) {
+                            fetch('./database_scripts/create_order.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    customerInfo: customer,
+                                    product: productJson,
+                                    orderID: orderid,
+                                    orderDate: orderdate,
+                                    orderNote: ordernote,
+                                    employeeID: userId,
+                                })
                             })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Http error!');
-                            }
-                            return response.json(); // Convert response to JSON
-                        })
-                        .then(data => {
-                            if(data.success) {
-                                alert("Order confirmed successfully!");
-                                window.location.href = "./employee_order.php"; // Replace with your actual page URL
-                            } else {
-                                alert("Error confirming order: " + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-                    } else {
-                        // If the user clicks "Cancel," do nothing (stay on the same page)
-                        // You can add more logic here if needed
-                    }}}
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Http error!');
+                                }
+                                return response.json(); // Convert response to JSON
+                            })
+                            .then(data => {
+                                if(data.success) {
+                                    alert("Order confirmed successfully!");
+                                    window.location.href = "./employee_order.php"; // Replace with your actual page URL
+                                } else {
+                                    alert("Error confirming order: " + data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                        } else {
+                            // If the user clicks "Cancel," do nothing (stay on the same page)
+                            // You can add more logic here if needed
+                        }}}
                 }
 
 
