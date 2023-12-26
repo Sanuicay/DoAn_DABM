@@ -94,6 +94,9 @@ include_once('database_scripts/func_total_price_sale.php');
             echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: {$user['ID']}</p>";
             if ($id == 00000001)
             {
+                echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "login_success.php";</script>';
+                    exit;
                 echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
             }
             else
@@ -108,6 +111,7 @@ include_once('database_scripts/func_total_price_sale.php');
                 $count = mysqli_num_rows($result_);
                 if ($count == 1)
                 {
+                    
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Employee</p>";
                 }
                 else
