@@ -72,12 +72,13 @@
                 if ($id == 00000001)
                 {
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
-                }
-                else
-                {
                     echo '<script>alert("You are not authorized to view this content.");</script>';
                     echo '<script>window.location.href = "login_success.php";</script>';
                     exit;
+                }
+                else
+                {
+                   
                     //check if the ID exsist in the employee table
                     $query_ = "SELECT ID
                               FROM employee
