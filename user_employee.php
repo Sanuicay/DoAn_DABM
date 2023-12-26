@@ -154,6 +154,9 @@ if (isset($_POST['change2']))
                 echo "<p style='font-family: Arial, sans-serif; font-size: 13px; margin-bottom: 0; color: #B88E2F'>ID: $id</p>";
                 if ($id == 00000001)
                 {
+                    echo '<script>alert("You are not authorized to view this content.");</script>';
+                    echo '<script>window.location.href = "login_success.php";</script>';
+                    exit;
                     echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Manager</p>";
                 }
                 else
@@ -172,6 +175,9 @@ if (isset($_POST['change2']))
                     }
                     else
                     {
+                        echo '<script>alert("You are not authorized to view this content.");</script>';
+                        echo '<script>window.location.href = "login_success.php";</script>';
+                        exit;
                         echo "<p style='font-family: Arial, sans-serif; font-size: 13px; color: #B88E2F;'>Customer</p>";
                     }
                 }
