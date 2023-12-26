@@ -7,8 +7,10 @@
         $phoneNumber = $data->phoneNum;
 
         // Query the database for user information based on the phone number
-        $query = "SELECT sur_name, last_name, email, ID FROM user WHERE phone_num = '$phoneNumber'";
-        
+        // $query = "SELECT sur_name, last_name, email, ID FROM user WHERE phone_num = '$phoneNumber'";
+        $query = "SELECT user.sur_name, user.last_name, user.last_name, user.email, user.ID
+                  FROM user INNER JOIN member ON user.ID = member.ID
+                  WHERE user.phone_num = '$phoneNumber'";
         $result = mysqli_query($con, $query);
 
         if ($result) {

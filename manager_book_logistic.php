@@ -128,7 +128,7 @@
 				};
 
 				function redirectToBookDetailsPage(ID) {
-					window.location.href = 'single_product.php?id=' + ID;
+					window.location.href = 'update_book.php?id=' + ID;
 				}
 			</script>
 

@@ -10,7 +10,6 @@ $validate = "SELECT email, username FROM user;";
 $result = $mysqli->query($validate);
     
 if ($result->num_rows > 0) {
-    // Output data of each row
     while ($row = $result->fetch_assoc()) {
         $databaseEmail = $row["email"];
         if (isset($_POST['email'])) {
@@ -33,13 +32,12 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-
 $sql = "INSERT INTO user (ID, sur_name, last_name, phone_num, username, email, password)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
+
 $stmt = $mysqli->stmt_init();
 
-if ( ! $stmt->prepare($sql)) {
+if (!$stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->error);
 }
 
@@ -51,8 +49,26 @@ $stmt->bind_param("sssssss",
                   $_POST["username"],
                   $_POST["email"],
                   $password_form);
-                  
+
 if ($stmt->execute()) {
+
+    // Prepare SQL query for inserting ID into member table
+    $sql_member = "INSERT INTO member (ID) VALUES (?)";
+    $stmt_member = $mysqli->stmt_init();
+    if (!$stmt_member->prepare($sql_member)) {
+        die("SQL error: " . $mysqli->error);
+    }
+    $stmt_member->bind_param("s", $uniqueID);
+    $stmt_member->execute();
+
+    // Prepare SQL query for inserting ID into cart table
+    $sql_cart = "INSERT INTO cart (ID) VALUES (?)";
+    $stmt_cart = $mysqli->stmt_init();
+    if (!$stmt_cart->prepare($sql_cart)) {
+        die("SQL error: " . $mysqli->error);
+    }
+    $stmt_cart->bind_param("s", $uniqueID);
+    $stmt_cart->execute();
 
     header("Location: signup_successful.html");
     exit;
@@ -65,3 +81,5 @@ if ($stmt->execute()) {
         die($mysqli->error . " " . $mysqli->errno);
     }
 }
+
+?>

@@ -427,7 +427,8 @@ INSERT INTO `cart` (`ID`) VALUES
 ('10030303'),
 ('10040404'),
 ('10050505'),
-('10060606');
+('10060606'),
+('00000000');
 
 
 -- --------------------------------------------------------
@@ -521,7 +522,8 @@ INSERT INTO `member` (`ID`) VALUES
 ('10030303'),
 ('10040404'),
 ('10050505'),
-('10060606');
+('10060606'),
+('00000000');
 
 -- --------------------------------------------------------
 
@@ -1501,8 +1503,8 @@ INSERT INTO `user` (`ID`, `sur_name`, `last_name`, `phone_num`, `email`, `userna
 ('20070707', 'Dao Thi', 'F', '0907070707', 'test7@gmail.com', 'test7', 'test7', 'Dao Thi F is a test user'),
 ('20080808', 'Tran Van', 'G', '0908080808', 'test8@gmail.com', 'test8', 'test8', 'Tran Van G is a test user'),
 ('20090909', 'Tran Thi', 'H', '0909090909', 'test9@gmail.com', 'test9', 'test9', 'Tran Thi H is a test user'),
-('00000001', '', '', '', '', 'admin', 'admin', 'admin is an admin');
-
+('00000001', '', '', '', '', 'admin', 'admin', 'admin is an admin'),
+('00000000', 'Khách ', 'vãn lai', '00000', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
