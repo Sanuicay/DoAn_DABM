@@ -37,41 +37,49 @@ if(isset($_POST['add_to_cart'])){
         header('location:login.php');
     }
     else{
-        $quantity = $_POST['quantity'];
-        //check quantity, if quantity is less than 1, alert and set quantity to 1
-        if($quantity < 1){
-            echo "<script>alert('Số lượng không hợp lệ!');</script>";
-            $quantity = 1;
-            echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-        }
-        else{
-            // Check if the book is already in the cart
-            $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
-            $result = mysqli_query($con,$query);
-            if ($result->num_rows > 0) {
-                // If the book is already in the cart, update the quantity
-                $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
+        // check if the user is a member or not
+        $query = "SELECT * FROM member WHERE ID = '$user_id';";
+        $result = mysqli_query($con,$query);
+        if ($result->num_rows > 0) {
+            $quantity = $_POST['quantity'];
+            //check quantity, if quantity is less than 1, alert and set quantity to 1
+            if($quantity < 1){
+                echo "<script>alert('Số lượng không hợp lệ!');</script>";
+                $quantity = 1;
+                echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+            }
+            else{
+                // Check if the book is already in the cart
+                $query = "SELECT * FROM cart_include WHERE ID = '$user_id' AND book_ID = '$book_id';";
                 $result = mysqli_query($con,$query);
-                // thông báo thêm vào giỏ hàng thành công
-                if ($result) {
-                    echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
-                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                if ($result->num_rows > 0) {
+                    // If the book is already in the cart, update the quantity
+                    $query = "UPDATE cart_include SET cart_quantity = cart_quantity + '$quantity' WHERE ID = '$user_id' AND book_ID = '$book_id';";
+                    $result = mysqli_query($con,$query);
+                    // thông báo thêm vào giỏ hàng thành công
+                    if ($result) {
+                        echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+                        echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                    } else {
+                        echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                        echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                    }
                 } else {
-                    echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
-                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-                }
-            } else {
-                // If the book is not in the cart, insert the book to the cart
-                $query = "INSERT INTO cart_include VALUES ('$user_id', '$book_id', '$quantity');";
-                $result = mysqli_query($con,$query);
-                if ($result) {
-                    echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
-                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
-                } else {
-                    echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
-                    echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                    // If the book is not in the cart, insert the book to the cart
+                    $query = "INSERT INTO cart_include VALUES ('$user_id', '$book_id', '$quantity');";
+                    $result = mysqli_query($con,$query);
+                    if ($result) {
+                        echo "<script>alert('Thêm vào giỏ hàng thành công!');</script>";
+                        echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                    } else {
+                        echo "<script>alert('Thêm vào giỏ hàng thất bại!');</script>";
+                        echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
+                    }
                 }
             }
+        } else {
+            echo "<script>alert('Bạn không có quyền thêm vào giỏ hàng!');</script>";
+            echo "<script>window.location.href='single_product.php?id=$book_id';</script>";
         }
     }
 }
