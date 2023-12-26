@@ -132,9 +132,9 @@ if (isset($_SESSION["user_id"])) {
                       <h3>LIÊN KẾT</h3>
                       <ul>
                           <br>
-                          <li><a href="#">Trang chủ</a></li>
+                          <li><a href="login_success.php">Trang chủ</a></li>
                           <br>
-                          <li><a href="#">Cửa hàng</a></li>
+                          <li><a href="features_product_login.php">Cửa hàng</a></li>
                           <br>
                           <li><a href="#">Giới thiệu về DABM</a></li>
                           <br>
@@ -148,7 +148,7 @@ if (isset($_SESSION["user_id"])) {
                           <br>
                           <li><a href="#">Điều khoản</a></li>
                           <br>
-                          <li><a href="#">Thanh toán</a></li>
+                          <li><a href="customer_order_history.php">Thanh toán</a></li>
                           <br>
                           <li><a href="#">Chính sách bảo mật</a></li>
                       </ul>
