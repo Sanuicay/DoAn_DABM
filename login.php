@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
         <div class="header-nav-links">
             <a href="homepage.php">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
