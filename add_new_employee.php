@@ -96,8 +96,8 @@ include("connection.php");
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="login_success.php">Trang chủ</a>
+            <a href="features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -121,11 +121,7 @@ include("connection.php");
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thông tin cá nhân</p>
-        <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
-        </div>
+        <p class="box-text">Thêm nhân viên</p>
     </div>
 
     <div class="content">
@@ -162,15 +158,14 @@ include("connection.php");
                     }
                 }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="manager_employee.php"><img class="side-box-button" src="img/button_employee_management.png" alt="Button1"></a>
+            <a href="manager_logistic.php"><img class="side-box-button" src="img/button_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button"></a>
         </div>
         <div class="body-container">
             <div class="profile">
                 <form id="form1">
-                <h2>Hồ Sơ Của Tôi</h2>
+                <h2>Thêm Hồ sơ:</h2>
                 <form>
                     <!-- Name -->
                     <div class="name">
@@ -209,7 +204,7 @@ include("connection.php");
                 </form>
             </div>
             <div class="account-info" method="POST">
-                <h2>Thông Tin Tài Khoản</h2><br>
+                <h2> Thông tin đăng nhập:</h2><br>
                 <form id="form2">
                     <div class="form-group">
                         <?php
