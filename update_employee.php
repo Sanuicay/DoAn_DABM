@@ -190,14 +190,13 @@ if (isset($_POST['change2']))
                     }
                 }
             ?>
-            <a href="#"><img class="side-box-button" src="img/button_personal_info.png" alt="Button1"></a>
-            <a href="list_of_book.php"><img class="side-box-button" src="img/button_book_management.png" alt="Button1"></a>
-            <a href="employee_order.php"><img class="side-box-button" src="img/button_check_receipt.png" alt="Button1"></a>
-            <a href="#"><img class="side-box-last-button" src="img/button_book_logistics.png" alt="Button1"></a>
+            <a href="manager_employee.php"><img class="side-box-button" src="img/button_employee_management.png" alt="Button1"></a>
+            <a href="manager_logistic.php"><img class="side-box-button" src="img/button_logistics.png" alt="Button1"></a>
+            <a href="#"><img class="side-box-last-button"></a>
         </div>
         <div class="body-container">
             <div class="profile">
-                <h2>Hồ Sơ Của Tôi</h2>
+                <h2>Hồ Sơ:</h2>
                 <form method="POST">
 
                     <!-- Họ và Tên -->
