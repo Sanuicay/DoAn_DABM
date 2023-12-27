@@ -127,8 +127,8 @@ if (isset($_POST['change2']))
             <a href="index.html"><img class="header-logo" src="img/logo_DABM.png" alt="Logo"></a>
         </div>
         <div class="header-nav-links">
-            <a href="index.html">Trang chủ</a>
-            <a href="#">Cửa hàng</a>
+            <a href="login_success.php">Trang chủ</a>
+            <a href="features_product_login.php">Cửa hàng</a>
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
         </div>
@@ -152,11 +152,7 @@ if (isset($_POST['change2']))
     <!-- content goes here -->
     <div class="box"> <!--cover-box.css-->
         <img src="img/logo_DABM_3.png" alt="Home Icon" width="50px">
-        <p class="box-text">Thông tin cá nhân</p>
-        <div>
-            <a href="user.html">Cá nhân</a>
-            <a href="user.html">> Thông tin cá nhân</a>
-        </div>
+        <p class="box-text">Thông tin nhân viên</p>
     </div>
 
     <div class="content">
