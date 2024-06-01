@@ -27,9 +27,9 @@ git clone https://github.com/Sanuicay/DoAn_DABM.git
 ```bash
 cd DoAn_DABM
 ```
-3. **Create a MySQL database using the database.sql file inside the Database folder.**
-4. **Connect to your Database by editing the database.php file.**
-5. **Run your webserver.**
+3. **Create a MySQL database using the Database.sql file inside the database folder.**
+4. **Connect to your database by editing the database.php file.**
+5. **Run your webserver (Xampp, Apache, etc...).**
 
 
 ## Usage
