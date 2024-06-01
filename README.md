@@ -33,7 +33,8 @@ cd DoAn_DABM
 
 
 ## Usage
-A [Demo](https://dabm.000webhostapp.com).
+[Demo](https://dabm.000webhostapp.com).
+
 **Note:** 
 - The Demo is in *Vietnamese*.
 - To login as a manager: admin/admin
