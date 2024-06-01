@@ -57,8 +57,6 @@ A [Demo](https://pages.github.com/).
 - Online payment (Simulated)
 
 ## Contributors:
-[Lê Quang Hiển](https://github.com/LittleArm), [Cao Đức Dương](https://github.com/Sanuicay), [Nguyễn Ngọc Bảo Châu](https://github.com/boochou), [Trần Nguyễn Nam Anh](https://github.com/MangCau), [Mai Hoàng Danh](https://github.com/znhg23),
-
 <table>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
@@ -77,25 +75,25 @@ A [Demo](https://pages.github.com/).
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/boochou>
-            <img src=https://avatars.githubusercontent.com/u/113219917?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Casper/>
-            <br />
-            <sub style="font-size:14px"><b>Casper</b></sub>
-        </a>
-    </td>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/casperklein>
-            <img src=https://avatars.githubusercontent.com/u/590174?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Nguyễn Ngọc Bảo Châu/>
+            <img src=https://avatars.githubusercontent.com/u/113219917?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Nguyễn Ngọc Bảo Châu/>
             <br />
             <sub style="font-size:14px"><b>Nguyễn Ngọc Bảo Châu</b></sub>
         </a>
     </td>
     </td>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/casperklein>
-            <img src=https://avatars.githubusercontent.com/u/590174?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Casper/>
+        <a href=https://github.com/MangCau>
+            <img src=https://avatars.githubusercontent.com/u/129870889?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Trần Nguyễn Nam Anh/>
             <br />
-            <sub style="font-size:14px"><b>Casper</b></sub>
+            <sub style="font-size:14px"><b>Trần Nguyễn Nam Anh</b></sub>
+        </a>
+    </td>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/znhg23>
+            <img src=https://avatars.githubusercontent.com/u/95352855?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Mai Hoàng Danh/>
+            <br />
+            <sub style="font-size:14px"><b>Mai Hoàng Danh</b></sub>
         </a>
     </td>
 </tr>
