@@ -33,8 +33,8 @@ cd DoAn_DABM
 
 
 ## Usage
-A [Demo](https://pages.github.com/)
-Note: 
+A [Demo](https://pages.github.com/).
+**Note:** 
 - The Demo is in *Vietnamese*.
 - To login as a manager: admin/admin
 - To login as an employee: test1/test1
