@@ -57,7 +57,7 @@ A [Demo](https://pages.github.com/).
 - Online payment (Simulated)
 
 ## Contributors:
-[Lê Quang Hiển](https://github.com/LittleArm), [Cao Đức Dương](https://github.com/Sanuicay), [Nguyễn Ngọc Bảo Châu](https://github.com/boochou), [Trần Nguyễn Nam Anh]https://github.com/MangCau), [Mai Hoàng Danh](https://github.com/znhg23),
+[Lê Quang Hiển](https://github.com/LittleArm), [Cao Đức Dương](https://github.com/Sanuicay), [Nguyễn Ngọc Bảo Châu](https://github.com/boochou), [Trần Nguyễn Nam Anh](https://github.com/MangCau), [Mai Hoàng Danh](https://github.com/znhg23),
 
 ## License
 This project is licensed under the terms of the MIT license.
