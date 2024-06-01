@@ -39,7 +39,7 @@ cd DoAn_DABM
 - The Demo is in *Vietnamese*.
 - To login as a manager: admin/admin
 - To login as an employee: test1/test1
-- To login as a member: dna/dna or register an account.
+- To login as a member: dna/dnadna or register an account.
 
 **Manager**: 
 - Manage employee information (search, edit, add/delete, etc...).
